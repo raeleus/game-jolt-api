@@ -6,12 +6,14 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
+        classpath "io.freefair.gradle:lombok-plugin:8.3"
         classpath 'com.vanniktech:gradle-maven-publish-plugin:0.25.3'
     }
 }
 
 apply plugin: 'java-library'
 apply plugin: 'com.vanniktech.maven.publish'
+apply plugin: 'io.freefair.lombok'
 
 //Obviously, change the next line to match your project name.
 def projectName = 'game-jolt-api'
@@ -44,8 +46,8 @@ compileJava {
     // come to mind are simple-graphs and jdkgdxds). Note that Java 20 (and almost
     // certainly higher versions) cannot build with a release set to 7; set it to 8
     // or higher if you expect anyone to build with Java 20 or higher.
-    sourceCompatibility = 7
-    targetCompatibility = 7
+    sourceCompatibility = 11
+    targetCompatibility = 8
     if (JavaVersion.current().isJava9Compatible()) {
         options.release.set(7)
     }
@@ -55,7 +57,7 @@ compileTestJava {
 	// LWJGL3 needs Java 8 starting in libGDX 1.11.0, which forces tests that use LWJGL3
 	// to use Java 8 or higher. Using options.release enforces compatibility with Java 8,
 	// including how NIO Buffers behave (which broke compatibility in Java 9).
-    sourceCompatibility = 8
+    sourceCompatibility = 11
     targetCompatibility = 8
     if (JavaVersion.current().isJava9Compatible()) {
         options.release.set(8)
@@ -91,6 +93,8 @@ dependencies {
 // Libraries that don't use libGDX directly can change the next line
 // from `api` to `testImplementation` .
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
     testImplementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
     testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     testImplementation "junit:junit:4.13.2"
