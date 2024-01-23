@@ -10,6 +10,16 @@ A library that allows the user to access the gamejolt.com API with libGDX.
 
 The most simplistic use of the Game Jolt API is to submit a guest score. A utility method was made for this purpose:
 ```java
+var gj = new GameJoltApi();
+
+//You can find the gameID and key in your game's gamejolt settings under Game API >> API Settings.
+String gameID = "869827";
+//Care should be taken to keep your key secret. Do not publish your key to an open source repository.
+String key = "78ac632c55945de5cb5f30b735246a8c";
+String guest = "Some Player's Name";
+long score = 2000L;
+
+gj.addGuestScore(gameID, key, guest, score);
 ```
 There are a number of utility methods like this available. However, the rest of the API uses a combination of requests and listeners to access the full array of options. Please see the [wiki](https://github.com/raeleus/game-jolt-api/wiki) for more details. An example of the Game Jolt API in action can be found [here](https://gamejolt.com/games/libgdx-gj-api-test/869827).
 
