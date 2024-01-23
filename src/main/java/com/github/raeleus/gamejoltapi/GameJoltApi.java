@@ -73,10 +73,16 @@ public class GameJoltApi {
         }
     }
 
+    /**
+     * The listener for the {@link GameJoltApi#downloadImageUrlAsTexture(String, GameJoltExtureListener)}.
+     */
     public interface GameJoltTextureListener {
         void downloaded(Texture texture);
     }
 
+    /**
+     * Downloads a URL to the provided byte array. Ensure that the array is large enough to accomodate the size of the file.
+     */
     private int downloadUrl(byte[] out, String url) {
         InputStream in = null;
         try {
@@ -219,6 +225,9 @@ public class GameJoltApi {
         });
     }
 
+    /**
+     * The listener for the {@link GameJoltApi#downloadImageUrlAsTexture(String, GameJoltExtureListener)}.
+     */
     public interface ScoreListener {
         void downloaded(Array<GameJoltScore> scores);
     }
