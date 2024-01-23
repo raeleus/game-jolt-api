@@ -1,10 +1,7 @@
 package com.github.raeleus.gamejoltapi;
 
 import com.badlogic.gdx.utils.JsonValue;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * A namespace to obtain time information from the Game Jolt server. It can be used to realize real-time gameplay for

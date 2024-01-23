@@ -1,12 +1,7 @@
 package com.github.raeleus.gamejoltapi;
 
 import com.badlogic.gdx.utils.JsonValue;
-import com.github.raeleus.gamejoltapi.GameJoltScores.ScoresFetchData;
-import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersAuthData;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
 import static com.github.raeleus.gamejoltapi.GameJoltApi.urlEncode;
 
