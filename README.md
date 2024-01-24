@@ -21,7 +21,7 @@ long score = 2000L;
 
 gj.addGuestScore(gameID, key, guest, score);
 ```
-There are a number of utility methods like this available. However, the rest of the API uses a combination of requests and listeners to access the full array of options. Please see the [wiki](https://github.com/raeleus/game-jolt-api/wiki) for more details. An example of the Game Jolt API in action can be found [here](https://gamejolt.com/games/libgdx-gj-api-test/869827).
+There are a number of utility methods like this available for casual use. In order to use the full power of the API, however, the rest of the library uses a combination of requests and listeners to access an array of options. Please see the [wiki](https://github.com/raeleus/game-jolt-api/wiki) for more details. An example of the Game Jolt API in action can be found [here](https://gamejolt.com/games/libgdx-gj-api-test/869827).
 
 ## How to Include Game Jolt API in your Project
 
