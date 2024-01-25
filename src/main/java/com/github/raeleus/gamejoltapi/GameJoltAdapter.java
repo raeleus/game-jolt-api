@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.JsonValue;
 
 public class GameJoltAdapter implements GameJoltListener {
     @Override
-    public void response(JsonValue jsonValue, GameJoltData data) {
+    public void response(GameJoltData data) {
 
     }
 

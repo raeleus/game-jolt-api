@@ -142,16 +142,16 @@ public class GameJoltTrophies {
     }
 
     /**
-     * Listener for {@link TrophiesFetchRequest}. Override {@link TrophiesFetchListener#trophiesFetch(JsonValue,
+     * Listener for {@link TrophiesFetchRequest}. Override {@link TrophiesFetchListener#trophiesFetch(
      * TrophiesFetchData)} to handle the server response.
      */
     public static abstract class TrophiesFetchListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof TrophiesFetchData) trophiesFetch(jsonValue, (TrophiesFetchData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof TrophiesFetchData) trophiesFetch((TrophiesFetchData) data);
         }
 
-        public abstract void trophiesFetch(JsonValue jsonValue, TrophiesFetchData data);
+        public abstract void trophiesFetch(TrophiesFetchData data);
     }
 
     /**
@@ -294,16 +294,16 @@ public class GameJoltTrophies {
 
     /**
      * Listener for {@link TrophiesAddAchievedRequest}. Override {@link
-     * TrophiesAddAchievedListener#trophiesAddAchieved(JsonValue, TrophiesAddAchievedData)} to handle the server
+     * TrophiesAddAchievedListener#trophiesAddAchieved(TrophiesAddAchievedData)} to handle the server
      * response.
      */
     public static abstract class TrophiesAddAchievedListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof TrophiesAddAchievedData) trophiesAddAchieved(jsonValue, (TrophiesAddAchievedData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof TrophiesAddAchievedData) trophiesAddAchieved((TrophiesAddAchievedData) data);
         }
 
-        public abstract void trophiesAddAchieved(JsonValue jsonValue, TrophiesAddAchievedData data);
+        public abstract void trophiesAddAchieved(TrophiesAddAchievedData data);
     }
 
     /**
@@ -394,15 +394,15 @@ public class GameJoltTrophies {
 
     /**
      * Listener for {@link TrophiesRemoveAchievedRequest}. Override {@link
-     * TrophiesRemoveAchievedListener#trophiesRemoveAchieved(JsonValue, TrophiesRemoveAchievedData)} to handle the
+     * TrophiesRemoveAchievedListener#trophiesRemoveAchieved(TrophiesRemoveAchievedData)} to handle the
      * server response.
      */
     public static abstract class TrophiesRemoveAchievedListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof TrophiesRemoveAchievedData) trophiesRemoveAchieved(jsonValue, (TrophiesRemoveAchievedData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof TrophiesRemoveAchievedData) trophiesRemoveAchieved((TrophiesRemoveAchievedData) data);
         }
 
-        public abstract void trophiesRemoveAchieved(JsonValue jsonValue, TrophiesRemoveAchievedData data);
+        public abstract void trophiesRemoveAchieved(TrophiesRemoveAchievedData data);
     }
 }

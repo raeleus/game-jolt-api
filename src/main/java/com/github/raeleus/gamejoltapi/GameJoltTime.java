@@ -123,15 +123,15 @@ public class GameJoltTime {
     }
 
     /**
-     * Listener for {@link TimeFetchRequest}. Override {@link TimeFetchListener#timeFetch(JsonValue, TimeFetchData)} to
+     * Listener for {@link TimeFetchRequest}. Override {@link TimeFetchListener#timeFetch(TimeFetchData)} to
      * handle the server response.
      */
     public static abstract class TimeFetchListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof TimeFetchData) timeFetch(jsonValue, (TimeFetchData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof TimeFetchData) timeFetch((TimeFetchData) data);
         }
 
-        public abstract void timeFetch(JsonValue jsonValue, TimeFetchData data);
+        public abstract void timeFetch(TimeFetchData data);
     }
 }

@@ -74,7 +74,7 @@ public class GameJoltApi {
     }
 
     /**
-     * The listener for the {@link GameJoltApi#downloadImageUrlAsTexture(String, GameJoltExtureListener)}.
+     * The listener for the {@link GameJoltApi#downloadImageUrlAsTexture(String, GameJoltTextureListener)}.
      */
     public interface GameJoltTextureListener {
         void downloaded(Texture texture);
@@ -152,7 +152,7 @@ public class GameJoltApi {
 
         sendRequest(request, key, listener != null ? listener : new ScoresAddListener() {
             @Override
-            public void scoresAdd(JsonValue jsonValue, ScoresAddData data) {
+            public void scoresAdd(ScoresAddData data) {
 
             }
 
@@ -208,7 +208,7 @@ public class GameJoltApi {
 
         sendRequest(request, key, new GameJoltListener() {
             @Override
-            public void response(JsonValue jsonValue, GameJoltData data) {
+            public void response(GameJoltData data) {
                 var fetchResult = (ScoresFetchData) data;
                 listener.downloaded(fetchResult.scores);
             }
@@ -226,7 +226,7 @@ public class GameJoltApi {
     }
 
     /**
-     * The listener for the {@link GameJoltApi#downloadImageUrlAsTexture(String, GameJoltExtureListener)}.
+     * The listener for the {@link GameJoltApi#downloadImageUrlAsTexture(String, GameJoltTextureListener)}.
      */
     public interface ScoreListener {
         void downloaded(Array<GameJoltScore> scores);
@@ -252,7 +252,7 @@ public class GameJoltApi {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 var response = httpResponse.getResultAsString();
                 var jsonValue = jsonReader.parse(response).child();
-                listener.response(jsonValue, request.handleResponse(jsonValue));
+                listener.response(request.handleResponse(jsonValue));
             }
 
             @Override
@@ -317,7 +317,7 @@ public class GameJoltApi {
                     int requestIndex = 0;
                     for (var childValue : jsonValue.iterator()) {
                         var request = requests.get(requestIndex++);
-                        listener.response(childValue, request.handleResponse(childValue));
+                        listener.response(request.handleResponse(childValue));
                     }
                 }
             }

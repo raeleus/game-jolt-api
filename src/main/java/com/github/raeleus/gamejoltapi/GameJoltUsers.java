@@ -102,16 +102,16 @@ public class GameJoltUsers {
     }
 
     /**
-     * Listener for {@link UsersAuthRequest}. Override {@link UsersAuthListener#usersAuth(JsonValue, UsersAuthData)} to
+     * Listener for {@link UsersAuthRequest}. Override {@link UsersAuthListener#usersAuth(UsersAuthData)} to
      * handle the server response.
      */
     public static abstract class UsersAuthListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof UsersAuthData) usersAuth(jsonValue, (UsersAuthData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof UsersAuthData) usersAuth((UsersAuthData) data);
         }
 
-        public abstract void usersAuth(JsonValue jsonValue, UsersAuthData data);
+        public abstract void usersAuth(UsersAuthData data);
     }
 
     /**
@@ -231,16 +231,16 @@ public class GameJoltUsers {
     }
 
     /**
-     * Listener for {@link UsersFetchRequest}. Override {@link UsersFetchListener#usersFetch(JsonValue, UsersFetchData)}
+     * Listener for {@link UsersFetchRequest}. Override {@link UsersFetchListener#usersFetch(UsersFetchData)}
      * to handle the server response.
      */
     public static abstract class UsersFetchListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof UsersFetchData) usersFetch(jsonValue, (UsersFetchData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof UsersFetchData) usersFetch((UsersFetchData) data);
         }
 
-        public abstract void usersFetch(JsonValue jsonValue, UsersFetchData data);
+        public abstract void usersFetch(UsersFetchData data);
     }
 
     /**

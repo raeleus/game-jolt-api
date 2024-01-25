@@ -7,7 +7,11 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
+import com.github.raeleus.gamejoltapi.GameJoltApi.ScoreListener;
+import com.github.raeleus.gamejoltapi.GameJoltScores.GameJoltScore;
+import com.github.raeleus.gamejoltapi.GameJoltScores.ScoresAddData;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchData;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchRequest;
 import lombok.var;
@@ -44,7 +48,7 @@ public class Core extends ApplicationAdapter {
 
         gj.sendRequest(request, key, new GameJoltListener() {
             @Override
-            public void response(JsonValue jsonValue, GameJoltData data) {
+            public void response(GameJoltData data) {
                 var fetchResult = (UsersFetchData) data;
                 System.out.println(fetchResult.users.get(0).avatarURL);
                 gj.downloadImageUrlAsTexture(fetchResult.users.get(0).avatarURL, texture -> {

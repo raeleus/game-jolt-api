@@ -140,16 +140,16 @@ public class GameJoltScores {
     }
 
     /**
-     * Listener for {@link ScoresAddRequest}. Override {@link ScoresAddListener#scoresAdd(JsonValue, ScoresAddData)} to
+     * Listener for {@link ScoresAddRequest}. Override {@link ScoresAddListener#scoresAdd(ScoresAddData)} to
      * handle the server response.
      */
     public static abstract class ScoresAddListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof ScoresAddData) scoresAdd(jsonValue, (ScoresAddData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof ScoresAddData) scoresAdd((ScoresAddData) data);
         }
 
-        public abstract void scoresAdd(JsonValue jsonValue, ScoresAddData data);
+        public abstract void scoresAdd(ScoresAddData data);
     }
 
     /**
@@ -241,16 +241,16 @@ public class GameJoltScores {
     }
 
     /**
-     * Listener for {@link ScoresGetRankRequest}. Override {@link ScoresGetRankListener#scoresGetRank(JsonValue,
+     * Listener for {@link ScoresGetRankRequest}. Override {@link ScoresGetRankListener#scoresGetRank(
      * ScoresGetRankData)} to handle the server response.
      */
     public static abstract class ScoresGetRankListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof ScoresGetRankData) scoresGetRank(jsonValue, (ScoresGetRankData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof ScoresGetRankData) scoresGetRank((ScoresGetRankData) data);
         }
 
-        public abstract void scoresGetRank(JsonValue jsonValue, ScoresGetRankData data);
+        public abstract void scoresGetRank(ScoresGetRankData data);
     }
 
     /**
@@ -396,16 +396,16 @@ public class GameJoltScores {
     }
 
     /**
-     * Listener for {@link ScoresFetchRequest}. Override {@link ScoresFetchListener#scoresFetch(JsonValue,
+     * Listener for {@link ScoresFetchRequest}. Override {@link ScoresFetchListener#scoresFetch(
      * ScoresFetchData)} to handle the server response.
      */
     public static abstract class ScoresFetchListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof ScoresFetchData) scoresFetch(jsonValue, (ScoresFetchData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof ScoresFetchData) scoresFetch((ScoresFetchData) data);
         }
 
-        public abstract void scoresFetch(JsonValue jsonValue, ScoresFetchData data);
+        public abstract void scoresFetch(ScoresFetchData data);
     }
 
     /**
@@ -543,16 +543,16 @@ public class GameJoltScores {
     }
 
     /**
-     * Listener for {@link ScoresTablesRequest}. Override {@link ScoresTablesListener#scoresTables(JsonValue, ScoresTablesData)} to
+     * Listener for {@link ScoresTablesRequest}. Override {@link ScoresTablesListener#scoresTables(ScoresTablesData)} to
      * handle the server response.
      */
     public static abstract class ScoresTablesListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof ScoresTablesData) scoresTables(jsonValue, (ScoresTablesData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof ScoresTablesData) scoresTables((ScoresTablesData) data);
         }
 
-        public abstract void scoresTables(JsonValue jsonValue, ScoresTablesData data);
+        public abstract void scoresTables(ScoresTablesData data);
     }
 
     /**

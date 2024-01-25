@@ -96,15 +96,15 @@ public class GameJoltFriends {
     }
 
     /**
-     * Listener for {@link FriendsFetchRequest}. Override {@link FriendsFetchListener#friendsFetch(JsonValue,
+     * Listener for {@link FriendsFetchRequest}. Override {@link FriendsFetchListener#friendsFetch(
      * FriendsFetchData)} to handle the server response.
      */
     public static abstract class FriendsFetchListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof FriendsFetchData) friendsFetch(jsonValue, (FriendsFetchData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof FriendsFetchData) friendsFetch((FriendsFetchData) data);
         }
 
-        public abstract void friendsFetch(JsonValue jsonValue, FriendsFetchData data);
+        public abstract void friendsFetch(FriendsFetchData data);
     }
 }

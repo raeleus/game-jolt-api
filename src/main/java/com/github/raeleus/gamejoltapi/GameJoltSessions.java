@@ -94,16 +94,16 @@ public class GameJoltSessions {
     }
 
     /**
-     * Listener for {@link SessionsOpenRequest}. Override {@link SessionsOpenListener#sessionsOpen(JsonValue,
+     * Listener for {@link SessionsOpenRequest}. Override {@link SessionsOpenListener#sessionsOpen(
      * SessionsOpenData)} to handle the server response.
      */
     public static abstract class SessionsOpenListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof SessionsOpenData) sessionsOpen(jsonValue, (SessionsOpenData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof SessionsOpenData) sessionsOpen((SessionsOpenData) data);
         }
 
-        public abstract void sessionsOpen(JsonValue jsonValue, SessionsOpenData data);
+        public abstract void sessionsOpen(SessionsOpenData data);
     }
 
     /**
@@ -212,16 +212,16 @@ public class GameJoltSessions {
     }
 
     /**
-     * Listener for {@link SessionsPingRequest}. Override {@link SessionsPingListener#sessionsPing(JsonValue,
+     * Listener for {@link SessionsPingRequest}. Override {@link SessionsPingListener#sessionsPing(
      * SessionsPingData)} to handle the server response.
      */
     public static abstract class SessionsPingListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof SessionsPingData) sessionsPing(jsonValue, (SessionsPingData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof SessionsPingData) sessionsPing((SessionsPingData) data);
         }
 
-        public abstract void sessionsPing(JsonValue jsonValue, SessionsPingData data);
+        public abstract void sessionsPing(SessionsPingData data);
     }
 
     /**
@@ -305,16 +305,16 @@ public class GameJoltSessions {
     }
 
     /**
-     * Listener for {@link SessionsCheckRequest}. Override {@link SessionsCheckListener#sessionsCheck(JsonValue,
+     * Listener for {@link SessionsCheckRequest}. Override {@link SessionsCheckListener#sessionsCheck(
      * SessionsCheckData)} to handle the server response.
      */
     public static abstract class SessionsCheckListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof SessionsCheckData) sessionsCheck(jsonValue, (SessionsCheckData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof SessionsCheckData) sessionsCheck((SessionsCheckData) data);
         }
 
-        public abstract void sessionsCheck(JsonValue jsonValue, SessionsCheckData data);
+        public abstract void sessionsCheck(SessionsCheckData data);
     }
 
     /**
@@ -393,15 +393,15 @@ public class GameJoltSessions {
     }
 
     /**
-     * Listener for {@link SessionsCloseRequest}. Override {@link SessionsCloseListener#sessionsClose(JsonValue,
+     * Listener for {@link SessionsCloseRequest}. Override {@link SessionsCloseListener#sessionsClose(
      * SessionsCloseData)} to handle the server response.
      */
     public static abstract class SessionsCloseListener extends GameJoltAdapter {
         @Override
-        public void response(JsonValue jsonValue, GameJoltData data) {
-            if (data instanceof SessionsCloseData) sessionsClose(jsonValue, (SessionsCloseData) data);
+        public void response(GameJoltData data) {
+            if (data instanceof SessionsCloseData) sessionsClose((SessionsCloseData) data);
         }
 
-        public abstract void sessionsClose(JsonValue jsonValue, SessionsCloseData data);
+        public abstract void sessionsClose(SessionsCloseData data);
     }
 }
