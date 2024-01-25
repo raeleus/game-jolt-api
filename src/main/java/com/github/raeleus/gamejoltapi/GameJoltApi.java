@@ -284,10 +284,10 @@ public class GameJoltApi {
      *                 sub-request to finish before the next one is started.
      * @param breakOnError If this is set to true, one sub-request failure will cause the entire batch to stop
      *                     processing subsequent sub-requests and return a value of false for success.
-     * @param listener The listener called when the response is received. The listener will be called on each request
-     *                 submitted.
+     * @param listeners The listeners called when the response is received. Each listener will be called on each
+     *                  request submitted.
      */
-    public void sendBatchRequest(@NonNull Array<GameJoltRequest> requests, @NonNull String gameID, @NonNull String key, Boolean parallel, Boolean breakOnError, @NonNull GameJoltListener listener) {
+    public void sendBatchRequest(@NonNull Array<GameJoltRequest> requests, @NonNull String gameID, @NonNull String key, Boolean parallel, Boolean breakOnError, @NonNull GameJoltListener ... listeners ) {
         StringBuilder url = new StringBuilder(apiURL).append(version).append("/batch/?game_id=").append(gameID);
         if (parallel != null && parallel) url.append("&parallel=").append(parallel);
         else if (breakOnError != null && breakOnError) url.append("&break_on_error=").append(breakOnError);
@@ -311,25 +311,31 @@ public class GameJoltApi {
                 if (jsonValue.getBoolean("success", false)) {
                     jsonValue = jsonValue.get("responses");
                     if (requests.size != jsonValue.size) {
-                        listener.cancelled();
+                        cancelled();
                         return;
                     }
                     int requestIndex = 0;
                     for (var childValue : jsonValue.iterator()) {
                         var request = requests.get(requestIndex++);
-                        listener.response(request.handleResponse(childValue));
+                        for (GameJoltListener listener : listeners) {
+                            listener.response(request.handleResponse(childValue));
+                        }
                     }
                 }
             }
 
             @Override
             public void failed(Throwable t) {
-                listener.failed(t);
+                for (GameJoltListener listener : listeners) {
+                    listener.failed(t);
+                }
             }
 
             @Override
             public void cancelled() {
-                listener.cancelled();
+                for (GameJoltListener listener : listeners) {
+                    listener.cancelled();
+                }
             }
         });
     }

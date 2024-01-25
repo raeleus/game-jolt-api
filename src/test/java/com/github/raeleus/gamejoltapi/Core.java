@@ -40,7 +40,7 @@ public class Core extends ApplicationAdapter {
 
         String gameID = "869827";
         String key = "78ac632c55945de5cb5f30b735246a8c";
-
+        
         var request = UsersFetchRequest.builder()
             .gameID(gameID)
             .username("Raeleus")
@@ -75,7 +75,7 @@ public class Core extends ApplicationAdapter {
         Gdx.gl.glClearColor(0.15f, 0.15f, 0.2f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(image, 140, 210);
+        batch.draw(image, Gdx.input.getX(), Gdx.input.getY());
         batch.end();
     }
 
