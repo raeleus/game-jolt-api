@@ -1,7 +1,5 @@
 package com.github.raeleus.gamejoltapi;
 
-import com.badlogic.gdx.utils.JsonValue;
-
 public interface GameJoltListener {
     /**
      * Called when a response is received from the Game Jolt server.

@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.JsonValue;
 /**
  * A request that may be submitted to the Game Jolt API through {@link GameJoltApi#sendRequest(GameJoltRequest, String,
  * GameJoltListener)} or {@link GameJoltApi#sendBatchRequest(Array, String, String, Boolean, Boolean,
- * GameJoltListener)}.
+ * GameJoltListener...)}.
  */
 public interface GameJoltRequest {
 

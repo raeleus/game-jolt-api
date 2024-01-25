@@ -1,7 +1,5 @@
 package com.github.raeleus.gamejoltapi;
 
-import com.badlogic.gdx.utils.JsonValue;
-
 public class GameJoltAdapter implements GameJoltListener {
     @Override
     public void response(GameJoltData data) {

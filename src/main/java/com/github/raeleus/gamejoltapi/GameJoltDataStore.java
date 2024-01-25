@@ -102,8 +102,8 @@ public class GameJoltDataStore {
     }
 
     /**
-     * Listener for {@link DataStoreFetchRequest}. Override {@link DataStoreFetchListener#dataStoreFetch(DataStoreFetchData)} (DataStoreFetchData)} to
-     * handle the server response.
+     * Listener for {@link DataStoreFetchRequest}. Override {@link
+     * DataStoreFetchListener#dataStoreFetch(DataStoreFetchData)} (DataStoreFetchData)} to handle the server response.
      */
     public static abstract class DataStoreFetchListener extends GameJoltAdapter {
         @Override
@@ -209,7 +209,8 @@ public class GameJoltDataStore {
 
     /**
      * Listener for {@link DataStoreGetKeysRequest}. Override {@link
-     * DataStoreGetKeysListener#dataStoreGetKeys(DataStoreGetKeysData)} (DataStoreGetKeysData)} to handle the server response.
+     * DataStoreGetKeysListener#dataStoreGetKeys(DataStoreGetKeysData)} (DataStoreGetKeysData)} to handle the server
+     * response.
      */
     public static abstract class DataStoreGetKeysListener extends GameJoltAdapter {
         @Override

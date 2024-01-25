@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.StreamUtils;
 import com.github.raeleus.gamejoltapi.GameJoltScores.*;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.GameJoltUser;
@@ -32,7 +31,7 @@ import java.security.NoSuchAlgorithmException;
  * accessible to beginner users.
  *
  * @see GameJoltApi#sendRequest(GameJoltRequest, String, GameJoltListener)
- * @see GameJoltApi#sendBatchRequest(Array, String, String, Boolean, Boolean, GameJoltListener)
+ * @see GameJoltApi#sendBatchRequest(Array, String, String, Boolean, Boolean, GameJoltListener...)
  * @see GameJoltApi#addGuestScore(String, String, String, long)
  * @see GameJoltApi#downloadScores(String, String, ScoreListener)
  */
@@ -81,7 +80,8 @@ public class GameJoltApi {
     }
 
     /**
-     * Downloads a URL to the provided byte array. Ensure that the array is large enough to accomodate the size of the file.
+     * Downloads a URL to the provided byte array. Ensure that the array is large enough to accomodate the size of the
+     * file.
      */
     private int downloadUrl(byte[] out, String url) {
         InputStream in = null;
