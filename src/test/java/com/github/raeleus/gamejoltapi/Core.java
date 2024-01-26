@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchData;
+import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchListener;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchRequest;
 import lombok.var;
 
@@ -40,24 +41,23 @@ public class Core extends ApplicationAdapter {
             .gameID(gameID)
             .username("Raeleus")
             .build();
-
-        gj.sendRequest(request, key, new GameJoltListener() {
+        
+        gj.sendRequest(request, key, new UsersFetchListener() {
             @Override
-            public void response(GameJoltData data) {
-                var fetchResult = (UsersFetchData) data;
-                System.out.println(fetchResult.users.get(0).avatarURL);
-                gj.downloadImageUrlAsTexture(fetchResult.users.get(0).avatarURL, texture -> {
+            public void usersFetch(UsersFetchData data) {
+                System.out.println(data.users.get(0).avatarURL);
+                gj.downloadImageUrlAsTexture(data.users.get(0).avatarURL, texture -> {
                     System.out.println("success");
                     image = texture;
                 });
             }
-
+        
             @Override
             public void failed(Throwable t) {
                 System.out.println("failed");
                 t.printStackTrace();
             }
-
+        
             @Override
             public void cancelled() {
                 System.out.println("cancelled");
