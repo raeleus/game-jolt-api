@@ -101,13 +101,13 @@ public class GameJoltScores {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link ScoresAddData}.
+         * Handles the server JSON response and returns a corresponding {@link ScoresAddValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link ScoresAddData} with the values returned from the server.
+         * @return The {@link ScoresAddValue} with the values returned from the server.
          */
         @Override
-        public ScoresAddData handleResponse(JsonValue jsonValue) {
-            return ScoresAddData.builder()
+        public ScoresAddValue handleResponse(JsonValue jsonValue) {
+            return ScoresAddValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -121,7 +121,7 @@ public class GameJoltScores {
     @Builder
     @Getter
     @Setter
-    public static class ScoresAddData implements GameJoltData {
+    public static class ScoresAddValue implements GameJoltValue {
 
         /**
          * The JSON data from the server response.
@@ -140,16 +140,16 @@ public class GameJoltScores {
     }
 
     /**
-     * Listener for {@link ScoresAddRequest}. Override {@link ScoresAddListener#scoresAdd(ScoresAddData)} to
+     * Listener for {@link ScoresAddRequest}. Override {@link ScoresAddListener#scoresAdd(ScoresAddValue)} to
      * handle the server response.
      */
     public static abstract class ScoresAddListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof ScoresAddData) scoresAdd((ScoresAddData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof ScoresAddValue) scoresAdd((ScoresAddValue) value);
         }
 
-        public abstract void scoresAdd(ScoresAddData data);
+        public abstract void scoresAdd(ScoresAddValue value);
     }
 
     /**
@@ -196,13 +196,13 @@ public class GameJoltScores {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link ScoresGetRankData}.
+         * Handles the server JSON response and returns a corresponding {@link ScoresGetRankValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link ScoresGetRankData} with the values returned from the server.
+         * @return The {@link ScoresGetRankValue} with the values returned from the server.
          */
         @Override
-        public ScoresGetRankData handleResponse(JsonValue jsonValue) {
-            return ScoresGetRankData.builder()
+        public ScoresGetRankValue handleResponse(JsonValue jsonValue) {
+            return ScoresGetRankValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -217,7 +217,7 @@ public class GameJoltScores {
     @Builder
     @Getter
     @Setter
-    public static class ScoresGetRankData implements GameJoltData {
+    public static class ScoresGetRankValue implements GameJoltValue {
 
         /**
          * The JSON data from the server response.
@@ -242,15 +242,15 @@ public class GameJoltScores {
 
     /**
      * Listener for {@link ScoresGetRankRequest}. Override {@link ScoresGetRankListener#scoresGetRank(
-     * ScoresGetRankData)} to handle the server response.
+     *ScoresGetRankValue)} to handle the server response.
      */
     public static abstract class ScoresGetRankListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof ScoresGetRankData) scoresGetRank((ScoresGetRankData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof ScoresGetRankValue) scoresGetRank((ScoresGetRankValue) value);
         }
 
-        public abstract void scoresGetRank(ScoresGetRankData data);
+        public abstract void scoresGetRank(ScoresGetRankValue value);
     }
 
     /**
@@ -335,12 +335,12 @@ public class GameJoltScores {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link ScoresFetchData}.
+         * Handles the server JSON response and returns a corresponding {@link ScoresFetchValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link ScoresFetchData} with the values returned from the server.
+         * @return The {@link ScoresFetchValue} with the values returned from the server.
          */
         @Override
-        public ScoresFetchData handleResponse(JsonValue jsonValue) {
+        public ScoresFetchValue handleResponse(JsonValue jsonValue) {
 
             var scores = new Array<GameJoltScore>();
             var scoresJsonValue = jsonValue.get("scores");
@@ -358,7 +358,7 @@ public class GameJoltScores {
                 scores.add(score);
             }
 
-            return ScoresFetchData.builder()
+            return ScoresFetchValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -373,7 +373,7 @@ public class GameJoltScores {
     @Builder
     @Getter
     @Setter
-    public static class ScoresFetchData implements GameJoltData {
+    public static class ScoresFetchValue implements GameJoltValue {
         /**
          * The JSON data from the server response.
          */
@@ -397,19 +397,19 @@ public class GameJoltScores {
 
     /**
      * Listener for {@link ScoresFetchRequest}. Override {@link ScoresFetchListener#scoresFetch(
-     * ScoresFetchData)} to handle the server response.
+     *ScoresFetchValue)} to handle the server response.
      */
     public static abstract class ScoresFetchListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof ScoresFetchData) scoresFetch((ScoresFetchData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof ScoresFetchValue) scoresFetch((ScoresFetchValue) value);
         }
 
-        public abstract void scoresFetch(ScoresFetchData data);
+        public abstract void scoresFetch(ScoresFetchValue value);
     }
 
     /**
-     * An individual score as returned by using {@link ScoresFetchData#getScores()}
+     * An individual score as returned by using {@link ScoresFetchValue#getScores()}
      */
     @Builder
     @Getter
@@ -485,12 +485,12 @@ public class GameJoltScores {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link ScoresTablesData}.
+         * Handles the server JSON response and returns a corresponding {@link ScoresTablesValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link ScoresTablesData} with the values returned from the server.
+         * @return The {@link ScoresTablesValue} with the values returned from the server.
          */
         @Override
-        public ScoresTablesData handleResponse(JsonValue jsonValue) {
+        public ScoresTablesValue handleResponse(JsonValue jsonValue) {
 
             var tables = new Array<GameJoltTable>();
             var tablesJsonValue = jsonValue.get("tables");
@@ -504,7 +504,7 @@ public class GameJoltScores {
                 tables.add(table);
             }
 
-            return ScoresTablesData.builder()
+            return ScoresTablesValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -519,7 +519,7 @@ public class GameJoltScores {
     @Builder
     @Getter
     @Setter
-    public static class ScoresTablesData implements GameJoltData {
+    public static class ScoresTablesValue implements GameJoltValue {
 
         /**
          * The JSON data from the server response.
@@ -543,16 +543,16 @@ public class GameJoltScores {
     }
 
     /**
-     * Listener for {@link ScoresTablesRequest}. Override {@link ScoresTablesListener#scoresTables(ScoresTablesData)} to
+     * Listener for {@link ScoresTablesRequest}. Override {@link ScoresTablesListener#scoresTables(ScoresTablesValue)} to
      * handle the server response.
      */
     public static abstract class ScoresTablesListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof ScoresTablesData) scoresTables((ScoresTablesData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof ScoresTablesValue) scoresTables((ScoresTablesValue) value);
         }
 
-        public abstract void scoresTables(ScoresTablesData data);
+        public abstract void scoresTables(ScoresTablesValue value);
     }
 
     /**

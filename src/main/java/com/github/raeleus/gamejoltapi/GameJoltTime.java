@@ -36,13 +36,13 @@ public class GameJoltTime {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link TimeFetchData}.
+         * Handles the server JSON response and returns a corresponding {@link TimeFetchValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link TimeFetchData} with the values returned from the server.
+         * @return The {@link TimeFetchValue} with the values returned from the server.
          */
         @Override
-        public TimeFetchData handleResponse(JsonValue jsonValue) {
-            return TimeFetchData.builder()
+        public TimeFetchValue handleResponse(JsonValue jsonValue) {
+            return TimeFetchValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -64,7 +64,7 @@ public class GameJoltTime {
     @Builder
     @Getter
     @Setter
-    public static class TimeFetchData implements GameJoltData {
+    public static class TimeFetchValue implements GameJoltValue {
 
         /**
          * The JSON data from the server response.
@@ -123,15 +123,15 @@ public class GameJoltTime {
     }
 
     /**
-     * Listener for {@link TimeFetchRequest}. Override {@link TimeFetchListener#timeFetch(TimeFetchData)} to
+     * Listener for {@link TimeFetchRequest}. Override {@link TimeFetchListener#timeFetch(TimeFetchValue)} to
      * handle the server response.
      */
     public static abstract class TimeFetchListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof TimeFetchData) timeFetch((TimeFetchData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof TimeFetchValue) timeFetch((TimeFetchValue) value);
         }
 
-        public abstract void timeFetch(TimeFetchData data);
+        public abstract void timeFetch(TimeFetchValue value);
     }
 }

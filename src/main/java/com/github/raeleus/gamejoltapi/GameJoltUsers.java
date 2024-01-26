@@ -63,13 +63,13 @@ public class GameJoltUsers {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link UsersAuthData}.
+         * Handles the server JSON response and returns a corresponding {@link UsersAuthValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link UsersAuthData} with the values returned from the server.
+         * @return The {@link UsersAuthValue} with the values returned from the server.
          */
         @Override
-        public UsersAuthData handleResponse(JsonValue jsonValue) {
-            return UsersAuthData.builder()
+        public UsersAuthValue handleResponse(JsonValue jsonValue) {
+            return UsersAuthValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -83,7 +83,7 @@ public class GameJoltUsers {
     @Builder
     @Getter
     @Setter
-    public static class UsersAuthData implements GameJoltData {
+    public static class UsersAuthValue implements GameJoltValue {
 
         /**
          * The JSON data from the server response.
@@ -102,16 +102,16 @@ public class GameJoltUsers {
     }
 
     /**
-     * Listener for {@link UsersAuthRequest}. Override {@link UsersAuthListener#usersAuth(UsersAuthData)} to
+     * Listener for {@link UsersAuthRequest}. Override {@link UsersAuthListener#usersAuth(UsersAuthValue)} to
      * handle the server response.
      */
     public static abstract class UsersAuthListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof UsersAuthData) usersAuth((UsersAuthData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof UsersAuthValue) usersAuth((UsersAuthValue) value);
         }
 
-        public abstract void usersAuth(UsersAuthData data);
+        public abstract void usersAuth(UsersAuthValue value);
     }
 
     /**
@@ -165,12 +165,12 @@ public class GameJoltUsers {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link UsersFetchData}.
+         * Handles the server JSON response and returns a corresponding {@link UsersFetchValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link UsersFetchData} with the values returned from the server.
+         * @return The {@link UsersFetchValue} with the values returned from the server.
          */
         @Override
-        public UsersFetchData handleResponse(JsonValue jsonValue) {
+        public UsersFetchValue handleResponse(JsonValue jsonValue) {
 
             var users = new Array<GameJoltUser>();
             var usersJsonValue = jsonValue.get("users");
@@ -192,7 +192,7 @@ public class GameJoltUsers {
                 users.add(user);
             }
 
-            return UsersFetchData.builder()
+            return UsersFetchValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -207,7 +207,7 @@ public class GameJoltUsers {
     @Builder
     @Getter
     @Setter
-    public static class UsersFetchData implements GameJoltData {
+    public static class UsersFetchValue implements GameJoltValue {
 
         /**
          * The JSON data from the server response.
@@ -231,20 +231,20 @@ public class GameJoltUsers {
     }
 
     /**
-     * Listener for {@link UsersFetchRequest}. Override {@link UsersFetchListener#usersFetch(UsersFetchData)}
+     * Listener for {@link UsersFetchRequest}. Override {@link UsersFetchListener#usersFetch(UsersFetchValue)}
      * to handle the server response.
      */
     public static abstract class UsersFetchListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof UsersFetchData) usersFetch((UsersFetchData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof UsersFetchValue) usersFetch((UsersFetchValue) value);
         }
 
-        public abstract void usersFetch(UsersFetchData data);
+        public abstract void usersFetch(UsersFetchValue value);
     }
 
     /**
-     * An individual user as returned by {@link UsersFetchData}
+     * An individual user as returned by {@link UsersFetchValue}
      */
     @Builder
     @Getter

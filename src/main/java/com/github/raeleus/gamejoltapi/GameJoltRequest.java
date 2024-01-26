@@ -11,9 +11,9 @@ import com.badlogic.gdx.utils.JsonValue;
 public interface GameJoltRequest {
 
     /**
-     * Handles the server JSON response and returns a corresponding {@link GameJoltData}.
+     * Handles the server JSON response and returns a corresponding {@link GameJoltValue}.
      * @param jsonValue The JSON response from the server.
-     * @return The {@link GameJoltData} with the values returned from the server.
+     * @return The {@link GameJoltValue} with the values returned from the server.
      */
-    GameJoltData handleResponse(JsonValue jsonValue);
+    GameJoltValue handleResponse(JsonValue jsonValue);
 }

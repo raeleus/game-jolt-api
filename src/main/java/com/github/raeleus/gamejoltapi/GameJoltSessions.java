@@ -55,13 +55,13 @@ public class GameJoltSessions {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link SessionsOpenData}.
+         * Handles the server JSON response and returns a corresponding {@link SessionsOpenValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link SessionsOpenData} with the values returned from the server.
+         * @return The {@link SessionsOpenValue} with the values returned from the server.
          */
         @Override
-        public SessionsOpenData handleResponse(JsonValue jsonValue) {
-            return SessionsOpenData.builder()
+        public SessionsOpenValue handleResponse(JsonValue jsonValue) {
+            return SessionsOpenValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -75,7 +75,7 @@ public class GameJoltSessions {
     @Builder
     @Getter
     @Setter
-    public static class SessionsOpenData implements GameJoltData {
+    public static class SessionsOpenValue implements GameJoltValue {
 
         /**
          * The JSON data from the server response.
@@ -95,15 +95,15 @@ public class GameJoltSessions {
 
     /**
      * Listener for {@link SessionsOpenRequest}. Override {@link SessionsOpenListener#sessionsOpen(
-     * SessionsOpenData)} to handle the server response.
+     *SessionsOpenValue)} to handle the server response.
      */
     public static abstract class SessionsOpenListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof SessionsOpenData) sessionsOpen((SessionsOpenData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof SessionsOpenValue) sessionsOpen((SessionsOpenValue) value);
         }
 
-        public abstract void sessionsOpen(SessionsOpenData data);
+        public abstract void sessionsOpen(SessionsOpenValue value);
     }
 
     /**
@@ -156,13 +156,13 @@ public class GameJoltSessions {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link SessionsPingData}.
+         * Handles the server JSON response and returns a corresponding {@link SessionsPingValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link SessionsPingData} with the values returned from the server.
+         * @return The {@link SessionsPingValue} with the values returned from the server.
          */
         @Override
-        public SessionsPingData handleResponse(JsonValue jsonValue) {
-            return SessionsPingData.builder()
+        public SessionsPingValue handleResponse(JsonValue jsonValue) {
+            return SessionsPingValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -193,7 +193,7 @@ public class GameJoltSessions {
     @Builder
     @Getter
     @Setter
-    public static class SessionsPingData implements GameJoltData {
+    public static class SessionsPingValue implements GameJoltValue {
 
         /**
          * The JSON data from the server response.
@@ -213,15 +213,15 @@ public class GameJoltSessions {
 
     /**
      * Listener for {@link SessionsPingRequest}. Override {@link SessionsPingListener#sessionsPing(
-     * SessionsPingData)} to handle the server response.
+     *SessionsPingValue)} to handle the server response.
      */
     public static abstract class SessionsPingListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof SessionsPingData) sessionsPing((SessionsPingData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof SessionsPingValue) sessionsPing((SessionsPingValue) value);
         }
 
-        public abstract void sessionsPing(SessionsPingData data);
+        public abstract void sessionsPing(SessionsPingValue value);
     }
 
     /**
@@ -266,13 +266,13 @@ public class GameJoltSessions {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link SessionsCheckData}.
+         * Handles the server JSON response and returns a corresponding {@link SessionsCheckValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link SessionsCheckData} with the values returned from the server.
+         * @return The {@link SessionsCheckValue} with the values returned from the server.
          */
         @Override
-        public SessionsCheckData handleResponse(JsonValue jsonValue) {
-            return SessionsCheckData.builder()
+        public SessionsCheckValue handleResponse(JsonValue jsonValue) {
+            return SessionsCheckValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -286,7 +286,7 @@ public class GameJoltSessions {
     @Builder
     @Getter
     @Setter
-    public static class SessionsCheckData implements GameJoltData {
+    public static class SessionsCheckValue implements GameJoltValue {
 
         /**
          * The JSON data from the server response.
@@ -306,15 +306,15 @@ public class GameJoltSessions {
 
     /**
      * Listener for {@link SessionsCheckRequest}. Override {@link SessionsCheckListener#sessionsCheck(
-     * SessionsCheckData)} to handle the server response.
+     *SessionsCheckValue)} to handle the server response.
      */
     public static abstract class SessionsCheckListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof SessionsCheckData) sessionsCheck((SessionsCheckData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof SessionsCheckValue) sessionsCheck((SessionsCheckValue) value);
         }
 
-        public abstract void sessionsCheck(SessionsCheckData data);
+        public abstract void sessionsCheck(SessionsCheckValue value);
     }
 
     /**
@@ -354,13 +354,13 @@ public class GameJoltSessions {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link SessionsCloseData}.
+         * Handles the server JSON response and returns a corresponding {@link SessionsCloseValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link SessionsCloseData} with the values returned from the server.
+         * @return The {@link SessionsCloseValue} with the values returned from the server.
          */
         @Override
-        public SessionsCloseData handleResponse(JsonValue jsonValue) {
-            return SessionsCloseData.builder()
+        public SessionsCloseValue handleResponse(JsonValue jsonValue) {
+            return SessionsCloseValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -374,7 +374,7 @@ public class GameJoltSessions {
     @Builder
     @Getter
     @Setter
-    public static class SessionsCloseData implements GameJoltData {
+    public static class SessionsCloseValue implements GameJoltValue {
 
         /**
          * The JSON data from the server response.
@@ -394,14 +394,14 @@ public class GameJoltSessions {
 
     /**
      * Listener for {@link SessionsCloseRequest}. Override {@link SessionsCloseListener#sessionsClose(
-     * SessionsCloseData)} to handle the server response.
+     *SessionsCloseValue)} to handle the server response.
      */
     public static abstract class SessionsCloseListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof SessionsCloseData) sessionsClose((SessionsCloseData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof SessionsCloseValue) sessionsClose((SessionsCloseValue) value);
         }
 
-        public abstract void sessionsClose(SessionsCloseData data);
+        public abstract void sessionsClose(SessionsCloseValue value);
     }
 }

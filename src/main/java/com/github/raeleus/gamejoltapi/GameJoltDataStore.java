@@ -58,13 +58,13 @@ public class GameJoltDataStore {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link DataStoreFetchData}.
+         * Handles the server JSON response and returns a corresponding {@link DataStoreFetchValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link DataStoreFetchData} with the values returned from the server.
+         * @return The {@link DataStoreFetchValue} with the values returned from the server.
          */
         @Override
-        public DataStoreFetchData handleResponse(JsonValue jsonValue) {
-            return DataStoreFetchData.builder()
+        public DataStoreFetchValue handleResponse(JsonValue jsonValue) {
+            return DataStoreFetchValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -79,7 +79,7 @@ public class GameJoltDataStore {
     @Builder
     @Getter
     @Setter
-    public static class DataStoreFetchData implements GameJoltData {
+    public static class DataStoreFetchValue implements GameJoltValue {
         /**
          * The JSON data from the server response.
          */
@@ -103,15 +103,15 @@ public class GameJoltDataStore {
 
     /**
      * Listener for {@link DataStoreFetchRequest}. Override {@link
-     * DataStoreFetchListener#dataStoreFetch(DataStoreFetchData)} (DataStoreFetchData)} to handle the server response.
+     * DataStoreFetchListener#dataStoreFetch(DataStoreFetchValue)} (DataStoreFetchValue)} to handle the server response.
      */
     public static abstract class DataStoreFetchListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof DataStoreFetchData) dataStoreFetch((DataStoreFetchData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof DataStoreFetchValue) dataStoreFetch((DataStoreFetchValue) value);
         }
 
-        public abstract void dataStoreFetch(DataStoreFetchData data);
+        public abstract void dataStoreFetch(DataStoreFetchValue value);
     }
 
     /**
@@ -162,13 +162,13 @@ public class GameJoltDataStore {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link DataStoreGetKeysData}.
+         * Handles the server JSON response and returns a corresponding {@link DataStoreGetKeysValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link DataStoreGetKeysData} with the values returned from the server.
+         * @return The {@link DataStoreGetKeysValue} with the values returned from the server.
          */
         @Override
-        public DataStoreGetKeysData handleResponse(JsonValue jsonValue) {
-            return DataStoreGetKeysData.builder()
+        public DataStoreGetKeysValue handleResponse(JsonValue jsonValue) {
+            return DataStoreGetKeysValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -183,7 +183,7 @@ public class GameJoltDataStore {
     @Builder
     @Getter
     @Setter
-    public static class DataStoreGetKeysData implements GameJoltData {
+    public static class DataStoreGetKeysValue implements GameJoltValue {
 
         /**
          * The JSON data from the server response.
@@ -209,16 +209,16 @@ public class GameJoltDataStore {
 
     /**
      * Listener for {@link DataStoreGetKeysRequest}. Override {@link
-     * DataStoreGetKeysListener#dataStoreGetKeys(DataStoreGetKeysData)} (DataStoreGetKeysData)} to handle the server
+     * DataStoreGetKeysListener#dataStoreGetKeys(DataStoreGetKeysValue)} (DataStoreGetKeysValue)} to handle the server
      * response.
      */
     public static abstract class DataStoreGetKeysListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof DataStoreGetKeysData) dataStoreGetKeys((DataStoreGetKeysData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof DataStoreGetKeysValue) dataStoreGetKeys((DataStoreGetKeysValue) value);
         }
 
-        public abstract void dataStoreGetKeys(DataStoreGetKeysData data);
+        public abstract void dataStoreGetKeys(DataStoreGetKeysValue value);
     }
 
     /**
@@ -268,13 +268,13 @@ public class GameJoltDataStore {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link DataStoreRemoveData}.
+         * Handles the server JSON response and returns a corresponding {@link DataStoreRemoveValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link DataStoreRemoveData} with the values returned from the server.
+         * @return The {@link DataStoreRemoveValue} with the values returned from the server.
          */
         @Override
-        public DataStoreRemoveData handleResponse(JsonValue jsonValue) {
-            return DataStoreRemoveData.builder()
+        public DataStoreRemoveValue handleResponse(JsonValue jsonValue) {
+            return DataStoreRemoveValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -288,7 +288,7 @@ public class GameJoltDataStore {
     @Builder
     @Getter
     @Setter
-    public static class DataStoreRemoveData implements GameJoltData {
+    public static class DataStoreRemoveValue implements GameJoltValue {
 
         /**
          * The JSON data from the server response.
@@ -307,16 +307,16 @@ public class GameJoltDataStore {
     }
 
     /**
-     * Listener for {@link DataStoreRemoveRequest}. Override {@link DataStoreRemoveListener#dataStoreRemove(DataStoreRemoveData)} to
+     * Listener for {@link DataStoreRemoveRequest}. Override {@link DataStoreRemoveListener#dataStoreRemove(DataStoreRemoveValue)} to
      * handle the server response.
      */
     public static abstract class DataStoreRemoveListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof DataStoreRemoveData) dataStoreRemove((DataStoreRemoveData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof DataStoreRemoveValue) dataStoreRemove((DataStoreRemoveValue) value);
         }
 
-        public abstract void dataStoreRemove(DataStoreRemoveData data);
+        public abstract void dataStoreRemove(DataStoreRemoveValue value);
     }
 
     /**
@@ -374,13 +374,13 @@ public class GameJoltDataStore {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link DataStoreSetData}.
+         * Handles the server JSON response and returns a corresponding {@link DataStoreSetValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link DataStoreSetData} with the values returned from the server.
+         * @return The {@link DataStoreSetValue} with the values returned from the server.
          */
         @Override
-        public DataStoreSetData handleResponse(JsonValue jsonValue) {
-            return DataStoreSetData.builder()
+        public DataStoreSetValue handleResponse(JsonValue jsonValue) {
+            return DataStoreSetValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -394,7 +394,7 @@ public class GameJoltDataStore {
     @Builder
     @Getter
     @Setter
-    public static class DataStoreSetData implements GameJoltData {
+    public static class DataStoreSetValue implements GameJoltValue {
         /**
          * The JSON data from the server response.
          */
@@ -412,16 +412,16 @@ public class GameJoltDataStore {
     }
 
     /**
-     * Listener for {@link DataStoreSetRequest}. Override {@link DataStoreSetListener#dataStoreSet(DataStoreSetData)} to
+     * Listener for {@link DataStoreSetRequest}. Override {@link DataStoreSetListener#dataStoreSet(DataStoreSetValue)} to
      * handle the server response.
      */
     public static abstract class DataStoreSetListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof DataStoreSetData) dataStoreSet((DataStoreSetData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof DataStoreSetValue) dataStoreSet((DataStoreSetValue) value);
         }
 
-        public abstract void dataStoreSet(DataStoreSetData data);
+        public abstract void dataStoreSet(DataStoreSetValue value);
     }
 
     /**
@@ -495,13 +495,13 @@ public class GameJoltDataStore {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link DataStoreUpdateData}.
+         * Handles the server JSON response and returns a corresponding {@link DataStoreUpdateValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link DataStoreUpdateData} with the values returned from the server.
+         * @return The {@link DataStoreUpdateValue} with the values returned from the server.
          */
         @Override
-        public DataStoreUpdateData handleResponse(JsonValue jsonValue) {
-            return DataStoreUpdateData.builder()
+        public DataStoreUpdateValue handleResponse(JsonValue jsonValue) {
+            return DataStoreUpdateValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -557,7 +557,7 @@ public class GameJoltDataStore {
     @Builder
     @Getter
     @Setter
-    public static class DataStoreUpdateData implements GameJoltData {
+    public static class DataStoreUpdateValue implements GameJoltValue {
 
         /**
          * The JSON data from the server response.
@@ -582,14 +582,14 @@ public class GameJoltDataStore {
 
     /**
      * Listener for {@link DataStoreUpdateRequest}. Override {@link DataStoreUpdateListener#dataStoreUpdate(
-     * DataStoreUpdateData)} to handle the server response.
+     *DataStoreUpdateValue)} to handle the server response.
      */
     public static abstract class DataStoreUpdateListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof DataStoreUpdateData) dataStoreUpdate((DataStoreUpdateData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof DataStoreUpdateValue) dataStoreUpdate((DataStoreUpdateValue) value);
         }
 
-        public abstract void dataStoreUpdate(DataStoreUpdateData data);
+        public abstract void dataStoreUpdate(DataStoreUpdateValue value);
     }
 }

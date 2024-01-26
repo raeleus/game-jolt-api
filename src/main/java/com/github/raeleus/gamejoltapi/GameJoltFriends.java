@@ -51,13 +51,13 @@ public class GameJoltFriends {
         }
 
         /**
-         * Handles the server JSON response and returns a corresponding {@link FriendsFetchData}.
+         * Handles the server JSON response and returns a corresponding {@link FriendsFetchValue}.
          * @param jsonValue The JSON response from the server.
-         * @return The {@link FriendsFetchData} with the values returned from the server.
+         * @return The {@link FriendsFetchValue} with the values returned from the server.
          */
         @Override
-        public FriendsFetchData handleResponse(JsonValue jsonValue) {
-            return FriendsFetchData.builder()
+        public FriendsFetchValue handleResponse(JsonValue jsonValue) {
+            return FriendsFetchValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
@@ -72,7 +72,7 @@ public class GameJoltFriends {
     @Builder
     @Getter
     @Setter
-    public static class FriendsFetchData implements GameJoltData {
+    public static class FriendsFetchValue implements GameJoltValue {
 
         /**
          * The JSON data from the server response.
@@ -97,14 +97,14 @@ public class GameJoltFriends {
 
     /**
      * Listener for {@link FriendsFetchRequest}. Override {@link FriendsFetchListener#friendsFetch(
-     * FriendsFetchData)} to handle the server response.
+     *FriendsFetchValue)} to handle the server response.
      */
     public static abstract class FriendsFetchListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltData data) {
-            if (data instanceof FriendsFetchData) friendsFetch((FriendsFetchData) data);
+        public void response(GameJoltValue value) {
+            if (value instanceof FriendsFetchValue) friendsFetch((FriendsFetchValue) value);
         }
 
-        public abstract void friendsFetch(FriendsFetchData data);
+        public abstract void friendsFetch(FriendsFetchValue value);
     }
 }

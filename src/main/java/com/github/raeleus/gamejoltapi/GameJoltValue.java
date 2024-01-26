@@ -8,6 +8,6 @@ import com.badlogic.gdx.utils.Array;
  * GameJoltListener...)}.
  *
  */
-public interface GameJoltData {
+public interface GameJoltValue {
 
 }

@@ -7,7 +7,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchData;
+import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchValue;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchListener;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchRequest;
 import lombok.var;
@@ -44,7 +44,7 @@ public class Core extends ApplicationAdapter {
         
         gj.sendRequest(request, key, new UsersFetchListener() {
             @Override
-            public void usersFetch(UsersFetchData data) {
+            public void usersFetch(UsersFetchValue data) {
                 System.out.println(data.users.get(0).avatarURL);
                 gj.downloadImageUrlAsTexture(data.users.get(0).avatarURL, texture -> {
                     System.out.println("success");

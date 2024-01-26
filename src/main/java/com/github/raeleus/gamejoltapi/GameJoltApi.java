@@ -152,7 +152,7 @@ public class GameJoltApi {
 
         sendRequest(request, key, listener != null ? listener : new ScoresAddListener() {
             @Override
-            public void scoresAdd(ScoresAddData data) {
+            public void scoresAdd(ScoresAddValue value) {
 
             }
 
@@ -208,8 +208,8 @@ public class GameJoltApi {
 
         sendRequest(request, key, new GameJoltListener() {
             @Override
-            public void response(GameJoltData data) {
-                var fetchResult = (ScoresFetchData) data;
+            public void response(GameJoltValue value) {
+                var fetchResult = (ScoresFetchValue) value;
                 listener.downloaded(fetchResult.scores);
             }
 

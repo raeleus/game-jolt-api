@@ -3,11 +3,11 @@ package com.github.raeleus.gamejoltapi;
 public interface GameJoltListener {
     /**
      * Called when a response is received from the Game Jolt server.
-     * @param data The data processed from the jsonValue containing all the return values. The data should be
-     * casted to the data class implementing {@link GameJoltData} that matches the submitted {@link
+     * @param value The value processed from the jsonValue containing all the return values. The value should be
+     * casted to the value class implementing {@link GameJoltValue} that matches the submitted {@link
      * GameJoltRequest}.
      */
-    void response(GameJoltData data);
+    void response(GameJoltValue value);
 
     /**
      * The HTTP request may fail if there was a timeout or some other related issue.
