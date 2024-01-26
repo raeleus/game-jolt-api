@@ -52,6 +52,20 @@ public class GameJoltApi {
     }
 
     /**
+     * Prompting the user to enter their username and token is usually disruptive to the flow of your game. Game Jolt
+     * provides a few ways to automatically pass your game this information. HTML5 Games hosted on gamejolt.com are
+     * provided the username and password through URL parameters. Executable games launched from the Game Jolt app pass
+     * this information through an automatically generated file called .gj-credentials placed next to the game's
+     * executable.
+     * <p>
+     * This method uses these credentials on their associated backends to attempt to authenticate the user. In the case
+     * that this fails, you should provide a means to manually log the user in.
+     */
+    public void autoAuthenticateUser() {
+
+    }
+
+    /**
      * A Game Jolt user often has an avatar associated with their account. This can be accessed by your game to
      * represent their player in your highscores list, for example. This is provided by {@link
      * GameJoltUser#getAvatarURL()} as a String. This method downloads the image from
