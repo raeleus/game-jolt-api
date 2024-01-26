@@ -4,7 +4,7 @@ A library that allows the user to access the gamejolt.com API with libGDX.
 
 ## About
 
-[Game Jolt](https://gamejolt.com/learn) is a platform for hosting and sharing games. It includes an API that allows you to record high scores, save player data to the cloud, award trophies, and more. This library allows you to access this API from your libGDX game from all of the available backends. To use Game Jolt's API, the only requirement is that your game is hosted on the site. Your users do not have to have an account unless you want to take advantage of user specific data stores and high scores associated with their username and avatar. This is managed through game ID's, keys, usernames, and tokens. See the [Game Jolt API](https://gamejolt.com/game-api) docs for more details.
+[Game Jolt](https://gamejolt.com/learn) is a platform for hosting and sharing games (desktop or html5). It includes an API that allows you to record high scores, save player data to the cloud, award trophies, and more. This library allows you to access this API from your libGDX game from all of the available backends. To use Game Jolt's API, the only requirement is that your game is hosted on the site. Your users do not have to have an account unless you want to take advantage of user specific data stores and high scores associated with their username and avatar. This is managed through game ID's, keys, usernames, and tokens. See the [Game Jolt API](https://gamejolt.com/game-api) docs for more details.
 
 ## How to use
 
