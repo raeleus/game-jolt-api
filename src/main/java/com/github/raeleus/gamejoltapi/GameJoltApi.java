@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.StreamUtils;
 import com.github.raeleus.gamejoltapi.GameJoltScores.*;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.GameJoltUser;
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.var;
 
@@ -53,16 +54,31 @@ public class GameJoltApi {
 
     /**
      * Prompting the user to enter their username and token is usually disruptive to the flow of your game. Game Jolt
-     * provides a few ways to automatically pass your game this information. HTML5 Games hosted on gamejolt.com are
-     * provided the username and password through URL parameters. Executable games launched from the Game Jolt app pass
-     * this information through an automatically generated file called .gj-credentials placed next to the game's
-     * executable.
+     * provides a couple ways to automatically pass your game this information. Executable games launched from the Game
+     * Jolt app pass this information through an automatically generated file called .gj-credentials placed next to the
+     * game's executable.
      * <p>
-     * This method uses these credentials on their associated backends to attempt to authenticate the user. In the case
-     * that this fails, you should provide a means to manually log the user in.
+     * This method returns these credentials as username/token pair. In the case that this fails, you should provide a
+     * means to manually log the user in. This method will not work if the user has downloaded the game from the website
+     * directly and does not use the Game Jolt app.
+     * <p>
+     * To log in from HTML5, see the <a href="https://github.com/raeleus/game-jolt-api/wiki#html">wiki</a>
+     *
+     * @return The username and token pair. Will return null if no valid file was found.
      */
-    public void autoAuthenticateUser() {
-
+    public GameJoltUsernameTokenPair autoRetrieveUsernameAndToken() {
+        var file = Gdx.files.local(".gj-credentials");
+        if (!file.exists()) return null;
+        
+        var lines = file.readString().split("\\n");
+        if (lines.length < 3) return null;
+        return new GameJoltUsernameTokenPair(lines[1], lines[2]);
+    }
+    
+    @AllArgsConstructor
+    public static class GameJoltUsernameTokenPair {
+        public String username;
+        public String token;
     }
 
     /**
