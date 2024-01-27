@@ -315,7 +315,7 @@ public class GameJoltApi {
      * @param breakOnError If this is set to true, one sub-request failure will cause the entire batch to stop
      *                     processing subsequent sub-requests and return a value of false for success.
      * @param listeners The listeners called when the response is received. Each listener will be called on each
-     *                  request submitted.
+     *                  request submitted. If any request fails or is cancelled, all listeners will be notified.
      */
     public void sendBatchRequest(@NonNull Array<GameJoltRequest> requests, @NonNull String gameID, @NonNull String key, Boolean parallel, Boolean breakOnError, @NonNull GameJoltListener ... listeners ) {
         StringBuilder url = new StringBuilder(apiURL).append(version).append("/batch/?game_id=").append(gameID);
