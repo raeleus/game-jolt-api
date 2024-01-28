@@ -107,7 +107,7 @@ public class GameJoltTime {
         public int day;
 
         /**
-         * The hour of the day.
+         * The hour of the day. Returned as 24 hour time.
          */
         public int hour;
 
@@ -120,6 +120,16 @@ public class GameJoltTime {
          * The seconds of the minute.
          */
         public int second;
+        
+        private String formatMinute(int minute) {
+            return (minute >= 10 ? "" : "0") + minute;
+        }
+        
+        @Override
+        public String toString() {
+            var standardHour = hour == 0 || hour == 12 ? 12 : hour % 12;
+            return month + "/" + day + "/" + year + " " + standardHour + ":" + formatMinute(minute) + ":" + formatMinute(second) + (hour < 12 ? " AM" : " PM");
+        }
     }
 
     /**
