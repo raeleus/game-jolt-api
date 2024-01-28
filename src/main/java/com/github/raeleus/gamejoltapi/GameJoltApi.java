@@ -351,6 +351,11 @@ public class GameJoltApi {
                             listener.response(request.handleResponse(childValue));
                         }
                     }
+                } else {
+                    var t = new Throwable("Batch request failed:\n" + jsonValue.getString("message", "No error returned from server."));
+                    for (GameJoltListener listener : listeners) {
+                        listener.failed(t);
+                    }
                 }
             }
 
