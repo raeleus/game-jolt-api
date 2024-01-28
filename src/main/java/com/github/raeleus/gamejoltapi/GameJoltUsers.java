@@ -171,25 +171,28 @@ public class GameJoltUsers {
          */
         @Override
         public UsersFetchValue handleResponse(JsonValue jsonValue) {
+            
 
             var users = new Array<GameJoltUser>();
-            var usersJsonValue = jsonValue.get("users");
-            for (var userJsonValue : usersJsonValue.iterator()) {
-                var user = GameJoltUser.builder()
-                    .id(userJsonValue.getInt("id"))
-                    .type(UserType.valueOf(userJsonValue.getString("type").toUpperCase(Locale.ROOT)))
-                    .username(userJsonValue.getString("username"))
-                    .avatarURL(userJsonValue.getString("avatar_url"))
-                    .signedUp(userJsonValue.getString("signed_up"))
-                    .signedUpTimestamp(userJsonValue.getLong("signed_up_timestamp"))
-                    .lastLoggedIn(userJsonValue.getString("last_logged_in"))
-                    .lastLoggedInTimestamp(userJsonValue.getLong("last_logged_in_timestamp"))
-                    .status(UserStatus.valueOf(userJsonValue.getString("status").toUpperCase(Locale.ROOT)))
-                    .developerName(userJsonValue.getString("developer_name"))
-                    .developerWebsite(userJsonValue.getString("developer_website"))
-                    .developerDescription(userJsonValue.getString("developer_description"))
-                    .build();
-                users.add(user);
+            if (jsonValue.has("users")) {
+                var usersJsonValue = jsonValue.get("users");
+                for (var userJsonValue : usersJsonValue.iterator()) {
+                    var user = GameJoltUser.builder()
+                            .id(userJsonValue.getInt("id"))
+                            .type(UserType.valueOf(userJsonValue.getString("type").toUpperCase(Locale.ROOT)))
+                            .username(userJsonValue.getString("username"))
+                            .avatarURL(userJsonValue.getString("avatar_url"))
+                            .signedUp(userJsonValue.getString("signed_up"))
+                            .signedUpTimestamp(userJsonValue.getLong("signed_up_timestamp"))
+                            .lastLoggedIn(userJsonValue.getString("last_logged_in"))
+                            .lastLoggedInTimestamp(userJsonValue.getLong("last_logged_in_timestamp"))
+                            .status(UserStatus.valueOf(userJsonValue.getString("status").toUpperCase(Locale.ROOT)))
+                            .developerName(userJsonValue.getString("developer_name"))
+                            .developerWebsite(userJsonValue.getString("developer_website"))
+                            .developerDescription(userJsonValue.getString("developer_description"))
+                            .build();
+                    users.add(user);
+                }
             }
 
             return UsersFetchValue.builder()
