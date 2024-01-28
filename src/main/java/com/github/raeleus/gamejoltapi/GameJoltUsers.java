@@ -17,7 +17,7 @@ import static com.github.raeleus.gamejoltapi.GameJoltApi.urlEncode;
  * Passing in the username and token can sometimes interrupt the flow of your game, so Game Jolt makes the effort to
  * automatically pass your game the username and token whenever possible.
  *
- * @see GameJoltApi#downloadImageUrlAsTexture(String, GameJoltTextureListener)
+ * @see GameJoltApi#downloadImageUrlAsTextureRegion(String, GameJoltTextureListener)
  */
 public class GameJoltUsers {
 
@@ -272,7 +272,7 @@ public class GameJoltUsers {
 
         /**
          * The URL of the user's avatar.
-         * @see GameJoltApi#downloadImageUrlAsTexture(String, GameJoltTextureListener)
+         * @see GameJoltApi#downloadImageUrlAsTextureRegion(String, GameJoltTextureListener)
          */
         public String avatarURL;
 

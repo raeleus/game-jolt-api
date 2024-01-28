@@ -6,6 +6,7 @@ import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Blending;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
@@ -87,7 +88,7 @@ public class GameJoltApi {
      * GameJoltUser#getAvatarURL()} as a String. This method downloads the image from
      * the submitted URL and returns the avatar as a texture.
      */
-    public void downloadImageUrlAsTexture(String url, GameJoltTextureListener listener) {
+    public void downloadImageUrlAsTextureRegion(String url, GameJoltTextureListener listener) {
         byte[] bytes = new byte[200 * 1024];
         int numBytes = downloadUrl(bytes, url);
         if (numBytes != 0) {
@@ -98,15 +99,19 @@ public class GameJoltApi {
             potPixmap.setBlending(Blending.None);
             potPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
             pixmap.dispose();
-            Gdx.app.postRunnable(() -> listener.downloaded(new Texture(potPixmap)));
+            Gdx.app.postRunnable(() -> {
+                var texture = new Texture(potPixmap);
+                var region = new TextureRegion(texture, pixmap.getWidth(), pixmap.getHeight());
+                listener.downloaded(region);
+            });
         }
     }
 
     /**
-     * The listener for the {@link GameJoltApi#downloadImageUrlAsTexture(String, GameJoltTextureListener)}.
+     * The listener for the {@link GameJoltApi#downloadImageUrlAsTextureRegion(String, GameJoltTextureListener)}.
      */
     public interface GameJoltTextureListener {
-        void downloaded(Texture texture);
+        void downloaded(TextureRegion region);
     }
 
     /**
@@ -256,7 +261,7 @@ public class GameJoltApi {
     }
 
     /**
-     * The listener for the {@link GameJoltApi#downloadImageUrlAsTexture(String, GameJoltTextureListener)}.
+     * The listener for the {@link GameJoltApi#downloadImageUrlAsTextureRegion(String, GameJoltTextureListener)}.
      */
     public interface ScoreListener {
         void downloaded(Array<GameJoltScore> scores);
