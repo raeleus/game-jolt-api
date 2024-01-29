@@ -109,6 +109,7 @@ public class GameJoltScores {
         public ScoresAddValue handleResponse(JsonValue jsonValue) {
             return ScoresAddValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .build();
@@ -127,6 +128,11 @@ public class GameJoltScores {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -145,7 +151,7 @@ public class GameJoltScores {
      */
     public static abstract class ScoresAddListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof ScoresAddValue) scoresAdd((ScoresAddValue) value);
         }
 
@@ -204,6 +210,7 @@ public class GameJoltScores {
         public ScoresGetRankValue handleResponse(JsonValue jsonValue) {
             return ScoresGetRankValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .rank(jsonValue.getInt("rank"))
@@ -223,6 +230,11 @@ public class GameJoltScores {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -246,7 +258,7 @@ public class GameJoltScores {
      */
     public static abstract class ScoresGetRankListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof ScoresGetRankValue) scoresGetRank((ScoresGetRankValue) value);
         }
 
@@ -360,6 +372,7 @@ public class GameJoltScores {
 
             return ScoresFetchValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .scores(scores)
@@ -378,6 +391,11 @@ public class GameJoltScores {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -401,7 +419,7 @@ public class GameJoltScores {
      */
     public static abstract class ScoresFetchListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof ScoresFetchValue) scoresFetch((ScoresFetchValue) value);
         }
 
@@ -506,6 +524,7 @@ public class GameJoltScores {
 
             return ScoresTablesValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .tables(tables)
@@ -525,6 +544,11 @@ public class GameJoltScores {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -548,7 +572,7 @@ public class GameJoltScores {
      */
     public static abstract class ScoresTablesListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof ScoresTablesValue) scoresTables((ScoresTablesValue) value);
         }
 

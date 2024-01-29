@@ -71,6 +71,7 @@ public class GameJoltUsers {
         public UsersAuthValue handleResponse(JsonValue jsonValue) {
             return UsersAuthValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .build();
@@ -89,6 +90,11 @@ public class GameJoltUsers {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -107,7 +113,7 @@ public class GameJoltUsers {
      */
     public static abstract class UsersAuthListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof UsersAuthValue) usersAuth((UsersAuthValue) value);
         }
 
@@ -197,6 +203,7 @@ public class GameJoltUsers {
 
             return UsersFetchValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .users(users)
@@ -216,6 +223,11 @@ public class GameJoltUsers {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -239,7 +251,7 @@ public class GameJoltUsers {
      */
     public static abstract class UsersFetchListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof UsersFetchValue) usersFetch((UsersFetchValue) value);
         }
 

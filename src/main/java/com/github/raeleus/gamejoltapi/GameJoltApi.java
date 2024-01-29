@@ -243,7 +243,7 @@ public class GameJoltApi {
 
         sendRequest(request, key, new GameJoltListener() {
             @Override
-            public void response(GameJoltValue value) {
+            public void response(GameJoltRequest request, GameJoltValue value) {
                 var fetchResult = (ScoresFetchValue) value;
                 listener.downloaded(fetchResult.scores);
             }
@@ -287,7 +287,7 @@ public class GameJoltApi {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 var response = httpResponse.getResultAsString();
                 var jsonValue = jsonReader.parse(response).child();
-                Gdx.app.postRunnable(() -> listener.response(request.handleResponse(jsonValue)));
+                Gdx.app.postRunnable(() -> listener.response(request, request.handleResponse(jsonValue)));
             }
 
             @Override
@@ -353,7 +353,7 @@ public class GameJoltApi {
                     for (var childValue : jsonValue.iterator()) {
                         var request = requests.get(requestIndex++);
                         for (GameJoltListener listener : listeners) {
-                            listener.response(request.handleResponse(childValue));
+                            listener.response(request, request.handleResponse(childValue));
                         }
                     }
                 } else {

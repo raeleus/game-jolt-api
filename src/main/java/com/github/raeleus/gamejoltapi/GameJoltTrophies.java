@@ -106,6 +106,7 @@ public class GameJoltTrophies {
 
             return TrophiesFetchValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .build();
@@ -124,6 +125,11 @@ public class GameJoltTrophies {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -147,7 +153,7 @@ public class GameJoltTrophies {
      */
     public static abstract class TrophiesFetchListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof TrophiesFetchValue) trophiesFetch((TrophiesFetchValue) value);
         }
 
@@ -262,6 +268,7 @@ public class GameJoltTrophies {
         public TrophiesAddAchievedValue handleResponse(JsonValue jsonValue) {
             return TrophiesAddAchievedValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .build();
@@ -280,6 +287,11 @@ public class GameJoltTrophies {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -299,7 +311,7 @@ public class GameJoltTrophies {
      */
     public static abstract class TrophiesAddAchievedListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof TrophiesAddAchievedValue) trophiesAddAchieved((TrophiesAddAchievedValue) value);
         }
 
@@ -362,6 +374,7 @@ public class GameJoltTrophies {
         public TrophiesRemoveAchievedValue handleResponse(JsonValue jsonValue) {
             return TrophiesRemoveAchievedValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .build();
@@ -380,6 +393,11 @@ public class GameJoltTrophies {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -399,7 +417,7 @@ public class GameJoltTrophies {
      */
     public static abstract class TrophiesRemoveAchievedListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof TrophiesRemoveAchievedValue) trophiesRemoveAchieved((TrophiesRemoveAchievedValue) value);
         }
 

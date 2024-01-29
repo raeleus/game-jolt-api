@@ -67,6 +67,7 @@ public class GameJoltDataStore {
         public DataStoreFetchValue handleResponse(JsonValue jsonValue) {
             return DataStoreFetchValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .data(jsonValue.getString("data"))
@@ -85,6 +86,11 @@ public class GameJoltDataStore {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -108,7 +114,7 @@ public class GameJoltDataStore {
      */
     public static abstract class DataStoreFetchListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof DataStoreFetchValue) dataStoreFetch((DataStoreFetchValue) value);
         }
 
@@ -176,6 +182,7 @@ public class GameJoltDataStore {
             }
             return DataStoreGetKeysValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .keys(keys)
@@ -195,6 +202,11 @@ public class GameJoltDataStore {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -220,7 +232,7 @@ public class GameJoltDataStore {
      */
     public static abstract class DataStoreGetKeysListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof DataStoreGetKeysValue) dataStoreGetKeys((DataStoreGetKeysValue) value);
         }
 
@@ -282,6 +294,7 @@ public class GameJoltDataStore {
         public DataStoreRemoveValue handleResponse(JsonValue jsonValue) {
             return DataStoreRemoveValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .build();
@@ -300,6 +313,11 @@ public class GameJoltDataStore {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -318,7 +336,7 @@ public class GameJoltDataStore {
      */
     public static abstract class DataStoreRemoveListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof DataStoreRemoveValue) dataStoreRemove((DataStoreRemoveValue) value);
         }
 
@@ -388,6 +406,7 @@ public class GameJoltDataStore {
         public DataStoreSetValue handleResponse(JsonValue jsonValue) {
             return DataStoreSetValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .build();
@@ -405,6 +424,11 @@ public class GameJoltDataStore {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -423,7 +447,7 @@ public class GameJoltDataStore {
      */
     public static abstract class DataStoreSetListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof DataStoreSetValue) dataStoreSet((DataStoreSetValue) value);
         }
 
@@ -502,6 +526,7 @@ public class GameJoltDataStore {
         public DataStoreUpdateValue handleResponse(JsonValue jsonValue) {
             return DataStoreUpdateValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .data(jsonValue.getString("data", null))
@@ -562,6 +587,11 @@ public class GameJoltDataStore {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -585,7 +615,7 @@ public class GameJoltDataStore {
      */
     public static abstract class DataStoreUpdateListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof DataStoreUpdateValue) dataStoreUpdate((DataStoreUpdateValue) value);
         }
 

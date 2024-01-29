@@ -2,7 +2,7 @@ package com.github.raeleus.gamejoltapi;
 
 public class GameJoltAdapter implements GameJoltListener {
     @Override
-    public void response(GameJoltValue value) {
+    public void response(GameJoltRequest request, GameJoltValue value) {
 
     }
 

@@ -59,6 +59,7 @@ public class GameJoltFriends {
         public FriendsFetchValue handleResponse(JsonValue jsonValue) {
             return FriendsFetchValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .friendID(jsonValue.getInt("friends_id"))
@@ -78,6 +79,11 @@ public class GameJoltFriends {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -101,7 +107,7 @@ public class GameJoltFriends {
      */
     public static abstract class FriendsFetchListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof FriendsFetchValue) friendsFetch((FriendsFetchValue) value);
         }
 

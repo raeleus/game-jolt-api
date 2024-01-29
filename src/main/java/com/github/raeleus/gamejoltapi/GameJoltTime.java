@@ -44,6 +44,7 @@ public class GameJoltTime {
         public TimeFetchValue handleResponse(JsonValue jsonValue) {
             return TimeFetchValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .timestamp(jsonValue.getLong("timestamp"))
@@ -70,6 +71,11 @@ public class GameJoltTime {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -138,7 +144,7 @@ public class GameJoltTime {
      */
     public static abstract class TimeFetchListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof TimeFetchValue) timeFetch((TimeFetchValue) value);
         }
 

@@ -63,6 +63,7 @@ public class GameJoltSessions {
         public SessionsOpenValue handleResponse(JsonValue jsonValue) {
             return SessionsOpenValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .build();
@@ -81,6 +82,11 @@ public class GameJoltSessions {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -99,7 +105,7 @@ public class GameJoltSessions {
      */
     public static abstract class SessionsOpenListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof SessionsOpenValue) sessionsOpen((SessionsOpenValue) value);
         }
 
@@ -164,6 +170,7 @@ public class GameJoltSessions {
         public SessionsPingValue handleResponse(JsonValue jsonValue) {
             return SessionsPingValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .build();
@@ -199,6 +206,11 @@ public class GameJoltSessions {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -217,7 +229,7 @@ public class GameJoltSessions {
      */
     public static abstract class SessionsPingListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof SessionsPingValue) sessionsPing((SessionsPingValue) value);
         }
 
@@ -274,6 +286,7 @@ public class GameJoltSessions {
         public SessionsCheckValue handleResponse(JsonValue jsonValue) {
             return SessionsCheckValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .build();
@@ -292,6 +305,11 @@ public class GameJoltSessions {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -310,7 +328,7 @@ public class GameJoltSessions {
      */
     public static abstract class SessionsCheckListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof SessionsCheckValue) sessionsCheck((SessionsCheckValue) value);
         }
 
@@ -362,6 +380,7 @@ public class GameJoltSessions {
         public SessionsCloseValue handleResponse(JsonValue jsonValue) {
             return SessionsCloseValue.builder()
                 .jsonValue(jsonValue)
+                .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
                 .build();
@@ -380,6 +399,11 @@ public class GameJoltSessions {
          * The JSON data from the server response.
          */
         public JsonValue jsonValue;
+        
+        /**
+         * The request that triggered the response.
+         */
+        public GameJoltRequest request;
 
         /**
          * Whether the request succeeded or failed.
@@ -398,7 +422,7 @@ public class GameJoltSessions {
      */
     public static abstract class SessionsCloseListener extends GameJoltAdapter {
         @Override
-        public void response(GameJoltValue value) {
+        public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof SessionsCloseValue) sessionsClose((SessionsCloseValue) value);
         }
 
