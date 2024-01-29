@@ -1,5 +1,7 @@
 package com.github.raeleus.gamejoltapi;
 
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.JsonValue;
 import lombok.*;
 
@@ -57,12 +59,17 @@ public class GameJoltFriends {
          */
         @Override
         public FriendsFetchValue handleResponse(JsonValue jsonValue) {
+            var friends = new Array<Integer>();
+            var friendsJsonValue = jsonValue.get("friends");
+            if (friendsJsonValue != null) for (JsonValue friendJsonValue : friendsJsonValue.iterator()) {
+                friends.add(friendJsonValue.getInt("friend_id"));
+            }
             return FriendsFetchValue.builder()
                 .jsonValue(jsonValue)
                 .request(this)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
-                .friendID(jsonValue.getInt("friends_id"))
+                .friends(friends)
                 .build();
         }
     }
@@ -96,9 +103,9 @@ public class GameJoltFriends {
         public String message;
 
         /**
-         * The friend's user ID.
+         * The friend user ID's.
          */
-        public int friendID;
+        public Array<Integer> friends;
     }
 
     /**

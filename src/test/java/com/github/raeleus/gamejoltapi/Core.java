@@ -13,29 +13,35 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.raeleus.gamejoltapi.GameJoltDataStore.*;
+import com.github.raeleus.gamejoltapi.GameJoltFriends.FriendsFetchListener;
+import com.github.raeleus.gamejoltapi.GameJoltFriends.FriendsFetchRequest;
+import com.github.raeleus.gamejoltapi.GameJoltFriends.FriendsFetchValue;
 import com.github.raeleus.gamejoltapi.GameJoltScores.*;
 import com.github.raeleus.gamejoltapi.GameJoltSessions.*;
 import com.github.raeleus.gamejoltapi.GameJoltTime.TimeFetchListener;
 import com.github.raeleus.gamejoltapi.GameJoltTime.TimeFetchRequest;
 import com.github.raeleus.gamejoltapi.GameJoltTime.TimeFetchValue;
 import com.github.raeleus.gamejoltapi.GameJoltTrophies.*;
+import com.github.raeleus.gamejoltapi.GameJoltUsers.GameJoltUser;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchListener;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchRequest;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchValue;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Core extends ApplicationAdapter {
     public Stage stage;
     public Skin skin;
     public SystemCursorListener handListener;
+    public SystemCursorListener ibeamListener;
     public Label logLabel;
     public TextTooltip logTooltip;
     public Action pingAction;
+    public Table friendsTable;
     
     public GameJoltApi gj = new GameJoltApi();
     public final String gameID = "869827";
@@ -47,6 +53,7 @@ public class Core extends ApplicationAdapter {
     public TextureRegion avatarRegion;
     public Array<GameJoltScore> highScores;
     public int scoreRank;
+    public Array<Integer> friends;
     
     public long score;
     public long highestScore;
@@ -83,6 +90,7 @@ public class Core extends ApplicationAdapter {
         Gdx.input.setInputProcessor(stage);
         
         handListener = new SystemCursorListener(SystemCursor.Hand);
+        ibeamListener = new SystemCursorListener(SystemCursor.Ibeam);
         
         loginUser();
         
@@ -138,6 +146,13 @@ public class Core extends ApplicationAdapter {
                     .userToken(token)
                     .build();
             requests.add(removeTrophyRequest);
+            
+            var friendsFetchRequest = FriendsFetchRequest.builder()
+                    .gameID(gameID)
+                    .username(username)
+                    .userToken(token)
+                    .build();
+            requests.add(friendsFetchRequest);
         }
         
         gj.sendBatchRequest(requests, gameID, key, false, true,
@@ -263,6 +278,26 @@ public class Core extends ApplicationAdapter {
                     public void failed(Throwable t) {
                         updateLogLabel("TrophiesRemove failed: " + t.toString());
                     }
+                }, new FriendsFetchListener() {
+                    @Override
+                    public void friendsFetch(FriendsFetchValue value) {
+                        if (!value.success) updateLogLabel("Batch request unsuccessful: " + value.message);
+                        else {
+                            friends = value.friends;
+                            refreshUI();
+                            refreshFriendsTable();
+                        }
+                    }
+                    
+                    @Override
+                    public void cancelled() {
+                        updateLogLabel("Batch request connection cancelled");
+                    }
+                    
+                    @Override
+                    public void failed(Throwable t) {
+                        updateLogLabel("Batch request failed: " + t.toString());
+                    }
                 });
     }
     
@@ -386,17 +421,12 @@ public class Core extends ApplicationAdapter {
         table.add(label).left().space(10);
         
         table.row();
-        var friendsTable = new Table();
+        friendsTable = new Table();
         friendsTable.setBackground(skin.getDrawable("section-10"));
         friendsTable.top().left();
         table.add(friendsTable).minWidth(300);
         
         friendsTable.defaults().space(10);
-        label = new Label("Raeleus", skin, "button");
-        friendsTable.add(label);
-        
-        label = new Label("In game...", skin);
-        friendsTable.add(label);
         
         root.row();
         table = new Table();
@@ -420,6 +450,44 @@ public class Core extends ApplicationAdapter {
         
         label = new Label(serverTime, skin, "time");
         button.add(label);
+    }
+    
+    public void refreshFriendsTable() {
+        if (friendsTable == null) return;
+        
+        var arrayList = new ArrayList<Integer>();
+        for (var friend : friends) {
+            arrayList.add(friend);
+        }
+        
+        var request = UsersFetchRequest.builder()
+                .gameID(gameID)
+                .userIDs(arrayList)
+                .build();
+        
+        gj.sendRequest(request, key, new UsersFetchListener() {
+            @Override
+            public void usersFetch(UsersFetchValue value) {
+                if (!value.success) updateLogLabel("Friends unsuccessful: " + value.message);
+                else {
+                    for (GameJoltUser user : value.users) {
+                        var label = new Label(user.username, skin);
+                        friendsTable.add(label);
+                        friendsTable.row();
+                    }
+                }
+            }
+
+            @Override
+            public void cancelled() {
+                updateLogLabel("Friends connection cancelled");
+            }
+
+            @Override
+            public void failed(Throwable t) {
+                updateLogLabel("Friends failed: " + t.toString());
+            }
+        });
     }
     
     public void showGame() {
@@ -513,6 +581,7 @@ public class Core extends ApplicationAdapter {
         
         var usernameField = new TextField("", skin);
         table.add(usernameField);
+        addIbeamListener(usernameField);
         
         table = dialog.getButtonTable();
         table.pad(10);
@@ -836,6 +905,7 @@ public class Core extends ApplicationAdapter {
         
         var usernameField = new TextField("", skin);
         table.add(usernameField);
+        addIbeamListener(usernameField);
         
         table.row();
         label = new Label("Token:", skin);
@@ -845,6 +915,7 @@ public class Core extends ApplicationAdapter {
         tokenField.setPasswordMode(true);
         tokenField.setPasswordCharacter('*');
         table.add(tokenField);
+        addIbeamListener(tokenField);
         
         table = dialog.getButtonTable();
         table.pad(10);
@@ -982,6 +1053,10 @@ public class Core extends ApplicationAdapter {
     
     public void addHandListener(Actor actor) {
         actor.addListener(handListener);
+    }
+    
+    public void addIbeamListener(Actor actor) {
+        actor.addListener(ibeamListener);
     }
 
     @Override
