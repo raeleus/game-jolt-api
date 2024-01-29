@@ -426,7 +426,7 @@ public class GameJoltDataStore {
 
     /**
      * Updates data in the data store. You can only perform mathematical operations on numerical data. See {@link
-     * DataStoreUpdateRequest#setValueString(String)} and {@link DataStoreUpdateRequest#setValueLong(Long)} If you pass
+     * DataStoreUpdateRequest#setValue(String)} and {@link DataStoreUpdateRequest#setValueLong(Long)} If you pass
      * in the user information, this function will return all the keys in a user's data store. If you leave the user
      * information empty, it will return all the keys in the game's global data store.
      */
@@ -464,17 +464,11 @@ public class GameJoltDataStore {
         private OperationType operation;
 
         /**
-         * The String value you'd like to apply to the data store item. Only compatible with the OperationTypes {@link
-         * OperationType#APPEND} and {@link OperationType#PREPEND} You must provide either a valueString or valueLong.
+         * The String value you'd like to apply to the data store item. You may only use the operations {@link
+         * OperationType#ADD}, {@link OperationType#SUBTRACT}, {@link OperationType#MULTIPLY}, {@link
+         * OperationType#DIVIDE} if you submit a numerical value.
          */
-        private String valueString;
-
-        /**
-         *The long value you'd like to apply to the data store item. Only compatible with the OperationTypes {@link
-         *OperationType#ADD}, {@link OperationType#SUBTRACT}, {@link OperationType#MULTIPLY}, and {@link
-         *OperationType#DIVIDE} You must provide either a valueString or valueLong.
-         */
-        private Long valueLong;
+        private String value;
 
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
@@ -488,8 +482,7 @@ public class GameJoltDataStore {
             if (username != null) builder.append("&username=").append(urlEncode(username));
             if (userToken != null) builder.append("&user_token=").append(urlEncode(userToken));
             builder.append("&operation=").append(urlEncode(operation.name));
-            if (operation == OperationType.APPEND || operation == OperationType.PREPEND) builder.append("&value=").append(urlEncode(valueString));
-            else builder.append("&value=").append(valueLong);
+            builder.append("&value=").append(urlEncode(value));
 
             return builder.toString();
         }
