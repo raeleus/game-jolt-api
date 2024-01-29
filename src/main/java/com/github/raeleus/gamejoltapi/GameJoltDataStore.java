@@ -1,5 +1,6 @@
 package com.github.raeleus.gamejoltapi;
 
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import lombok.*;
 
@@ -168,11 +169,16 @@ public class GameJoltDataStore {
          */
         @Override
         public DataStoreGetKeysValue handleResponse(JsonValue jsonValue) {
+            var keys = new Array<String>();
+            var keysJsonValue = jsonValue.get("keys");
+            for (JsonValue keyJsonValue : keysJsonValue) {
+                keys.add(keyJsonValue.getString("key"));
+            }
             return DataStoreGetKeysValue.builder()
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
-                .key(jsonValue.getString("key"))
+                .keys(keys)
                 .build();
         }
     }
@@ -203,7 +209,7 @@ public class GameJoltDataStore {
         /**
          * The name of the key. This function will return all the keys for this particular data store.
          */
-        public String key;
+        public Array<String> keys;
     }
 
 
@@ -426,9 +432,9 @@ public class GameJoltDataStore {
 
     /**
      * Updates data in the data store. You can only perform mathematical operations on numerical data. See {@link
-     * DataStoreUpdateRequest#setValue(String)} and {@link DataStoreUpdateRequest#setValueLong(Long)} If you pass
-     * in the user information, this function will return all the keys in a user's data store. If you leave the user
-     * information empty, it will return all the keys in the game's global data store.
+     * DataStoreUpdateRequest#setValue(String)}. If you pass in the user information, this function will return all the
+     * keys in a user's data store. If you leave the user information empty, it will return all the keys in the game's
+     * global data store.
      */
     @Builder
     @Getter
