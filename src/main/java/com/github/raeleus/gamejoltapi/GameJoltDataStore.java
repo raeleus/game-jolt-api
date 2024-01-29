@@ -505,7 +505,7 @@ public class GameJoltDataStore {
                 .jsonValue(jsonValue)
                 .success(jsonValue.getBoolean("success"))
                 .message(jsonValue.getString("message", null))
-                .data(jsonValue.getString("data"))
+                .data(jsonValue.getString("data", null))
                 .build();
         }
     }
