@@ -7,10 +7,8 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -22,13 +20,13 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.github.raeleus.gamejoltapi.GameJoltDataStore.*;
 import com.github.raeleus.gamejoltapi.GameJoltScores.*;
+import com.github.raeleus.gamejoltapi.GameJoltSessions.*;
 import com.github.raeleus.gamejoltapi.GameJoltTime.TimeFetchListener;
 import com.github.raeleus.gamejoltapi.GameJoltTime.TimeFetchRequest;
 import com.github.raeleus.gamejoltapi.GameJoltTime.TimeFetchValue;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchListener;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchRequest;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchValue;
-import lombok.var;
 
 public class Core extends ApplicationAdapter {
     public Stage stage;
@@ -36,6 +34,7 @@ public class Core extends ApplicationAdapter {
     public SystemCursorListener handListener;
     public Label logLabel;
     public TextTooltip logTooltip;
+    public Action pingAction;
     
     public GameJoltApi gj = new GameJoltApi();
     public final String gameID = "869827";
@@ -84,12 +83,12 @@ public class Core extends ApplicationAdapter {
         
         handListener = new SystemCursorListener(SystemCursor.Hand);
         
-        fetchUserData();
+        loginUser();
         
         refreshUI();
     }
     
-    public void fetchUserData() {
+    public void loginUser() {
         var usernamePair = gj.autoRetrieveUsernameAndToken();
         if (usernamePair != null) {
             username = usernamePair.username;
@@ -104,6 +103,12 @@ public class Core extends ApplicationAdapter {
         requests.add(timeFetchRequest);
         
         if (username != null && token != null) {
+            var sessionsOpenRequest = SessionsOpenRequest.builder()
+                    .gameID(gameID)
+                    .username(username)
+                    .userToken(token)
+                    .build();
+            requests.add(sessionsOpenRequest);
             var usersFetchRequest = UsersFetchRequest.builder()
                     .gameID(gameID)
                     .username(username)
@@ -126,19 +131,48 @@ public class Core extends ApplicationAdapter {
             requests.add(getKeysRequest);
         }
         
-        gj.sendBatchRequest(requests, gameID, key, false, false,
+        gj.sendBatchRequest(requests, gameID, key, false, true,
+                new SessionsOpenListener() {
+                    @Override
+                    public void sessionsOpen(SessionsOpenValue value) {
+                        if (!value.success) updateLogLabel("Batch request unsuccessful: " + value.message);
+                    }
+                    
+                    @Override
+                    public void cancelled() {
+                        updateLogLabel("Batch request connection cancelled");
+                    }
+                    
+                    @Override
+                    public void failed(Throwable t) {
+                        updateLogLabel("Batch request failed: " + t.toString());
+                    }
+                },
                 new TimeFetchListener() {
                     @Override
                     public void timeFetch(TimeFetchValue value) {
-                        serverTime = value.toString();
-                        refreshUI();
+                        if (!value.success) updateLogLabel("Batch request unsuccessful: " + value.message);
+                        else {
+                            serverTime = value.toString();
+                            refreshUI();
+                        }
+                    }
+                    
+                    @Override
+                    public void cancelled() {
+                        updateLogLabel("Batch request connection cancelled");
+                    }
+                    
+                    @Override
+                    public void failed(Throwable t) {
+                        updateLogLabel("Batch request failed: " + t.toString());
                     }
                 },
                 new UsersFetchListener() {
                     @Override
                     public void usersFetch(UsersFetchValue value) {
                         if (!value.success || value.users.size == 0) {
-                            logOut();
+                            logoutUser();
                             updateLogLabel("Batch request unsuccessful: " + value.message);
                             return;
                         }
@@ -146,20 +180,22 @@ public class Core extends ApplicationAdapter {
                             avatarRegion = region;
                             refreshUI();
                             updateLogLabel("Logged in!");
+                            pingAction = Actions.forever(Actions.delay(30f, Actions.run(() -> pingSession())));
+                            stage.addAction(pingAction);
                         });
                         refreshUI();
                     }
                     
                     @Override
                     public void cancelled() {
-                        logOut();
+                        logoutUser();
                         refreshUI();
                         updateLogLabel("Batch request connection cancelled");
                     }
                     
                     @Override
                     public void failed(Throwable t) {
-                        logOut();
+                        logoutUser();
                         refreshUI();
                         updateLogLabel("Batch request failed: " + t.toString());
                     }
@@ -201,6 +237,22 @@ public class Core extends ApplicationAdapter {
                         updateLogLabel("Batch request failed: " + t.toString());
                     }
                 });
+    }
+    
+    public void logoutUser() {
+        stage.getRoot().removeAction(pingAction);
+        closeSession();
+        
+        username = null;
+        token = null;
+        highestScore = 0;
+        scoreRank = 0;
+        
+        if (avatarRegion != null) avatarRegion.getTexture().dispose();
+        avatarRegion = null;
+        
+        refreshUI();
+        updateLogLabel("Logged out!");
     }
     
     public void refreshUI() {
@@ -247,7 +299,7 @@ public class Core extends ApplicationAdapter {
             var textButton = new TextButton("Log Out", skin, "link");
             table.add(textButton);
             addHandListener(textButton);
-            onChange(textButton, this::logOut);
+            onChange(textButton, this::logoutUser);
         } else {
             table.defaults().left().space(5);
             label = new Label("Welcome Guest!", skin, "button");
@@ -744,19 +796,6 @@ public class Core extends ApplicationAdapter {
                 () -> personalCheeseLabel.setText("You have been cheesed " + personalCheese + " times!"));
     }
     
-    public void logOut() {
-        username = null;
-        token = null;
-        highestScore = 0;
-        scoreRank = 0;
-        
-        if (avatarRegion != null) avatarRegion.getTexture().dispose();
-        avatarRegion = null;
-        
-        refreshUI();
-        updateLogLabel("Logged out!");
-    }
-    
     public void showLogin() {
         var dialog = new Dialog("", skin);
         var table = dialog.getContentTable();
@@ -785,7 +824,7 @@ public class Core extends ApplicationAdapter {
         onChange(loginButton, () -> {
             username = usernameField.getText();
             token = tokenField.getText();
-            fetchUserData();
+            loginUser();
             dialog.hide();
         });
         usernameField.setTextFieldListener((textField, c) -> {
@@ -803,6 +842,63 @@ public class Core extends ApplicationAdapter {
         
         dialog.show(stage);
         stage.setKeyboardFocus(usernameField);
+    }
+    
+    public void pingSession() {
+        var request = SessionsPingRequest.builder()
+                .gameID(gameID)
+                .username(username)
+                .userToken(token)
+                .status(SessionStatus.ACTIVE)
+                .build();
+        
+        gj.sendRequest(request, key, new SessionsPingListener() {
+            @Override
+            public void sessionsPing(SessionsPingValue value) {
+                if (!value.success) updateLogLabel("SessionsPing unsuccessful: " + value.message);
+                else {
+                    updateLogLabel("Session has been pinged!");
+                }
+            }
+            
+            @Override
+            public void cancelled() {
+                updateLogLabel("SessionsPing connection cancelled");
+            }
+            
+            @Override
+            public void failed(Throwable t) {
+                updateLogLabel("SessionsPing failed: " + t.toString());
+            }
+        });
+    }
+    
+    public void closeSession() {
+        var request = SessionsCloseRequest.builder()
+                .gameID(gameID)
+                .username(username)
+                .userToken(token)
+                .build();
+        
+        gj.sendRequest(request, key, new SessionsCloseListener() {
+            @Override
+            public void sessionsClose(SessionsCloseValue value) {
+                if (!value.success) updateLogLabel("SessionsClose unsuccessful: " + value.message);
+                else {
+                    updateLogLabel("Session has been closed!");
+                }
+            }
+            
+            @Override
+            public void cancelled() {
+                updateLogLabel("SessionsClose connection cancelled");
+            }
+            
+            @Override
+            public void failed(Throwable t) {
+                updateLogLabel("SessionsClose failed: " + t.toString());
+            }
+        });
     }
     
     public ChangeListener onChange(Actor actor, Runnable runnable) {
