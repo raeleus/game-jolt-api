@@ -24,6 +24,7 @@ import com.github.raeleus.gamejoltapi.GameJoltSessions.*;
 import com.github.raeleus.gamejoltapi.GameJoltTime.TimeFetchListener;
 import com.github.raeleus.gamejoltapi.GameJoltTime.TimeFetchRequest;
 import com.github.raeleus.gamejoltapi.GameJoltTime.TimeFetchValue;
+import com.github.raeleus.gamejoltapi.GameJoltTrophies.*;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchListener;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchRequest;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchValue;
@@ -129,6 +130,14 @@ public class Core extends ApplicationAdapter {
                     .userToken(token)
                     .build();
             requests.add(getKeysRequest);
+            
+            var removeTrophyRequest = TrophiesRemoveAchievedRequest.builder()
+                    .gameID(gameID)
+                    .trophyID(222003)
+                    .username(username)
+                    .userToken(token)
+                    .build();
+            requests.add(removeTrophyRequest);
         }
         
         gj.sendBatchRequest(requests, gameID, key, false, true,
@@ -235,6 +244,24 @@ public class Core extends ApplicationAdapter {
                     @Override
                     public void failed(Throwable t) {
                         updateLogLabel("Batch request failed: " + t.toString());
+                    }
+                }, new TrophiesRemoveAchievedListener() {
+                    @Override
+                    public void trophiesRemoveAchieved(TrophiesRemoveAchievedValue value) {
+                        if (!value.success) updateLogLabel("TrophiesRemove unsuccessful: " + value.message);
+                        else {
+                            updateLogLabel("Trophy removed!");
+                        }
+                    }
+                    
+                    @Override
+                    public void cancelled() {
+                        updateLogLabel("TrophiesRemove connection cancelled");
+                    }
+                    
+                    @Override
+                    public void failed(Throwable t) {
+                        updateLogLabel("TrophiesRemove failed: " + t.toString());
                     }
                 });
     }
@@ -427,7 +454,10 @@ public class Core extends ApplicationAdapter {
         onChange(textButton, () -> {
             if (score > 0) {
                 if (score > highestScore) highestScore = score;
-                if (username != null) submitScore();
+                if (username != null) {
+                    submitScore();
+                    awardTrophy();
+                }
                 else showGuestScoreSubmission();
             }
             dialog.hide();
@@ -897,6 +927,35 @@ public class Core extends ApplicationAdapter {
             @Override
             public void failed(Throwable t) {
                 updateLogLabel("SessionsClose failed: " + t.toString());
+            }
+        });
+    }
+    
+    public void awardTrophy() {
+        var request = TrophiesAddAchievedRequest.builder()
+                .gameID(gameID)
+                .trophyID(222003)
+                .username(username)
+                .userToken(token)
+                .build();
+        
+        gj.sendRequest(request, key, new TrophiesAddAchievedListener() {
+            @Override
+            public void trophiesAddAchieved(TrophiesAddAchievedValue value) {
+                if (!value.success) updateLogLabel("TrophiesAdd unsuccessful: " + value.message);
+                else {
+                    updateLogLabel("Trophy awarded!");
+                }
+            }
+            
+            @Override
+            public void cancelled() {
+                updateLogLabel("TrophiesAdd connection cancelled");
+            }
+            
+            @Override
+            public void failed(Throwable t) {
+                updateLogLabel("TrophiesAdd failed: " + t.toString());
             }
         });
     }
