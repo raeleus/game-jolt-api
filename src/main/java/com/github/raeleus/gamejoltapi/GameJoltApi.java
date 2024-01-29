@@ -15,7 +15,6 @@ import com.github.raeleus.gamejoltapi.GameJoltScores.*;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.GameJoltUser;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import lombok.var;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -357,7 +356,8 @@ public class GameJoltApi {
                         }
                     }
                 } else {
-                    var t = new Throwable("Batch request failed:\n" + jsonValue.getString("message", "No error returned from server."));
+                    var responses = jsonValue.get("responses");
+                    var t = new Throwable("Batch request failed:\n" + jsonValue.getString("message", "No error returned from server.") + " \"" + responses.get(responses.size - 1).getString("message", "") + "\"");
                     for (GameJoltListener listener : listeners) {
                         listener.failed(t);
                     }
