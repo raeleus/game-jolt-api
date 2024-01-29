@@ -242,7 +242,7 @@ public class GameJoltTrophies {
          * The ID of the trophy to add for the user. Required.
          */
         @NonNull
-        private String trophyID;
+        private Integer trophyID;
 
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
@@ -254,7 +254,7 @@ public class GameJoltTrophies {
             builder.append("/trophies/add-achieved/?game_id=").append(gameID);
             builder.append("&username=").append(urlEncode(username));
             builder.append("&user_token=").append(urlEncode(userToken));
-            builder.append("&trophy_id=").append(urlEncode(trophyID));
+            builder.append("&trophy_id=").append(trophyID);
 
             return builder.toString();
         }
