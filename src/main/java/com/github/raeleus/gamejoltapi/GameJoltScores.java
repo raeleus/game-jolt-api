@@ -344,7 +344,7 @@ public class GameJoltScores {
 
             var scores = new Array<GameJoltScore>();
             var scoresJsonValue = jsonValue.get("scores");
-            for (JsonValue scoreJsonValue : scoresJsonValue.iterator()) {
+            if (scoresJsonValue != null) for (JsonValue scoreJsonValue : scoresJsonValue.iterator()) {
                 var score = GameJoltScore.builder()
                     .score(scoreJsonValue.getString("score"))
                     .sort(scoreJsonValue.getLong("sort"))
