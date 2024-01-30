@@ -31,7 +31,6 @@ import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchRequest;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.UsersFetchValue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Core extends ApplicationAdapter {
     public Stage stage;
@@ -39,6 +38,7 @@ public class Core extends ApplicationAdapter {
     public SystemCursorListener handListener;
     public SystemCursorListener ibeamListener;
     public Label logLabel;
+    public Label timeLabel;
     public TextTooltip logTooltip;
     public Action pingAction;
     public Table friendsTable;
@@ -342,7 +342,7 @@ public class Core extends ApplicationAdapter {
         table.add(label);
         
         table.row();
-        label = new Label("by Raeleus", skin, "button");
+        label = new Label("for libGDX", skin, "button");
         table.add(label).left();
         
         table = new Table();
@@ -448,8 +448,9 @@ public class Core extends ApplicationAdapter {
         label = new Label("Last server time:", skin);
         button.add(label).space(10);
         
-        label = new Label(serverTime, skin, "time");
-        button.add(label);
+        timeLabel = new Label(serverTime, skin, "time");
+        button.add(timeLabel);
+        onChange(button, this::refreshTime);
     }
     
     public void refreshFriendsTable() {
@@ -486,6 +487,34 @@ public class Core extends ApplicationAdapter {
             @Override
             public void failed(Throwable t) {
                 updateLogLabel("Friends failed: " + t.toString());
+            }
+        });
+    }
+    
+    public void refreshTime() {
+        var request = TimeFetchRequest.builder()
+                .gameID(gameID)
+                .build();
+        
+        gj.sendRequest(request, key, new TimeFetchListener() {
+            @Override
+            public void timeFetch(TimeFetchValue value) {
+                if (!value.success) updateLogLabel("TimeFetch unsuccessful: " + value.message);
+                else {
+                    serverTime = value.toString();
+                    timeLabel.setText(serverTime);
+                    updateLogLabel("Updated server time!");
+                }
+            }
+            
+            @Override
+            public void cancelled() {
+                updateLogLabel("TimeFetch connection cancelled");
+            }
+            
+            @Override
+            public void failed(Throwable t) {
+                updateLogLabel("TimeFetch failed: " + t.toString());
             }
         });
     }
