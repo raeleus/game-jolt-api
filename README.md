@@ -62,5 +62,5 @@ project(":html") {
 
 Add the following inherits line to your GdxDefinition.gwt.xml in the html project:  
 `
-<inherits name="com.ray3k.gamejoltapi" />
+<inherits name="com.github.raeleus.gamejoltapi" />
 `
