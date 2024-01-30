@@ -423,8 +423,8 @@ public class Core extends ApplicationAdapter {
         table.row();
         friendsTable = new Table();
         friendsTable.setBackground(skin.getDrawable("section-10"));
-        friendsTable.top().left();
-        table.add(friendsTable).minWidth(300);
+        friendsTable.top();
+        table.add(friendsTable).minWidth(200);
         
         friendsTable.defaults().space(10);
         
