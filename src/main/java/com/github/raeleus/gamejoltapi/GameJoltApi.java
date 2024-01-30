@@ -12,15 +12,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.StreamUtils;
 import com.github.raeleus.gamejoltapi.GameJoltScores.*;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.GameJoltUser;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -41,19 +37,19 @@ import java.security.NoSuchAlgorithmException;
 public class GameJoltApi {
     private final static String apiURL = "https://api.gamejolt.com/api/game/";
     private final static String version = "v1_2";
-    private MessageDigest crypt;
-    private JsonReader jsonReader;
-
+    private final MessageDigest crypt;
+    private final JsonReader jsonReader;
+    
     public GameJoltApi() {
         try {
             crypt = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-
+        
         jsonReader = new JsonReader();
     }
-
+    
     /**
      * Prompting the user to enter their username and token is usually disruptive to the flow of your game. Game Jolt
      * provides a couple ways to automatically pass your game this information. Executable games launched from the Game
@@ -83,12 +79,12 @@ public class GameJoltApi {
         public String username;
         public String token;
     }
-
+    
     /**
      * A Game Jolt user often has an avatar associated with their account. This can be accessed by your game to
-     * represent their player in your highscores list, for example. This is provided by {@link
-     * GameJoltUser#getAvatarURL()} as a String. This method downloads the image from
-     * the submitted URL and returns the avatar as a texture.
+     * represent their player in your highscores list, for example. This is provided by
+     * {@link GameJoltUser#getAvatarURL()} as a String. This method downloads the image from the submitted URL and
+     * returns the avatar as a texture.
      */
     public void downloadImageUrlAsTextureRegion(String url, GameJoltTextureListener listener) {
         Pixmap.downloadFromUrl(url, new DownloadPixmapResponseListener() {
@@ -113,147 +109,157 @@ public class GameJoltApi {
             }
         });
     }
-
+    
     /**
      * The listener for the {@link GameJoltApi#downloadImageUrlAsTextureRegion(String, GameJoltTextureListener)}.
      */
     public interface GameJoltTextureListener {
         void downloaded(TextureRegion region);
     }
-
+    
     /**
      * Convenience method to add a guest score without having to use the full API.
+     *
      * @param gameID The ID of your game. Required.
-     * @param key The game's private key used to encrypt the request signature. Required.
-     * @param guest The guest user's name. Required.
-     * @param score This is a numerical sorting value associated with the score. All sorting will be based on this
-     *              number. It will also be parsed as a String for the display score. Required.
+     * @param key    The game's private key used to encrypt the request signature. Required.
+     * @param guest  The guest user's name. Required.
+     * @param score  This is a numerical sorting value associated with the score. All sorting will be based on this
+     *               number. It will also be parsed as a String for the display score. Required.
      */
     public void addGuestScore(@NonNull String gameID, @NonNull String key, @NonNull String guest, long score) {
         addGuestScore(gameID, key, guest, score, null, null);
     }
-
+    
     /**
      * Convenience method to add a guest score without having to use the full API.
-     * @param gameID The ID of your game. Required.
-     * @param key The game's private key used to encrypt the request signature. Required.
-     * @param guest The guest user's name. Required.
-     * @param score This is a numerical sorting value associated with the score. All sorting will be based on this
-     *              number. It will also be parsed as a String for the display score. Required.
+     *
+     * @param gameID   The ID of your game. Required.
+     * @param key      The game's private key used to encrypt the request signature. Required.
+     * @param guest    The guest user's name. Required.
+     * @param score    This is a numerical sorting value associated with the score. All sorting will be based on this
+     *                 number. It will also be parsed as a String for the display score. Required.
      * @param listener The listener called when the response is received. Optional.
      */
-    public void addGuestScore(@NonNull String gameID, @NonNull String key, @NonNull String guest, long score, GameJoltListener listener) {
+    public void addGuestScore(@NonNull String gameID, @NonNull String key, @NonNull String guest, long score,
+                              GameJoltListener listener) {
         addGuestScore(gameID, key, guest, score, null, listener);
     }
-
+    
     /**
      * Convenience method to add a guest score without having to use the full API.
-     * @param gameID The ID of your game. Required.
-     * @param key The game's private key used to encrypt the request signature. Required.
-     * @param guest The guest user's name. Required.
-     * @param score This is a numerical sorting value associated with the score. All sorting will be based on this
-     *              number. It will also be parsed as a String for the display score. Required.
-     * @param tableID The ID of the score table to submit to. Optional.
+     *
+     * @param gameID   The ID of your game. Required.
+     * @param key      The game's private key used to encrypt the request signature. Required.
+     * @param guest    The guest user's name. Required.
+     * @param score    This is a numerical sorting value associated with the score. All sorting will be based on this
+     *                 number. It will also be parsed as a String for the display score. Required.
+     * @param tableID  The ID of the score table to submit to. Optional.
      * @param listener The listener called when the response is received. Optional.
      */
-    public void addGuestScore(@NonNull String gameID, @NonNull String key, @NonNull String guest, long score, Integer tableID, GameJoltListener listener) {
+    public void addGuestScore(@NonNull String gameID, @NonNull String key, @NonNull String guest, long score,
+                              Integer tableID, GameJoltListener listener) {
         var request = ScoresAddRequest.builder()
-            .gameID(gameID)
-            .guest(guest)
-            .score(Long.toString(score))
-            .sort(score)
-            .tableID(tableID)
-            .build();
-
+                .gameID(gameID)
+                .guest(guest)
+                .score(Long.toString(score))
+                .sort(score)
+                .tableID(tableID)
+                .build();
+        
         sendRequest(request, key, listener != null ? listener : new ScoresAddListener() {
             @Override
             public void scoresAdd(ScoresAddValue value) {
-
+            
             }
-
+            
             @Override
             public void failed(Throwable t) {
                 throw new RuntimeException(t);
             }
-
+            
             @Override
             public void cancelled() {
                 throw new RuntimeException("Connection cancelled while adding guest score.");
             }
         });
     }
-
+    
     /**
      * Convenience method to retrieve the scores from a score table without having to use the full API.
-     * @param gameID The ID of your game. Required.
-     * @param key The game's private key used to encrypt the request signature. Required.
+     *
+     * @param gameID   The ID of your game. Required.
+     * @param key      The game's private key used to encrypt the request signature. Required.
      * @param listener
      */
     public void downloadScores(@NonNull String gameID, @NonNull String key, @NonNull ScoreListener listener) {
         downloadScores(gameID, key, null, null, listener);
     }
-
+    
     /**
      * Convenience method to retrieve the scores from a score table without having to use the full API.
-     * @param gameID The ID of your game. Required.
-     * @param key The game's private key used to encrypt the request signature. Required.
-     * @param limit The number of scores you'd like to return. The default value is 10 scores. The maximum amount of
-     *              scores you can retrieve is 100. Optional.
+     *
+     * @param gameID   The ID of your game. Required.
+     * @param key      The game's private key used to encrypt the request signature. Required.
+     * @param limit    The number of scores you'd like to return. The default value is 10 scores. The maximum amount of
+     *                 scores you can retrieve is 100. Optional.
      * @param listener
      */
-    public void downloadScores(@NonNull String gameID, @NonNull String key, Integer limit, @NonNull ScoreListener listener) {
+    public void downloadScores(@NonNull String gameID, @NonNull String key, Integer limit,
+                               @NonNull ScoreListener listener) {
         downloadScores(gameID, key, limit, null, listener);
     }
-
+    
     /**
      * Convenience method to retrieve the scores from a score table without having to use the full API.
-     * @param gameID The ID of your game. Required.
-     * @param key The game's private key used to encrypt the request signature. Required.
-     * @param limit The number of scores you'd like to return. The default value is 10 scores. The maximum amount of
-     *              scores you can retrieve is 100. Optional.
-     * @param tableID The ID of the score table. Optional.
+     *
+     * @param gameID   The ID of your game. Required.
+     * @param key      The game's private key used to encrypt the request signature. Required.
+     * @param limit    The number of scores you'd like to return. The default value is 10 scores. The maximum amount of
+     *                 scores you can retrieve is 100. Optional.
+     * @param tableID  The ID of the score table. Optional.
      * @param listener
      */
-    public void downloadScores(@NonNull String gameID, @NonNull String key, Integer limit, Integer tableID, @NonNull ScoreListener listener) {
+    public void downloadScores(@NonNull String gameID, @NonNull String key, Integer limit, Integer tableID,
+                               @NonNull ScoreListener listener) {
         var request = ScoresFetchRequest.builder()
-            .gameID(gameID)
-            .limit(limit)
-            .tableID(tableID)
-            .build();
-
+                .gameID(gameID)
+                .limit(limit)
+                .tableID(tableID)
+                .build();
+        
         sendRequest(request, key, new GameJoltListener() {
             @Override
             public void response(GameJoltRequest request, GameJoltValue value) {
                 var fetchResult = (ScoresFetchValue) value;
                 listener.downloaded(fetchResult.scores);
             }
-
+            
             @Override
             public void failed(Throwable t) {
                 throw new RuntimeException(t);
             }
-
+            
             @Override
             public void cancelled() {
                 throw new RuntimeException("Connection cancelled while downloading scores.");
             }
         });
     }
-
+    
     /**
      * The listener for the {@link GameJoltApi#downloadImageUrlAsTextureRegion(String, GameJoltTextureListener)}.
      */
     public interface ScoreListener {
         void downloaded(Array<GameJoltScore> scores);
     }
-
+    
     /**
      * Sends a single request to the Game Jolt server. When the response is received, the corresponding listener methods
      * are called depending on the result. See <a href="https://gamejolt.com/game-api/doc/construction">Game Jolt API
      * Request Construction</a> for more details.
      *
-     * @param request The {@link GameJoltRequest} describing this API request.
-     * @param key The game's private key used to encrypt the request signature.
+     * @param request  The {@link GameJoltRequest} describing this API request.
+     * @param key      The game's private key used to encrypt the request signature.
      * @param listener The listener called when the response is received.
      */
     public void sendRequest(@NonNull GameJoltRequest request, @NonNull String key, @NonNull GameJoltListener listener) {
@@ -261,7 +267,7 @@ public class GameJoltApi {
         Net.HttpRequest httpRequest = new Net.HttpRequest(HttpMethods.GET);
         String signature = encrypt(url + key);
         httpRequest.setUrl(url + "&signature=" + signature);
-
+        
         Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
@@ -269,19 +275,19 @@ public class GameJoltApi {
                 var jsonValue = jsonReader.parse(response).child();
                 Gdx.app.postRunnable(() -> listener.response(request, request.handleResponse(jsonValue)));
             }
-
+            
             @Override
             public void failed(Throwable t) {
                 listener.failed(t);
             }
-
+            
             @Override
             public void cancelled() {
                 listener.cancelled();
             }
         });
     }
-
+    
     /**
      * Sends a batch of sub-requests to the Game Jolt server. This enables you to send multiple API calls with one HTTP
      * request. When the response is received, the corresponding listener methods are called depending on the result.
@@ -291,18 +297,19 @@ public class GameJoltApi {
      * The maximum amount of sub requests in one batch request is 50. The parallel and breakOnError parameters cannot be
      * used in the same request.
      *
-     * @param requests A list of {@link GameJoltRequest} that will be sent in batch to the Game Jolt server.
-     * @param gameID The ID of your game.
-     * @param key The game's private key used to encrypt the request signature.
-     * @param parallel By default, each sub-request is processed on the servers sequentially. If this is set to true,
-     *                 then all sub-requests are processed at the same time, without waiting for the previous
-     *                 sub-request to finish before the next one is started.
+     * @param requests     A list of {@link GameJoltRequest} that will be sent in batch to the Game Jolt server.
+     * @param gameID       The ID of your game.
+     * @param key          The game's private key used to encrypt the request signature.
+     * @param parallel     By default, each sub-request is processed on the servers sequentially. If this is set to
+     *                     true, then all sub-requests are processed at the same time, without waiting for the previous
+     *                     sub-request to finish before the next one is started.
      * @param breakOnError If this is set to true, one sub-request failure will cause the entire batch to stop
      *                     processing subsequent sub-requests and return a value of false for success.
-     * @param listeners The listeners called when the response is received. Each listener will be called on each
-     *                  request submitted. If any request fails or is cancelled, all listeners will be notified.
+     * @param listeners    The listeners called when the response is received. Each listener will be called on each
+     *                     request submitted. If any request fails or is cancelled, all listeners will be notified.
      */
-    public void sendBatchRequest(@NonNull Array<GameJoltRequest> requests, @NonNull String gameID, @NonNull String key, Boolean parallel, Boolean breakOnError, @NonNull GameJoltListener ... listeners ) {
+    public void sendBatchRequest(@NonNull Array<GameJoltRequest> requests, @NonNull String gameID, @NonNull String key,
+                                 Boolean parallel, Boolean breakOnError, @NonNull GameJoltListener... listeners) {
         StringBuilder url = new StringBuilder(apiURL).append(version).append("/batch/?game_id=").append(gameID);
         if (parallel != null && parallel) url.append("&parallel=").append(parallel);
         else if (breakOnError != null && breakOnError) url.append("&break_on_error=").append(breakOnError);
@@ -313,11 +320,11 @@ public class GameJoltApi {
             subUrl = "&requests[]=" + urlEncode(subUrl);
             url.append(subUrl);
         }
-
+        
         Net.HttpRequest httpRequest = new Net.HttpRequest(HttpMethods.GET);
         String signature = encrypt(url + key);
         httpRequest.setUrl(url + "&signature=" + signature);
-
+        
         Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
@@ -338,20 +345,22 @@ public class GameJoltApi {
                     }
                 } else {
                     var responses = jsonValue.get("responses");
-                    var t = new Throwable("Batch request failed:\n" + jsonValue.getString("message", "No error returned from server.") + " \"" + responses.get(responses.size - 1).getString("message", "") + "\"");
+                    var t = new Throwable("Batch request failed:\n" + jsonValue.getString("message",
+                            "No error returned from server.") + " \"" + responses.get(responses.size - 1)
+                            .getString("message", "") + "\"");
                     for (GameJoltListener listener : listeners) {
                         listener.failed(t);
                     }
                 }
             }
-
+            
             @Override
             public void failed(Throwable t) {
                 for (GameJoltListener listener : listeners) {
                     listener.failed(t);
                 }
             }
-
+            
             @Override
             public void cancelled() {
                 for (GameJoltListener listener : listeners) {
@@ -360,9 +369,10 @@ public class GameJoltApi {
             }
         });
     }
-
+    
     /**
      * Creates an MD5 hash of the provided message.
+     *
      * @param message The message to encrypt.
      * @return The MD5 hash.
      */
@@ -380,15 +390,16 @@ public class GameJoltApi {
             throw new RuntimeException(e);
         }
     }
-
+    
     /**
      * Converts the characters of the provided String into a format that can be transmitted over the internet.
+     *
      * @param string The String to encode.
      * @return The encoded String.
      */
     static String urlEncode(String string) {
         try {
-            return URLEncoder.encode(string, "utf-8").replace("+", "%20");
+            return URLEncoder.encode(string, StandardCharsets.UTF_8).replace("+", "%20");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

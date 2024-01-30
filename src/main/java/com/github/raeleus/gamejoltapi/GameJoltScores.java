@@ -36,51 +36,51 @@ public class GameJoltScores {
     @Getter
     @Setter
     public static class ScoresAddRequest implements GameJoltRequest {
-
+        
         /**
          * The ID of your game. Required.
          */
         @NonNull
         private String gameID;
-
+        
         /**
          * The user's username. Optional.
          */
         private String username;
-
+        
         /**
          * The user's token. Optional.
          */
         private String userToken;
-
+        
         /**
          * The guest's name. Optional.
          */
         private String guest;
-
+        
         /**
          * This is a string value associated with the score. Required.
          */
         @NonNull
         private String score;
-
+        
         /**
          * This is a numerical sorting value associated with the score. All sorting will be based on this number.
          * Required.
          */
         @NonNull
         private Long sort;
-
+        
         /**
          * If there's any extra data you would like to store as a string, you can use this variable. Optional.
          */
         private String extraData;
-
+        
         /**
          * The ID of the score table to submit to. Optional.
          */
         private Integer tableID;
-
+        
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
          * API.
@@ -96,26 +96,27 @@ public class GameJoltScores {
             builder.append("&sort=").append(sort);
             if (extraData != null) builder.append("&extra_data=").append(urlEncode(extraData));
             if (tableID != null) builder.append("&table_id=").append(tableID);
-
+            
             return builder.toString();
         }
-
+        
         /**
          * Handles the server JSON response and returns a corresponding {@link ScoresAddValue}.
+         *
          * @param jsonValue The JSON response from the server.
          * @return The {@link ScoresAddValue} with the values returned from the server.
          */
         @Override
         public ScoresAddValue handleResponse(JsonValue jsonValue) {
             return ScoresAddValue.builder()
-                .jsonValue(jsonValue)
-                .request(this)
-                .success(jsonValue.getBoolean("success"))
-                .message(jsonValue.getString("message", null))
-                .build();
+                    .jsonValue(jsonValue)
+                    .request(this)
+                    .success(jsonValue.getBoolean("success"))
+                    .message(jsonValue.getString("message", null))
+                    .build();
         }
     }
-
+    
     /**
      * The result of adding a score.
      */
@@ -123,7 +124,7 @@ public class GameJoltScores {
     @Getter
     @Setter
     public static class ScoresAddValue implements GameJoltValue {
-
+        
         /**
          * The JSON data from the server response.
          */
@@ -133,31 +134,31 @@ public class GameJoltScores {
          * The request that triggered the response.
          */
         public GameJoltRequest request;
-
+        
         /**
          * Whether the request succeeded or failed.
          */
         public boolean success;
-
+        
         /**
          * If the request was not successful, this contains the error message.
          */
         public String message;
     }
-
+    
     /**
-     * Listener for {@link ScoresAddRequest}. Override {@link ScoresAddListener#scoresAdd(ScoresAddValue)} to
-     * handle the server response.
+     * Listener for {@link ScoresAddRequest}. Override {@link ScoresAddListener#scoresAdd(ScoresAddValue)} to handle the
+     * server response.
      */
     public static abstract class ScoresAddListener extends GameJoltAdapter {
         @Override
         public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof ScoresAddValue) scoresAdd((ScoresAddValue) value);
         }
-
+        
         public abstract void scoresAdd(ScoresAddValue value);
     }
-
+    
     /**
      * Returns the rank of a particular score on a score table. If {@link ScoresGetRankRequest#setTableID(Integer)} is
      * left blank, the ranks from the primary high score table will be returned.
@@ -169,24 +170,24 @@ public class GameJoltScores {
     @Getter
     @Setter
     public static class ScoresGetRankRequest implements GameJoltRequest {
-
+        
         /**
          * The ID of your game. Required.
          */
         @NonNull
         private String gameID;
-
+        
         /**
          * This is a numerical sorting value that is represented by a rank on the score table. Required.
          */
         @NonNull
         private Long sort;
-
+        
         /**
          * The ID of the score table from which you want to get the rank. Optional.
          */
         private Integer tableID;
-
+        
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
          * API.
@@ -197,27 +198,28 @@ public class GameJoltScores {
             builder.append("/scores/get-rank/?game_id=").append(gameID);
             builder.append("&sort=").append(sort);
             if (tableID != null) builder.append("&table_id=").append(tableID);
-
+            
             return builder.toString();
         }
-
+        
         /**
          * Handles the server JSON response and returns a corresponding {@link ScoresGetRankValue}.
+         *
          * @param jsonValue The JSON response from the server.
          * @return The {@link ScoresGetRankValue} with the values returned from the server.
          */
         @Override
         public ScoresGetRankValue handleResponse(JsonValue jsonValue) {
             return ScoresGetRankValue.builder()
-                .jsonValue(jsonValue)
-                .request(this)
-                .success(jsonValue.getBoolean("success"))
-                .message(jsonValue.getString("message", null))
-                .rank(jsonValue.getInt("rank"))
-                .build();
+                    .jsonValue(jsonValue)
+                    .request(this)
+                    .success(jsonValue.getBoolean("success"))
+                    .message(jsonValue.getString("message", null))
+                    .rank(jsonValue.getInt("rank"))
+                    .build();
         }
     }
-
+    
     /**
      * The result of getting the rank of a score.
      */
@@ -225,7 +227,7 @@ public class GameJoltScores {
     @Getter
     @Setter
     public static class ScoresGetRankValue implements GameJoltValue {
-
+        
         /**
          * The JSON data from the server response.
          */
@@ -235,36 +237,36 @@ public class GameJoltScores {
          * The request that triggered the response.
          */
         public GameJoltRequest request;
-
+        
         /**
          * Whether the request succeeded or failed.
          */
         public boolean success;
-
+        
         /**
          * If the request was not successful, this contains the error message.
          */
         public String message;
-
+        
         /**
          * The rank of the score on the score table.
          */
         public int rank;
     }
-
+    
     /**
-     * Listener for {@link ScoresGetRankRequest}. Override {@link ScoresGetRankListener#scoresGetRank(
-     *ScoresGetRankValue)} to handle the server response.
+     * Listener for {@link ScoresGetRankRequest}. Override
+     * {@link ScoresGetRankListener#scoresGetRank(ScoresGetRankValue)} to handle the server response.
      */
     public static abstract class ScoresGetRankListener extends GameJoltAdapter {
         @Override
         public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof ScoresGetRankValue) scoresGetRank((ScoresGetRankValue) value);
         }
-
+        
         public abstract void scoresGetRank(ScoresGetRankValue value);
     }
-
+    
     /**
      * Returns a list of scores either for a user or globally for a game. If
      * {@link ScoresFetchRequest#setTableID(Integer)} is set to null, the scores from the primary score table will be
@@ -284,49 +286,49 @@ public class GameJoltScores {
     @Getter
     @Setter
     public static class ScoresFetchRequest implements GameJoltRequest {
-
+        
         /**
          * The ID of your game. Required.
          */
         @NonNull
         private String gameID;
-
+        
         /**
          * The number of scores you'd like to return. The default value is 10 scores. The maximum amount of scores you
          * can retrieve is 100. Optional.
          */
         private Integer limit;
-
+        
         /**
          * The ID of the score table. Optional.
          */
         private Integer tableID;
-
+        
         /**
          * The user's username. Optional.
          */
         private String username;
-
+        
         /**
          * The user's token. Optional.
          */
         private String userToken;
-
+        
         /**
          * A guest's name. Optional.
          */
         private String guest;
-
+        
         /**
          * Fetch only scores better than this score sort value. Optional.
          */
         private Long betterThan;
-
+        
         /**
          * Fetch only scores worse than this score sort value. Optional.
          */
         private Long worseThan;
-
+        
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
          * API.
@@ -342,44 +344,45 @@ public class GameJoltScores {
             if (guest != null) builder.append("&guest=").append(urlEncode(guest));
             if (betterThan != null) builder.append("&better_than=").append(betterThan);
             if (worseThan != null) builder.append("&worse_than=").append(worseThan);
-
+            
             return builder.toString();
         }
-
+        
         /**
          * Handles the server JSON response and returns a corresponding {@link ScoresFetchValue}.
+         *
          * @param jsonValue The JSON response from the server.
          * @return The {@link ScoresFetchValue} with the values returned from the server.
          */
         @Override
         public ScoresFetchValue handleResponse(JsonValue jsonValue) {
-
+            
             var scores = new Array<GameJoltScore>();
             var scoresJsonValue = jsonValue.get("scores");
             if (scoresJsonValue != null) for (JsonValue scoreJsonValue : scoresJsonValue.iterator()) {
                 var score = GameJoltScore.builder()
-                    .score(scoreJsonValue.getString("score"))
-                    .sort(scoreJsonValue.getLong("sort"))
-                    .extraData(scoreJsonValue.getString("extra_data"))
-                    .user(scoreJsonValue.getString("user"))
-                    .userID(scoreJsonValue.getString("user_id"))
-                    .guest(scoreJsonValue.getString("guest"))
-                    .stored(scoreJsonValue.getString("stored"))
-                    .storedTimestamp(scoreJsonValue.getLong("stored_timestamp"))
-                    .build();
+                        .score(scoreJsonValue.getString("score"))
+                        .sort(scoreJsonValue.getLong("sort"))
+                        .extraData(scoreJsonValue.getString("extra_data"))
+                        .user(scoreJsonValue.getString("user"))
+                        .userID(scoreJsonValue.getString("user_id"))
+                        .guest(scoreJsonValue.getString("guest"))
+                        .stored(scoreJsonValue.getString("stored"))
+                        .storedTimestamp(scoreJsonValue.getLong("stored_timestamp"))
+                        .build();
                 scores.add(score);
             }
-
+            
             return ScoresFetchValue.builder()
-                .jsonValue(jsonValue)
-                .request(this)
-                .success(jsonValue.getBoolean("success"))
-                .message(jsonValue.getString("message", null))
-                .scores(scores)
-                .build();
+                    .jsonValue(jsonValue)
+                    .request(this)
+                    .success(jsonValue.getBoolean("success"))
+                    .message(jsonValue.getString("message", null))
+                    .scores(scores)
+                    .build();
         }
     }
-
+    
     /**
      * The result of fetching scores.
      */
@@ -396,36 +399,36 @@ public class GameJoltScores {
          * The request that triggered the response.
          */
         public GameJoltRequest request;
-
+        
         /**
          * Whether the request succeeded or failed.
          */
         public boolean success;
-
+        
         /**
          * If the request was not successful, this contains the error message.
          */
         public String message;
-
+        
         /**
          * All the scores returned by the request. They can occur multiple times.
          */
         public Array<GameJoltScore> scores;
     }
-
+    
     /**
-     * Listener for {@link ScoresFetchRequest}. Override {@link ScoresFetchListener#scoresFetch(
-     *ScoresFetchValue)} to handle the server response.
+     * Listener for {@link ScoresFetchRequest}. Override {@link ScoresFetchListener#scoresFetch(ScoresFetchValue)} to
+     * handle the server response.
      */
     public static abstract class ScoresFetchListener extends GameJoltAdapter {
         @Override
         public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof ScoresFetchValue) scoresFetch((ScoresFetchValue) value);
         }
-
+        
         public abstract void scoresFetch(ScoresFetchValue value);
     }
-
+    
     /**
      * An individual score as returned by using {@link ScoresFetchValue#getScores()}
      */
@@ -434,48 +437,48 @@ public class GameJoltScores {
     @Setter
     @ToString
     public static class GameJoltScore {
-
+        
         /**
          * The score string.
          */
         public String score;
-
+        
         /**
          * The score's numerical sort value.
          */
         public long sort;
-
+        
         /**
          * Any extra data associated with the score.
          */
         public String extraData;
-
+        
         /**
          * If this is a user score, this is the display name for the user.
          */
         public String user;
-
+        
         /**
          * If this is a user score, this is the user's ID.
          */
         public String userID;
-
+        
         /**
          * If this is a guest score, this is the guest's submitted name.
          */
         public String guest;
-
+        
         /**
          * Returns when the score was logged by the user.
          */
         public String stored;
-
+        
         /**
          * Returns the timestamp (in seconds) of when the score was logged by the user.
          */
         public long storedTimestamp;
     }
-
+    
     /**
      * Returns a list of high score tables for a game.
      */
@@ -483,55 +486,54 @@ public class GameJoltScores {
     @Getter
     @Setter
     public static class ScoresTablesRequest implements GameJoltRequest {
-
+        
         /**
          * The ID of your game. Required.
          */
         @NonNull
         private String gameID;
-
+        
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
          * API.
          */
         @Override
         public String toString() {
-            var builder = new StringBuilder();
-            builder.append("/scores/tables/?game_id=").append(gameID);
-
-            return builder.toString();
+            
+            return "/scores/tables/?game_id=" + gameID;
         }
-
+        
         /**
          * Handles the server JSON response and returns a corresponding {@link ScoresTablesValue}.
+         *
          * @param jsonValue The JSON response from the server.
          * @return The {@link ScoresTablesValue} with the values returned from the server.
          */
         @Override
         public ScoresTablesValue handleResponse(JsonValue jsonValue) {
-
+            
             var tables = new Array<GameJoltTable>();
             var tablesJsonValue = jsonValue.get("tables");
             for (JsonValue tableJsonValue : tablesJsonValue.iterator()) {
                 var table = GameJoltTable.builder()
-                    .id(tableJsonValue.getInt("id"))
-                    .name(tableJsonValue.getString("name"))
-                    .description(tableJsonValue.getString("description"))
-                    .primary(tableJsonValue.getBoolean("primary"))
-                    .build();
+                        .id(tableJsonValue.getInt("id"))
+                        .name(tableJsonValue.getString("name"))
+                        .description(tableJsonValue.getString("description"))
+                        .primary(tableJsonValue.getBoolean("primary"))
+                        .build();
                 tables.add(table);
             }
-
+            
             return ScoresTablesValue.builder()
-                .jsonValue(jsonValue)
-                .request(this)
-                .success(jsonValue.getBoolean("success"))
-                .message(jsonValue.getString("message", null))
-                .tables(tables)
-                .build();
+                    .jsonValue(jsonValue)
+                    .request(this)
+                    .success(jsonValue.getBoolean("success"))
+                    .message(jsonValue.getString("message", null))
+                    .tables(tables)
+                    .build();
         }
     }
-
+    
     /**
      * The list of high score tables.
      */
@@ -539,7 +541,7 @@ public class GameJoltScores {
     @Getter
     @Setter
     public static class ScoresTablesValue implements GameJoltValue {
-
+        
         /**
          * The JSON data from the server response.
          */
@@ -549,36 +551,36 @@ public class GameJoltScores {
          * The request that triggered the response.
          */
         public GameJoltRequest request;
-
+        
         /**
          * Whether the request succeeded or failed.
          */
         public boolean success;
-
+        
         /**
          * If the request was not successful, this contains the error message.
          */
         public String message;
-
+        
         /**
          * The high score tables of the game. They can occur multiple times.
          */
         public Array<GameJoltTable> tables;
     }
-
+    
     /**
-     * Listener for {@link ScoresTablesRequest}. Override {@link ScoresTablesListener#scoresTables(ScoresTablesValue)} to
-     * handle the server response.
+     * Listener for {@link ScoresTablesRequest}. Override {@link ScoresTablesListener#scoresTables(ScoresTablesValue)}
+     * to handle the server response.
      */
     public static abstract class ScoresTablesListener extends GameJoltAdapter {
         @Override
         public void response(GameJoltRequest request, GameJoltValue value) {
             if (value instanceof ScoresTablesValue) scoresTables((ScoresTablesValue) value);
         }
-
+        
         public abstract void scoresTables(ScoresTablesValue value);
     }
-
+    
     /**
      * The high score table value.
      */
@@ -587,22 +589,22 @@ public class GameJoltScores {
     @Setter
     @ToString
     public static class GameJoltTable {
-
+        
         /**
          * The ID of the score table.
          */
         public int id;
-
+        
         /**
          * The developer-defined name of the score table.
          */
         public String name;
-
+        
         /**
          * The developer-defined description of the score table.
          */
         public String description;
-
+        
         /**
          * Whether or not this is the default score table. Scores are submitted to the primary table by default.
          */
