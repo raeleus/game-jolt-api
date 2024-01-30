@@ -92,7 +92,7 @@ public class GameJoltTrophies {
 
             var trophies = new Array<GameJoltTrophy>();
             var trophiesJsonValue = jsonValue.get("trophies");
-            for (var trophyJsonValue : trophiesJsonValue.iterator()) {
+            for (JsonValue trophyJsonValue : trophiesJsonValue.iterator()) {
                 var trophy = GameJoltTrophy.builder()
                     .id(trophyJsonValue.getInt("id"))
                     .title(trophyJsonValue.getString("title"))

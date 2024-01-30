@@ -1,10 +1,12 @@
 package com.github.raeleus.gamejoltapi;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Blending;
+import com.badlogic.gdx.graphics.Pixmap.DownloadPixmapResponseListener;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -67,6 +69,7 @@ public class GameJoltApi {
      * @return The username and token pair. Will return null if no valid file was found.
      */
     public GameJoltUsernameTokenPair autoRetrieveUsernameAndToken() {
+        if (Gdx.app.getType() != ApplicationType.Desktop) return null;
         var file = Gdx.files.local(".gj-credentials");
         if (!file.exists()) return null;
         
@@ -88,22 +91,27 @@ public class GameJoltApi {
      * the submitted URL and returns the avatar as a texture.
      */
     public void downloadImageUrlAsTextureRegion(String url, GameJoltTextureListener listener) {
-        byte[] bytes = new byte[200 * 1024];
-        int numBytes = downloadUrl(bytes, url);
-        if (numBytes != 0) {
-            Pixmap pixmap = new Pixmap(bytes, 0, numBytes);
-            int width = MathUtils.nextPowerOfTwo(pixmap.getWidth());
-            int height = MathUtils.nextPowerOfTwo(pixmap.getHeight());
-            final Pixmap potPixmap = new Pixmap(width, height, pixmap.getFormat());
-            potPixmap.setBlending(Blending.None);
-            potPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
-            pixmap.dispose();
-            Gdx.app.postRunnable(() -> {
-                var texture = new Texture(potPixmap);
-                var region = new TextureRegion(texture, pixmap.getWidth(), pixmap.getHeight());
-                listener.downloaded(region);
-            });
-        }
+        Pixmap.downloadFromUrl(url, new DownloadPixmapResponseListener() {
+            @Override
+            public void downloadComplete(Pixmap pixmap) {
+                int width = MathUtils.nextPowerOfTwo(pixmap.getWidth());
+                int height = MathUtils.nextPowerOfTwo(pixmap.getHeight());
+                final Pixmap potPixmap = new Pixmap(width, height, pixmap.getFormat());
+                potPixmap.setBlending(Blending.None);
+                potPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
+                pixmap.dispose();
+                Gdx.app.postRunnable(() -> {
+                    var texture = new Texture(potPixmap);
+                    var region = new TextureRegion(texture, pixmap.getWidth(), pixmap.getHeight());
+                    listener.downloaded(region);
+                });
+            }
+            
+            @Override
+            public void downloadFailed(Throwable t) {
+                throw new RuntimeException(t);
+            }
+        });
     }
 
     /**
@@ -111,33 +119,6 @@ public class GameJoltApi {
      */
     public interface GameJoltTextureListener {
         void downloaded(TextureRegion region);
-    }
-
-    /**
-     * Downloads a URL to the provided byte array. Ensure that the array is large enough to accomodate the size of the
-     * file.
-     */
-    private int downloadUrl(byte[] out, String url) {
-        InputStream in = null;
-        try {
-            HttpURLConnection conn = (HttpURLConnection)new URL(url).openConnection();
-            conn.setDoInput(true);
-            conn.setDoOutput(false);
-            conn.setUseCaches(true);
-            conn.connect();
-            in = conn.getInputStream();
-            int readBytes = 0;
-            while (true) {
-                int length = in.read(out, readBytes, out.length - readBytes);
-                if (length == -1) break;
-                readBytes += length;
-            }
-            return readBytes;
-        } catch (Exception ex) {
-            return 0;
-        } finally {
-            StreamUtils.closeQuietly(in);
-        }
     }
 
     /**

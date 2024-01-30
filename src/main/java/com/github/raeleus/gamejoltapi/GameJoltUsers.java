@@ -182,7 +182,7 @@ public class GameJoltUsers {
             var users = new Array<GameJoltUser>();
             if (jsonValue.has("users")) {
                 var usersJsonValue = jsonValue.get("users");
-                for (var userJsonValue : usersJsonValue.iterator()) {
+                for (JsonValue userJsonValue : usersJsonValue.iterator()) {
                     var user = GameJoltUser.builder()
                             .id(userJsonValue.getInt("id"))
                             .type(UserType.valueOf(userJsonValue.getString("type").toUpperCase(Locale.ROOT)))
