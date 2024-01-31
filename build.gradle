@@ -35,7 +35,7 @@ if (JavaVersion.current().isJava8Compatible()) {
 
 compileJava {
     sourceCompatibility = 11
-    targetCompatibility = 8
+    targetCompatibility = 11
     if (JavaVersion.current().isJava9Compatible()) {
         options.release.set(11)
     }
@@ -43,7 +43,7 @@ compileJava {
 
 compileTestJava {
     sourceCompatibility = 11
-    targetCompatibility = 8
+    targetCompatibility = 11
     if (JavaVersion.current().isJava9Compatible()) {
         options.release.set(11)
     }
