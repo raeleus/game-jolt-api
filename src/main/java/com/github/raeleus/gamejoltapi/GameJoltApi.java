@@ -399,7 +399,7 @@ public class GameJoltApi {
      */
     static String urlEncode(String string) {
         try {
-            return URLEncoder.encode(string, StandardCharsets.UTF_8).replace("+", "%20");
+            return URLEncoder.encode(string, StandardCharsets.UTF_8.toString()).replace("+", "%20");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
