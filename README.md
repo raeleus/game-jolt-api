@@ -1,3 +1,5 @@
+![Game Jolt API Github](https://github.com/raeleus/game-jolt-api/assets/12948924/52d59e01-1579-4c63-8bc1-9885071fe61a)
+
 # Game Jolt API
 
 A library that allows the user to access the gamejolt.com API with libGDX.
