@@ -147,7 +147,7 @@ public class GameJoltApi {
      */
     public void addGuestScore(@NonNull String gameID, @NonNull String key, @NonNull String guest, long score,
                               GameJoltListener listener) {
-        addGuestScore(gameID, key, guest, score, null, listener);
+        addGuestScore(gameID, key, guest, Long.toString(score), score, null, listener);
     }
     
     /**
@@ -163,11 +163,28 @@ public class GameJoltApi {
      */
     public void addGuestScore(@NonNull String gameID, @NonNull String key, @NonNull String guest, long score,
                               Integer tableID, GameJoltListener listener) {
+        addGuestScore(gameID, key, guest, Long.toString(score), score, tableID, listener);
+    }
+    
+    /**
+     * Convenience method to add a guest score without having to use the full API.
+     *
+     * @param gameID   The ID of your game. Required.
+     * @param key      The game's private key used to encrypt the request signature. Required.
+     * @param guest    The guest user's name. Required.
+     * @param score    The display score shown on Game Jolt high-score table. Required.
+     * @param sort     This is a numerical sorting value associated with the score. All sorting will be based on this
+     *                 number. Required.
+     * @param tableID  The ID of the score table to submit to. Optional.
+     * @param listener The listener called when the response is received. Optional.
+     */
+    public void addGuestScore(@NonNull String gameID, @NonNull String key, @NonNull String guest, @NonNull String score,
+                              long sort, Integer tableID, GameJoltListener listener) {
         ScoresAddRequest request = ScoresAddRequest.builder()
                 .gameID(gameID)
                 .guest(guest)
-                .score(Long.toString(score))
-                .sort(score)
+                .score(score)
+                .sort(sort)
                 .tableID(tableID)
                 .build();
         
