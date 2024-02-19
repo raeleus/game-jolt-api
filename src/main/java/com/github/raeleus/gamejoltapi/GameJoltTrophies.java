@@ -2,8 +2,10 @@ package com.github.raeleus.gamejoltapi;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
-import lombok.*;
+import lombok.NonNull;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,9 +27,6 @@ public class GameJoltTrophies {
     /**
      * Returns one trophy or multiple trophies, depending on the parameters passed in.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class TrophiesFetchRequest implements GameJoltRequest {
         
         /**
@@ -57,8 +56,20 @@ public class GameJoltTrophies {
         /**
          * The ID's of the trophies you'd like to fetch. Optional.
          */
-        @Singular
         private List<Integer> trophyIDs;
+        
+        TrophiesFetchRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken,
+                             Boolean achieved, List<Integer> trophyIDs) {
+            this.gameID = gameID;
+            this.username = username;
+            this.userToken = userToken;
+            this.achieved = achieved;
+            this.trophyIDs = trophyIDs;
+        }
+        
+        public static TrophiesFetchRequestBuilder builder() {
+            return new TrophiesFetchRequestBuilder();
+        }
         
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
@@ -113,14 +124,123 @@ public class GameJoltTrophies {
                     .message(jsonValue.getString("message", null))
                     .build();
         }
+        
+        public @NonNull String getGameID() {
+            return this.gameID;
+        }
+        
+        public @NonNull String getUsername() {
+            return this.username;
+        }
+        
+        public @NonNull String getUserToken() {
+            return this.userToken;
+        }
+        
+        public Boolean getAchieved() {
+            return this.achieved;
+        }
+        
+        public List<Integer> getTrophyIDs() {
+            return this.trophyIDs;
+        }
+        
+        public void setGameID(@NonNull String gameID) {
+            this.gameID = gameID;
+        }
+        
+        public void setUsername(@NonNull String username) {
+            this.username = username;
+        }
+        
+        public void setUserToken(@NonNull String userToken) {
+            this.userToken = userToken;
+        }
+        
+        public void setAchieved(Boolean achieved) {
+            this.achieved = achieved;
+        }
+        
+        public void setTrophyIDs(List<Integer> trophyIDs) {
+            this.trophyIDs = trophyIDs;
+        }
+        
+        public static class TrophiesFetchRequestBuilder {
+            private @NonNull String gameID;
+            private @NonNull String username;
+            private @NonNull String userToken;
+            private Boolean achieved;
+            private ArrayList<Integer> trophyIDs;
+            
+            TrophiesFetchRequestBuilder() {
+            }
+            
+            public TrophiesFetchRequestBuilder gameID(@NonNull String gameID) {
+                this.gameID = gameID;
+                return this;
+            }
+            
+            public TrophiesFetchRequestBuilder username(@NonNull String username) {
+                this.username = username;
+                return this;
+            }
+            
+            public TrophiesFetchRequestBuilder userToken(@NonNull String userToken) {
+                this.userToken = userToken;
+                return this;
+            }
+            
+            public TrophiesFetchRequestBuilder achieved(Boolean achieved) {
+                this.achieved = achieved;
+                return this;
+            }
+            
+            public TrophiesFetchRequestBuilder trophyID(Integer trophyID) {
+                if (this.trophyIDs == null) this.trophyIDs = new ArrayList<Integer>();
+                this.trophyIDs.add(trophyID);
+                return this;
+            }
+            
+            public TrophiesFetchRequestBuilder trophyIDs(Collection<? extends Integer> trophyIDs) {
+                if (trophyIDs == null) {
+                    throw new NullPointerException("trophyIDs cannot be null");
+                }
+                if (this.trophyIDs == null) this.trophyIDs = new ArrayList<Integer>();
+                this.trophyIDs.addAll(trophyIDs);
+                return this;
+            }
+            
+            public TrophiesFetchRequestBuilder clearTrophyIDs() {
+                if (this.trophyIDs != null)
+                    this.trophyIDs.clear();
+                return this;
+            }
+            
+            public TrophiesFetchRequest build() {
+                List<Integer> trophyIDs;
+                switch (this.trophyIDs == null ? 0 : this.trophyIDs.size()) {
+                    case 0:
+                        trophyIDs = java.util.Collections.emptyList();
+                        break;
+                    case 1:
+                        trophyIDs = java.util.Collections.singletonList(this.trophyIDs.get(0));
+                        break;
+                    default:
+                        trophyIDs = java.util.Collections.unmodifiableList(new ArrayList<Integer>(this.trophyIDs));
+                }
+                
+                return new TrophiesFetchRequest(this.gameID, this.username, this.userToken, this.achieved, trophyIDs);
+            }
+            
+            public String toString() {
+                return "GameJoltTrophies.TrophiesFetchRequest.TrophiesFetchRequestBuilder(gameID=" + this.gameID + ", username=" + this.username + ", userToken=" + this.userToken + ", achieved=" + this.achieved + ", trophyIDs=" + this.trophyIDs + ")";
+            }
+        }
     }
     
     /**
      * The result of fetching the trophies.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class TrophiesFetchValue implements GameJoltValue {
         
         /**
@@ -147,6 +267,103 @@ public class GameJoltTrophies {
          * The list of trophies returned from the fetch.
          */
         public Array<GameJoltTrophy> trophies;
+        
+        TrophiesFetchValue(JsonValue jsonValue, GameJoltRequest request, boolean success, String message,
+                           Array<GameJoltTrophy> trophies) {
+            this.jsonValue = jsonValue;
+            this.request = request;
+            this.success = success;
+            this.message = message;
+            this.trophies = trophies;
+        }
+        
+        public static TrophiesFetchValueBuilder builder() {
+            return new TrophiesFetchValueBuilder();
+        }
+        
+        public JsonValue getJsonValue() {
+            return this.jsonValue;
+        }
+        
+        public GameJoltRequest getRequest() {
+            return this.request;
+        }
+        
+        public boolean isSuccess() {
+            return this.success;
+        }
+        
+        public String getMessage() {
+            return this.message;
+        }
+        
+        public Array<GameJoltTrophy> getTrophies() {
+            return this.trophies;
+        }
+        
+        public void setJsonValue(JsonValue jsonValue) {
+            this.jsonValue = jsonValue;
+        }
+        
+        public void setRequest(GameJoltRequest request) {
+            this.request = request;
+        }
+        
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+        
+        public void setMessage(String message) {
+            this.message = message;
+        }
+        
+        public void setTrophies(Array<GameJoltTrophy> trophies) {
+            this.trophies = trophies;
+        }
+        
+        public static class TrophiesFetchValueBuilder {
+            private JsonValue jsonValue;
+            private GameJoltRequest request;
+            private boolean success;
+            private String message;
+            private Array<GameJoltTrophy> trophies;
+            
+            TrophiesFetchValueBuilder() {
+            }
+            
+            public TrophiesFetchValueBuilder jsonValue(JsonValue jsonValue) {
+                this.jsonValue = jsonValue;
+                return this;
+            }
+            
+            public TrophiesFetchValueBuilder request(GameJoltRequest request) {
+                this.request = request;
+                return this;
+            }
+            
+            public TrophiesFetchValueBuilder success(boolean success) {
+                this.success = success;
+                return this;
+            }
+            
+            public TrophiesFetchValueBuilder message(String message) {
+                this.message = message;
+                return this;
+            }
+            
+            public TrophiesFetchValueBuilder trophies(Array<GameJoltTrophy> trophies) {
+                this.trophies = trophies;
+                return this;
+            }
+            
+            public TrophiesFetchValue build() {
+                return new TrophiesFetchValue(this.jsonValue, this.request, this.success, this.message, this.trophies);
+            }
+            
+            public String toString() {
+                return "GameJoltTrophies.TrophiesFetchValue.TrophiesFetchValueBuilder(jsonValue=" + this.jsonValue + ", request=" + this.request + ", success=" + this.success + ", message=" + this.message + ", trophies=" + this.trophies + ")";
+            }
+        }
     }
     
     /**
@@ -165,9 +382,6 @@ public class GameJoltTrophies {
     /**
      * The trophy data.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class GameJoltTrophy {
         
         /**
@@ -199,6 +413,119 @@ public class GameJoltTrophies {
          * Date/time when the trophy was achieved by the user. Null if it hasn't been achieved.
          */
         public String achieved;
+        
+        GameJoltTrophy(int id, String title, String description, TrophyDifficulty difficulty, String imageURL,
+                       String achieved) {
+            this.id = id;
+            this.title = title;
+            this.description = description;
+            this.difficulty = difficulty;
+            this.imageURL = imageURL;
+            this.achieved = achieved;
+        }
+        
+        public static GameJoltTrophyBuilder builder() {
+            return new GameJoltTrophyBuilder();
+        }
+        
+        public int getId() {
+            return this.id;
+        }
+        
+        public String getTitle() {
+            return this.title;
+        }
+        
+        public String getDescription() {
+            return this.description;
+        }
+        
+        public TrophyDifficulty getDifficulty() {
+            return this.difficulty;
+        }
+        
+        public String getImageURL() {
+            return this.imageURL;
+        }
+        
+        public String getAchieved() {
+            return this.achieved;
+        }
+        
+        public void setId(int id) {
+            this.id = id;
+        }
+        
+        public void setTitle(String title) {
+            this.title = title;
+        }
+        
+        public void setDescription(String description) {
+            this.description = description;
+        }
+        
+        public void setDifficulty(TrophyDifficulty difficulty) {
+            this.difficulty = difficulty;
+        }
+        
+        public void setImageURL(String imageURL) {
+            this.imageURL = imageURL;
+        }
+        
+        public void setAchieved(String achieved) {
+            this.achieved = achieved;
+        }
+        
+        public static class GameJoltTrophyBuilder {
+            private int id;
+            private String title;
+            private String description;
+            private TrophyDifficulty difficulty;
+            private String imageURL;
+            private String achieved;
+            
+            GameJoltTrophyBuilder() {
+            }
+            
+            public GameJoltTrophyBuilder id(int id) {
+                this.id = id;
+                return this;
+            }
+            
+            public GameJoltTrophyBuilder title(String title) {
+                this.title = title;
+                return this;
+            }
+            
+            public GameJoltTrophyBuilder description(String description) {
+                this.description = description;
+                return this;
+            }
+            
+            public GameJoltTrophyBuilder difficulty(TrophyDifficulty difficulty) {
+                this.difficulty = difficulty;
+                return this;
+            }
+            
+            public GameJoltTrophyBuilder imageURL(String imageURL) {
+                this.imageURL = imageURL;
+                return this;
+            }
+            
+            public GameJoltTrophyBuilder achieved(String achieved) {
+                this.achieved = achieved;
+                return this;
+            }
+            
+            public GameJoltTrophy build() {
+                return new GameJoltTrophy(this.id, this.title, this.description, this.difficulty, this.imageURL,
+                        this.achieved);
+            }
+            
+            public String toString() {
+                return "GameJoltTrophies.GameJoltTrophy.GameJoltTrophyBuilder(id=" + this.id + ", title=" + this.title + ", description=" + this.description + ", difficulty=" + this.difficulty + ", imageURL=" + this.imageURL + ", achieved=" + this.achieved + ")";
+            }
+        }
     }
     
     /**
@@ -217,9 +544,6 @@ public class GameJoltTrophies {
     /**
      * Sets a trophy as achieved for a particular user.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class TrophiesAddAchievedRequest implements GameJoltRequest {
         
         /**
@@ -245,6 +569,18 @@ public class GameJoltTrophies {
          */
         @NonNull
         private Integer trophyID;
+        
+        TrophiesAddAchievedRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken,
+                                   @NonNull Integer trophyID) {
+            this.gameID = gameID;
+            this.username = username;
+            this.userToken = userToken;
+            this.trophyID = trophyID;
+        }
+        
+        public static TrophiesAddAchievedRequestBuilder builder() {
+            return new TrophiesAddAchievedRequestBuilder();
+        }
         
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
@@ -275,14 +611,81 @@ public class GameJoltTrophies {
                     .message(jsonValue.getString("message", null))
                     .build();
         }
+        
+        public @NonNull String getGameID() {
+            return this.gameID;
+        }
+        
+        public @NonNull String getUsername() {
+            return this.username;
+        }
+        
+        public @NonNull String getUserToken() {
+            return this.userToken;
+        }
+        
+        public @NonNull Integer getTrophyID() {
+            return this.trophyID;
+        }
+        
+        public void setGameID(@NonNull String gameID) {
+            this.gameID = gameID;
+        }
+        
+        public void setUsername(@NonNull String username) {
+            this.username = username;
+        }
+        
+        public void setUserToken(@NonNull String userToken) {
+            this.userToken = userToken;
+        }
+        
+        public void setTrophyID(@NonNull Integer trophyID) {
+            this.trophyID = trophyID;
+        }
+        
+        public static class TrophiesAddAchievedRequestBuilder {
+            private @NonNull String gameID;
+            private @NonNull String username;
+            private @NonNull String userToken;
+            private @NonNull Integer trophyID;
+            
+            TrophiesAddAchievedRequestBuilder() {
+            }
+            
+            public TrophiesAddAchievedRequestBuilder gameID(@NonNull String gameID) {
+                this.gameID = gameID;
+                return this;
+            }
+            
+            public TrophiesAddAchievedRequestBuilder username(@NonNull String username) {
+                this.username = username;
+                return this;
+            }
+            
+            public TrophiesAddAchievedRequestBuilder userToken(@NonNull String userToken) {
+                this.userToken = userToken;
+                return this;
+            }
+            
+            public TrophiesAddAchievedRequestBuilder trophyID(@NonNull Integer trophyID) {
+                this.trophyID = trophyID;
+                return this;
+            }
+            
+            public TrophiesAddAchievedRequest build() {
+                return new TrophiesAddAchievedRequest(this.gameID, this.username, this.userToken, this.trophyID);
+            }
+            
+            public String toString() {
+                return "GameJoltTrophies.TrophiesAddAchievedRequest.TrophiesAddAchievedRequestBuilder(gameID=" + this.gameID + ", username=" + this.username + ", userToken=" + this.userToken + ", trophyID=" + this.trophyID + ")";
+            }
+        }
     }
     
     /**
      * The result of adding an achieved trophy.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class TrophiesAddAchievedValue implements GameJoltValue {
         
         /**
@@ -304,6 +707,87 @@ public class GameJoltTrophies {
          * If the request was not successful, this contains the error message.
          */
         public String message;
+        
+        TrophiesAddAchievedValue(JsonValue jsonValue, GameJoltRequest request, boolean success, String message) {
+            this.jsonValue = jsonValue;
+            this.request = request;
+            this.success = success;
+            this.message = message;
+        }
+        
+        public static TrophiesAddAchievedValueBuilder builder() {
+            return new TrophiesAddAchievedValueBuilder();
+        }
+        
+        public JsonValue getJsonValue() {
+            return this.jsonValue;
+        }
+        
+        public GameJoltRequest getRequest() {
+            return this.request;
+        }
+        
+        public boolean isSuccess() {
+            return this.success;
+        }
+        
+        public String getMessage() {
+            return this.message;
+        }
+        
+        public void setJsonValue(JsonValue jsonValue) {
+            this.jsonValue = jsonValue;
+        }
+        
+        public void setRequest(GameJoltRequest request) {
+            this.request = request;
+        }
+        
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+        
+        public void setMessage(String message) {
+            this.message = message;
+        }
+        
+        public static class TrophiesAddAchievedValueBuilder {
+            private JsonValue jsonValue;
+            private GameJoltRequest request;
+            private boolean success;
+            private String message;
+            
+            TrophiesAddAchievedValueBuilder() {
+            }
+            
+            public TrophiesAddAchievedValueBuilder jsonValue(JsonValue jsonValue) {
+                this.jsonValue = jsonValue;
+                return this;
+            }
+            
+            public TrophiesAddAchievedValueBuilder request(GameJoltRequest request) {
+                this.request = request;
+                return this;
+            }
+            
+            public TrophiesAddAchievedValueBuilder success(boolean success) {
+                this.success = success;
+                return this;
+            }
+            
+            public TrophiesAddAchievedValueBuilder message(String message) {
+                this.message = message;
+                return this;
+            }
+            
+            public TrophiesAddAchievedValue build() {
+                return new TrophiesAddAchievedValue(this.jsonValue, this.request, this.success, this.message);
+            }
+            
+            public String toString() {
+                return "GameJoltTrophies.TrophiesAddAchievedValue.TrophiesAddAchievedValueBuilder(jsonValue=" + this.jsonValue + ", request=" + this.request + ", success=" + this.success + ", message=" + this.message + ")";
+            }
+        }
     }
     
     /**
@@ -322,9 +806,6 @@ public class GameJoltTrophies {
     /**
      * Remove a previously achieved trophy for a particular user.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class TrophiesRemoveAchievedRequest implements GameJoltRequest {
         
         /**
@@ -350,6 +831,18 @@ public class GameJoltTrophies {
          */
         @NonNull
         private Integer trophyID;
+        
+        TrophiesRemoveAchievedRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken,
+                                      @NonNull Integer trophyID) {
+            this.gameID = gameID;
+            this.username = username;
+            this.userToken = userToken;
+            this.trophyID = trophyID;
+        }
+        
+        public static TrophiesRemoveAchievedRequestBuilder builder() {
+            return new TrophiesRemoveAchievedRequestBuilder();
+        }
         
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
@@ -380,14 +873,81 @@ public class GameJoltTrophies {
                     .message(jsonValue.getString("message", null))
                     .build();
         }
+        
+        public @NonNull String getGameID() {
+            return this.gameID;
+        }
+        
+        public @NonNull String getUsername() {
+            return this.username;
+        }
+        
+        public @NonNull String getUserToken() {
+            return this.userToken;
+        }
+        
+        public @NonNull Integer getTrophyID() {
+            return this.trophyID;
+        }
+        
+        public void setGameID(@NonNull String gameID) {
+            this.gameID = gameID;
+        }
+        
+        public void setUsername(@NonNull String username) {
+            this.username = username;
+        }
+        
+        public void setUserToken(@NonNull String userToken) {
+            this.userToken = userToken;
+        }
+        
+        public void setTrophyID(@NonNull Integer trophyID) {
+            this.trophyID = trophyID;
+        }
+        
+        public static class TrophiesRemoveAchievedRequestBuilder {
+            private @NonNull String gameID;
+            private @NonNull String username;
+            private @NonNull String userToken;
+            private @NonNull Integer trophyID;
+            
+            TrophiesRemoveAchievedRequestBuilder() {
+            }
+            
+            public TrophiesRemoveAchievedRequestBuilder gameID(@NonNull String gameID) {
+                this.gameID = gameID;
+                return this;
+            }
+            
+            public TrophiesRemoveAchievedRequestBuilder username(@NonNull String username) {
+                this.username = username;
+                return this;
+            }
+            
+            public TrophiesRemoveAchievedRequestBuilder userToken(@NonNull String userToken) {
+                this.userToken = userToken;
+                return this;
+            }
+            
+            public TrophiesRemoveAchievedRequestBuilder trophyID(@NonNull Integer trophyID) {
+                this.trophyID = trophyID;
+                return this;
+            }
+            
+            public TrophiesRemoveAchievedRequest build() {
+                return new TrophiesRemoveAchievedRequest(this.gameID, this.username, this.userToken, this.trophyID);
+            }
+            
+            public String toString() {
+                return "GameJoltTrophies.TrophiesRemoveAchievedRequest.TrophiesRemoveAchievedRequestBuilder(gameID=" + this.gameID + ", username=" + this.username + ", userToken=" + this.userToken + ", trophyID=" + this.trophyID + ")";
+            }
+        }
     }
     
     /**
      * The result of removing a previously achieved trophy.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class TrophiesRemoveAchievedValue implements GameJoltValue {
         
         /**
@@ -409,6 +969,87 @@ public class GameJoltTrophies {
          * If the request was not successful, this contains the error message.
          */
         public String message;
+        
+        TrophiesRemoveAchievedValue(JsonValue jsonValue, GameJoltRequest request, boolean success, String message) {
+            this.jsonValue = jsonValue;
+            this.request = request;
+            this.success = success;
+            this.message = message;
+        }
+        
+        public static TrophiesRemoveAchievedValueBuilder builder() {
+            return new TrophiesRemoveAchievedValueBuilder();
+        }
+        
+        public JsonValue getJsonValue() {
+            return this.jsonValue;
+        }
+        
+        public GameJoltRequest getRequest() {
+            return this.request;
+        }
+        
+        public boolean isSuccess() {
+            return this.success;
+        }
+        
+        public String getMessage() {
+            return this.message;
+        }
+        
+        public void setJsonValue(JsonValue jsonValue) {
+            this.jsonValue = jsonValue;
+        }
+        
+        public void setRequest(GameJoltRequest request) {
+            this.request = request;
+        }
+        
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+        
+        public void setMessage(String message) {
+            this.message = message;
+        }
+        
+        public static class TrophiesRemoveAchievedValueBuilder {
+            private JsonValue jsonValue;
+            private GameJoltRequest request;
+            private boolean success;
+            private String message;
+            
+            TrophiesRemoveAchievedValueBuilder() {
+            }
+            
+            public TrophiesRemoveAchievedValueBuilder jsonValue(JsonValue jsonValue) {
+                this.jsonValue = jsonValue;
+                return this;
+            }
+            
+            public TrophiesRemoveAchievedValueBuilder request(GameJoltRequest request) {
+                this.request = request;
+                return this;
+            }
+            
+            public TrophiesRemoveAchievedValueBuilder success(boolean success) {
+                this.success = success;
+                return this;
+            }
+            
+            public TrophiesRemoveAchievedValueBuilder message(String message) {
+                this.message = message;
+                return this;
+            }
+            
+            public TrophiesRemoveAchievedValue build() {
+                return new TrophiesRemoveAchievedValue(this.jsonValue, this.request, this.success, this.message);
+            }
+            
+            public String toString() {
+                return "GameJoltTrophies.TrophiesRemoveAchievedValue.TrophiesRemoveAchievedValueBuilder(jsonValue=" + this.jsonValue + ", request=" + this.request + ", success=" + this.success + ", message=" + this.message + ")";
+            }
+        }
     }
     
     /**

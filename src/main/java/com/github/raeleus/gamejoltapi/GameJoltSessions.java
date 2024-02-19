@@ -1,10 +1,7 @@
 package com.github.raeleus.gamejoltapi;
 
 import com.badlogic.gdx.utils.JsonValue;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 import static com.github.raeleus.gamejoltapi.GameJoltApi.urlEncode;
 
@@ -20,9 +17,6 @@ public class GameJoltSessions {
      * You can only have one open session for a user at a time. If you try to open a new session while one is running,
      * the system will close out the current one before opening the new one.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class SessionsOpenRequest implements GameJoltRequest {
         
         /**
@@ -42,6 +36,16 @@ public class GameJoltSessions {
          */
         @NonNull
         private String userToken;
+        
+        SessionsOpenRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken) {
+            this.gameID = gameID;
+            this.username = username;
+            this.userToken = userToken;
+        }
+        
+        public static SessionsOpenRequestBuilder builder() {
+            return new SessionsOpenRequestBuilder();
+        }
         
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
@@ -71,14 +75,67 @@ public class GameJoltSessions {
                     .message(jsonValue.getString("message", null))
                     .build();
         }
+        
+        public @NonNull String getGameID() {
+            return this.gameID;
+        }
+        
+        public @NonNull String getUsername() {
+            return this.username;
+        }
+        
+        public @NonNull String getUserToken() {
+            return this.userToken;
+        }
+        
+        public void setGameID(@NonNull String gameID) {
+            this.gameID = gameID;
+        }
+        
+        public void setUsername(@NonNull String username) {
+            this.username = username;
+        }
+        
+        public void setUserToken(@NonNull String userToken) {
+            this.userToken = userToken;
+        }
+        
+        public static class SessionsOpenRequestBuilder {
+            private @NonNull String gameID;
+            private @NonNull String username;
+            private @NonNull String userToken;
+            
+            SessionsOpenRequestBuilder() {
+            }
+            
+            public SessionsOpenRequestBuilder gameID(@NonNull String gameID) {
+                this.gameID = gameID;
+                return this;
+            }
+            
+            public SessionsOpenRequestBuilder username(@NonNull String username) {
+                this.username = username;
+                return this;
+            }
+            
+            public SessionsOpenRequestBuilder userToken(@NonNull String userToken) {
+                this.userToken = userToken;
+                return this;
+            }
+            
+            public SessionsOpenRequest build() {
+                return new SessionsOpenRequest(this.gameID, this.username, this.userToken);
+            }
+            
+            public String toString() {
+                return "GameJoltSessions.SessionsOpenRequest.SessionsOpenRequestBuilder(gameID=" + this.gameID + ", username=" + this.username + ", userToken=" + this.userToken + ")";
+            }
+        }
     }
     
     /**
      * The result of opening a game session.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class SessionsOpenValue implements GameJoltValue {
         
         /**
@@ -100,6 +157,87 @@ public class GameJoltSessions {
          * If the request was not successful, this contains the error message.
          */
         public String message;
+        
+        SessionsOpenValue(JsonValue jsonValue, GameJoltRequest request, boolean success, String message) {
+            this.jsonValue = jsonValue;
+            this.request = request;
+            this.success = success;
+            this.message = message;
+        }
+        
+        public static SessionsOpenValueBuilder builder() {
+            return new SessionsOpenValueBuilder();
+        }
+        
+        public JsonValue getJsonValue() {
+            return this.jsonValue;
+        }
+        
+        public GameJoltRequest getRequest() {
+            return this.request;
+        }
+        
+        public boolean isSuccess() {
+            return this.success;
+        }
+        
+        public String getMessage() {
+            return this.message;
+        }
+        
+        public void setJsonValue(JsonValue jsonValue) {
+            this.jsonValue = jsonValue;
+        }
+        
+        public void setRequest(GameJoltRequest request) {
+            this.request = request;
+        }
+        
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+        
+        public void setMessage(String message) {
+            this.message = message;
+        }
+        
+        public static class SessionsOpenValueBuilder {
+            private JsonValue jsonValue;
+            private GameJoltRequest request;
+            private boolean success;
+            private String message;
+            
+            SessionsOpenValueBuilder() {
+            }
+            
+            public SessionsOpenValueBuilder jsonValue(JsonValue jsonValue) {
+                this.jsonValue = jsonValue;
+                return this;
+            }
+            
+            public SessionsOpenValueBuilder request(GameJoltRequest request) {
+                this.request = request;
+                return this;
+            }
+            
+            public SessionsOpenValueBuilder success(boolean success) {
+                this.success = success;
+                return this;
+            }
+            
+            public SessionsOpenValueBuilder message(String message) {
+                this.message = message;
+                return this;
+            }
+            
+            public SessionsOpenValue build() {
+                return new SessionsOpenValue(this.jsonValue, this.request, this.success, this.message);
+            }
+            
+            public String toString() {
+                return "GameJoltSessions.SessionsOpenValue.SessionsOpenValueBuilder(jsonValue=" + this.jsonValue + ", request=" + this.request + ", success=" + this.success + ", message=" + this.message + ")";
+            }
+        }
     }
     
     /**
@@ -122,9 +260,6 @@ public class GameJoltSessions {
      * <p>
      * You can also let the system know whether the player is in an active or idle state within your game.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class SessionsPingRequest implements GameJoltRequest {
         
         /**
@@ -149,6 +284,18 @@ public class GameJoltSessions {
          * Sets the status of the session. Optional.
          */
         private SessionStatus status;
+        
+        SessionsPingRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken,
+                            SessionStatus status) {
+            this.gameID = gameID;
+            this.username = username;
+            this.userToken = userToken;
+            this.status = status;
+        }
+        
+        public static SessionsPingRequestBuilder builder() {
+            return new SessionsPingRequestBuilder();
+        }
         
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
@@ -178,6 +325,76 @@ public class GameJoltSessions {
                     .message(jsonValue.getString("message", null))
                     .build();
         }
+        
+        public @NonNull String getGameID() {
+            return this.gameID;
+        }
+        
+        public @NonNull String getUsername() {
+            return this.username;
+        }
+        
+        public @NonNull String getUserToken() {
+            return this.userToken;
+        }
+        
+        public SessionStatus getStatus() {
+            return this.status;
+        }
+        
+        public void setGameID(@NonNull String gameID) {
+            this.gameID = gameID;
+        }
+        
+        public void setUsername(@NonNull String username) {
+            this.username = username;
+        }
+        
+        public void setUserToken(@NonNull String userToken) {
+            this.userToken = userToken;
+        }
+        
+        public void setStatus(SessionStatus status) {
+            this.status = status;
+        }
+        
+        public static class SessionsPingRequestBuilder {
+            private @NonNull String gameID;
+            private @NonNull String username;
+            private @NonNull String userToken;
+            private SessionStatus status;
+            
+            SessionsPingRequestBuilder() {
+            }
+            
+            public SessionsPingRequestBuilder gameID(@NonNull String gameID) {
+                this.gameID = gameID;
+                return this;
+            }
+            
+            public SessionsPingRequestBuilder username(@NonNull String username) {
+                this.username = username;
+                return this;
+            }
+            
+            public SessionsPingRequestBuilder userToken(@NonNull String userToken) {
+                this.userToken = userToken;
+                return this;
+            }
+            
+            public SessionsPingRequestBuilder status(SessionStatus status) {
+                this.status = status;
+                return this;
+            }
+            
+            public SessionsPingRequest build() {
+                return new SessionsPingRequest(this.gameID, this.username, this.userToken, this.status);
+            }
+            
+            public String toString() {
+                return "GameJoltSessions.SessionsPingRequest.SessionsPingRequestBuilder(gameID=" + this.gameID + ", username=" + this.username + ", userToken=" + this.userToken + ", status=" + this.status + ")";
+            }
+        }
     }
     
     public enum SessionStatus {
@@ -200,9 +417,6 @@ public class GameJoltSessions {
     /**
      * The result of pinging the session.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class SessionsPingValue implements GameJoltValue {
         
         /**
@@ -224,6 +438,87 @@ public class GameJoltSessions {
          * If the request was not successful, this contains the error message.
          */
         public String message;
+        
+        SessionsPingValue(JsonValue jsonValue, GameJoltRequest request, boolean success, String message) {
+            this.jsonValue = jsonValue;
+            this.request = request;
+            this.success = success;
+            this.message = message;
+        }
+        
+        public static SessionsPingValueBuilder builder() {
+            return new SessionsPingValueBuilder();
+        }
+        
+        public JsonValue getJsonValue() {
+            return this.jsonValue;
+        }
+        
+        public GameJoltRequest getRequest() {
+            return this.request;
+        }
+        
+        public boolean isSuccess() {
+            return this.success;
+        }
+        
+        public String getMessage() {
+            return this.message;
+        }
+        
+        public void setJsonValue(JsonValue jsonValue) {
+            this.jsonValue = jsonValue;
+        }
+        
+        public void setRequest(GameJoltRequest request) {
+            this.request = request;
+        }
+        
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+        
+        public void setMessage(String message) {
+            this.message = message;
+        }
+        
+        public static class SessionsPingValueBuilder {
+            private JsonValue jsonValue;
+            private GameJoltRequest request;
+            private boolean success;
+            private String message;
+            
+            SessionsPingValueBuilder() {
+            }
+            
+            public SessionsPingValueBuilder jsonValue(JsonValue jsonValue) {
+                this.jsonValue = jsonValue;
+                return this;
+            }
+            
+            public SessionsPingValueBuilder request(GameJoltRequest request) {
+                this.request = request;
+                return this;
+            }
+            
+            public SessionsPingValueBuilder success(boolean success) {
+                this.success = success;
+                return this;
+            }
+            
+            public SessionsPingValueBuilder message(String message) {
+                this.message = message;
+                return this;
+            }
+            
+            public SessionsPingValue build() {
+                return new SessionsPingValue(this.jsonValue, this.request, this.success, this.message);
+            }
+            
+            public String toString() {
+                return "GameJoltSessions.SessionsPingValue.SessionsPingValueBuilder(jsonValue=" + this.jsonValue + ", request=" + this.request + ", success=" + this.success + ", message=" + this.message + ")";
+            }
+        }
     }
     
     /**
@@ -243,9 +538,6 @@ public class GameJoltSessions {
      * Checks to see if there is an open session for the user. Can be used to see if a particular user account is active
      * in the game.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class SessionsCheckRequest implements GameJoltRequest {
         
         /**
@@ -265,6 +557,16 @@ public class GameJoltSessions {
          */
         @NonNull
         private String userToken;
+        
+        SessionsCheckRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken) {
+            this.gameID = gameID;
+            this.username = username;
+            this.userToken = userToken;
+        }
+        
+        public static SessionsCheckRequestBuilder builder() {
+            return new SessionsCheckRequestBuilder();
+        }
         
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
@@ -294,14 +596,67 @@ public class GameJoltSessions {
                     .message(jsonValue.getString("message", null))
                     .build();
         }
+        
+        public @NonNull String getGameID() {
+            return this.gameID;
+        }
+        
+        public @NonNull String getUsername() {
+            return this.username;
+        }
+        
+        public @NonNull String getUserToken() {
+            return this.userToken;
+        }
+        
+        public void setGameID(@NonNull String gameID) {
+            this.gameID = gameID;
+        }
+        
+        public void setUsername(@NonNull String username) {
+            this.username = username;
+        }
+        
+        public void setUserToken(@NonNull String userToken) {
+            this.userToken = userToken;
+        }
+        
+        public static class SessionsCheckRequestBuilder {
+            private @NonNull String gameID;
+            private @NonNull String username;
+            private @NonNull String userToken;
+            
+            SessionsCheckRequestBuilder() {
+            }
+            
+            public SessionsCheckRequestBuilder gameID(@NonNull String gameID) {
+                this.gameID = gameID;
+                return this;
+            }
+            
+            public SessionsCheckRequestBuilder username(@NonNull String username) {
+                this.username = username;
+                return this;
+            }
+            
+            public SessionsCheckRequestBuilder userToken(@NonNull String userToken) {
+                this.userToken = userToken;
+                return this;
+            }
+            
+            public SessionsCheckRequest build() {
+                return new SessionsCheckRequest(this.gameID, this.username, this.userToken);
+            }
+            
+            public String toString() {
+                return "GameJoltSessions.SessionsCheckRequest.SessionsCheckRequestBuilder(gameID=" + this.gameID + ", username=" + this.username + ", userToken=" + this.userToken + ")";
+            }
+        }
     }
     
     /**
      * The result of opening a session.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class SessionsCheckValue implements GameJoltValue {
         
         /**
@@ -323,6 +678,87 @@ public class GameJoltSessions {
          * If the request was not successful, this contains the error message.
          */
         public String message;
+        
+        SessionsCheckValue(JsonValue jsonValue, GameJoltRequest request, boolean success, String message) {
+            this.jsonValue = jsonValue;
+            this.request = request;
+            this.success = success;
+            this.message = message;
+        }
+        
+        public static SessionsCheckValueBuilder builder() {
+            return new SessionsCheckValueBuilder();
+        }
+        
+        public JsonValue getJsonValue() {
+            return this.jsonValue;
+        }
+        
+        public GameJoltRequest getRequest() {
+            return this.request;
+        }
+        
+        public boolean isSuccess() {
+            return this.success;
+        }
+        
+        public String getMessage() {
+            return this.message;
+        }
+        
+        public void setJsonValue(JsonValue jsonValue) {
+            this.jsonValue = jsonValue;
+        }
+        
+        public void setRequest(GameJoltRequest request) {
+            this.request = request;
+        }
+        
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+        
+        public void setMessage(String message) {
+            this.message = message;
+        }
+        
+        public static class SessionsCheckValueBuilder {
+            private JsonValue jsonValue;
+            private GameJoltRequest request;
+            private boolean success;
+            private String message;
+            
+            SessionsCheckValueBuilder() {
+            }
+            
+            public SessionsCheckValueBuilder jsonValue(JsonValue jsonValue) {
+                this.jsonValue = jsonValue;
+                return this;
+            }
+            
+            public SessionsCheckValueBuilder request(GameJoltRequest request) {
+                this.request = request;
+                return this;
+            }
+            
+            public SessionsCheckValueBuilder success(boolean success) {
+                this.success = success;
+                return this;
+            }
+            
+            public SessionsCheckValueBuilder message(String message) {
+                this.message = message;
+                return this;
+            }
+            
+            public SessionsCheckValue build() {
+                return new SessionsCheckValue(this.jsonValue, this.request, this.success, this.message);
+            }
+            
+            public String toString() {
+                return "GameJoltSessions.SessionsCheckValue.SessionsCheckValueBuilder(jsonValue=" + this.jsonValue + ", request=" + this.request + ", success=" + this.success + ", message=" + this.message + ")";
+            }
+        }
     }
     
     /**
@@ -341,9 +777,6 @@ public class GameJoltSessions {
     /**
      * Closes the active session.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class SessionsCloseRequest implements GameJoltRequest {
         
         /**
@@ -363,6 +796,16 @@ public class GameJoltSessions {
          */
         @NonNull
         private String userToken;
+        
+        SessionsCloseRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken) {
+            this.gameID = gameID;
+            this.username = username;
+            this.userToken = userToken;
+        }
+        
+        public static SessionsCloseRequestBuilder builder() {
+            return new SessionsCloseRequestBuilder();
+        }
         
         @Override
         public String toString() {
@@ -388,14 +831,67 @@ public class GameJoltSessions {
                     .message(jsonValue.getString("message", null))
                     .build();
         }
+        
+        public @NonNull String getGameID() {
+            return this.gameID;
+        }
+        
+        public @NonNull String getUsername() {
+            return this.username;
+        }
+        
+        public @NonNull String getUserToken() {
+            return this.userToken;
+        }
+        
+        public void setGameID(@NonNull String gameID) {
+            this.gameID = gameID;
+        }
+        
+        public void setUsername(@NonNull String username) {
+            this.username = username;
+        }
+        
+        public void setUserToken(@NonNull String userToken) {
+            this.userToken = userToken;
+        }
+        
+        public static class SessionsCloseRequestBuilder {
+            private @NonNull String gameID;
+            private @NonNull String username;
+            private @NonNull String userToken;
+            
+            SessionsCloseRequestBuilder() {
+            }
+            
+            public SessionsCloseRequestBuilder gameID(@NonNull String gameID) {
+                this.gameID = gameID;
+                return this;
+            }
+            
+            public SessionsCloseRequestBuilder username(@NonNull String username) {
+                this.username = username;
+                return this;
+            }
+            
+            public SessionsCloseRequestBuilder userToken(@NonNull String userToken) {
+                this.userToken = userToken;
+                return this;
+            }
+            
+            public SessionsCloseRequest build() {
+                return new SessionsCloseRequest(this.gameID, this.username, this.userToken);
+            }
+            
+            public String toString() {
+                return "GameJoltSessions.SessionsCloseRequest.SessionsCloseRequestBuilder(gameID=" + this.gameID + ", username=" + this.username + ", userToken=" + this.userToken + ")";
+            }
+        }
     }
     
     /**
      * The result of closing the active session.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class SessionsCloseValue implements GameJoltValue {
         
         /**
@@ -417,6 +913,87 @@ public class GameJoltSessions {
          * If the request was not successful, this contains the error message.
          */
         public String message;
+        
+        SessionsCloseValue(JsonValue jsonValue, GameJoltRequest request, boolean success, String message) {
+            this.jsonValue = jsonValue;
+            this.request = request;
+            this.success = success;
+            this.message = message;
+        }
+        
+        public static SessionsCloseValueBuilder builder() {
+            return new SessionsCloseValueBuilder();
+        }
+        
+        public JsonValue getJsonValue() {
+            return this.jsonValue;
+        }
+        
+        public GameJoltRequest getRequest() {
+            return this.request;
+        }
+        
+        public boolean isSuccess() {
+            return this.success;
+        }
+        
+        public String getMessage() {
+            return this.message;
+        }
+        
+        public void setJsonValue(JsonValue jsonValue) {
+            this.jsonValue = jsonValue;
+        }
+        
+        public void setRequest(GameJoltRequest request) {
+            this.request = request;
+        }
+        
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+        
+        public void setMessage(String message) {
+            this.message = message;
+        }
+        
+        public static class SessionsCloseValueBuilder {
+            private JsonValue jsonValue;
+            private GameJoltRequest request;
+            private boolean success;
+            private String message;
+            
+            SessionsCloseValueBuilder() {
+            }
+            
+            public SessionsCloseValueBuilder jsonValue(JsonValue jsonValue) {
+                this.jsonValue = jsonValue;
+                return this;
+            }
+            
+            public SessionsCloseValueBuilder request(GameJoltRequest request) {
+                this.request = request;
+                return this;
+            }
+            
+            public SessionsCloseValueBuilder success(boolean success) {
+                this.success = success;
+                return this;
+            }
+            
+            public SessionsCloseValueBuilder message(String message) {
+                this.message = message;
+                return this;
+            }
+            
+            public SessionsCloseValue build() {
+                return new SessionsCloseValue(this.jsonValue, this.request, this.success, this.message);
+            }
+            
+            public String toString() {
+                return "GameJoltSessions.SessionsCloseValue.SessionsCloseValueBuilder(jsonValue=" + this.jsonValue + ", request=" + this.request + ", success=" + this.success + ", message=" + this.message + ")";
+            }
+        }
     }
     
     /**

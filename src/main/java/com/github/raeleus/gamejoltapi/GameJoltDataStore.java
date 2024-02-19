@@ -2,10 +2,7 @@ package com.github.raeleus.gamejoltapi;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 import static com.github.raeleus.gamejoltapi.GameJoltApi.urlEncode;
 
@@ -19,9 +16,6 @@ public class GameJoltDataStore {
      * Returns data from the data store. Data can be fetched for an individual user or from the global game store. To
      * access the global game store, leave username and userToken as null.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class DataStoreFetchRequest implements GameJoltRequest {
         /**
          * The ID of your game. Required.
@@ -45,6 +39,17 @@ public class GameJoltDataStore {
          * The user’s token. Optional.
          */
         private String userToken;
+        
+        DataStoreFetchRequest(@NonNull String gameID, @NonNull String key, String username, String userToken) {
+            this.gameID = gameID;
+            this.key = key;
+            this.username = username;
+            this.userToken = userToken;
+        }
+        
+        public static DataStoreFetchRequestBuilder builder() {
+            return new DataStoreFetchRequestBuilder();
+        }
         
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
@@ -77,14 +82,81 @@ public class GameJoltDataStore {
                     .data(jsonValue.getString("data"))
                     .build();
         }
+        
+        public @NonNull String getGameID() {
+            return this.gameID;
+        }
+        
+        public @NonNull String getKey() {
+            return this.key;
+        }
+        
+        public String getUsername() {
+            return this.username;
+        }
+        
+        public String getUserToken() {
+            return this.userToken;
+        }
+        
+        public void setGameID(@NonNull String gameID) {
+            this.gameID = gameID;
+        }
+        
+        public void setKey(@NonNull String key) {
+            this.key = key;
+        }
+        
+        public void setUsername(String username) {
+            this.username = username;
+        }
+        
+        public void setUserToken(String userToken) {
+            this.userToken = userToken;
+        }
+        
+        public static class DataStoreFetchRequestBuilder {
+            private @NonNull String gameID;
+            private @NonNull String key;
+            private String username;
+            private String userToken;
+            
+            DataStoreFetchRequestBuilder() {
+            }
+            
+            public DataStoreFetchRequestBuilder gameID(@NonNull String gameID) {
+                this.gameID = gameID;
+                return this;
+            }
+            
+            public DataStoreFetchRequestBuilder key(@NonNull String key) {
+                this.key = key;
+                return this;
+            }
+            
+            public DataStoreFetchRequestBuilder username(String username) {
+                this.username = username;
+                return this;
+            }
+            
+            public DataStoreFetchRequestBuilder userToken(String userToken) {
+                this.userToken = userToken;
+                return this;
+            }
+            
+            public DataStoreFetchRequest build() {
+                return new DataStoreFetchRequest(this.gameID, this.key, this.username, this.userToken);
+            }
+            
+            public String toString() {
+                return "GameJoltDataStore.DataStoreFetchRequest.DataStoreFetchRequestBuilder(gameID=" + this.gameID + ", key=" + this.key + ", username=" + this.username + ", userToken=" + this.userToken + ")";
+            }
+        }
     }
     
     /**
      * The returned data from the data store
      */
-    @Builder
-    @Getter
-    @Setter
     public static class DataStoreFetchValue implements GameJoltValue {
         /**
          * The JSON data from the server response.
@@ -110,6 +182,103 @@ public class GameJoltDataStore {
          * If the request was successful, this contains the item's data.
          */
         public String data;
+        
+        DataStoreFetchValue(JsonValue jsonValue, GameJoltRequest request, boolean success, String message,
+                            String data) {
+            this.jsonValue = jsonValue;
+            this.request = request;
+            this.success = success;
+            this.message = message;
+            this.data = data;
+        }
+        
+        public static DataStoreFetchValueBuilder builder() {
+            return new DataStoreFetchValueBuilder();
+        }
+        
+        public JsonValue getJsonValue() {
+            return this.jsonValue;
+        }
+        
+        public GameJoltRequest getRequest() {
+            return this.request;
+        }
+        
+        public boolean isSuccess() {
+            return this.success;
+        }
+        
+        public String getMessage() {
+            return this.message;
+        }
+        
+        public String getData() {
+            return this.data;
+        }
+        
+        public void setJsonValue(JsonValue jsonValue) {
+            this.jsonValue = jsonValue;
+        }
+        
+        public void setRequest(GameJoltRequest request) {
+            this.request = request;
+        }
+        
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+        
+        public void setMessage(String message) {
+            this.message = message;
+        }
+        
+        public void setData(String data) {
+            this.data = data;
+        }
+        
+        public static class DataStoreFetchValueBuilder {
+            private JsonValue jsonValue;
+            private GameJoltRequest request;
+            private boolean success;
+            private String message;
+            private String data;
+            
+            DataStoreFetchValueBuilder() {
+            }
+            
+            public DataStoreFetchValueBuilder jsonValue(JsonValue jsonValue) {
+                this.jsonValue = jsonValue;
+                return this;
+            }
+            
+            public DataStoreFetchValueBuilder request(GameJoltRequest request) {
+                this.request = request;
+                return this;
+            }
+            
+            public DataStoreFetchValueBuilder success(boolean success) {
+                this.success = success;
+                return this;
+            }
+            
+            public DataStoreFetchValueBuilder message(String message) {
+                this.message = message;
+                return this;
+            }
+            
+            public DataStoreFetchValueBuilder data(String data) {
+                this.data = data;
+                return this;
+            }
+            
+            public DataStoreFetchValue build() {
+                return new DataStoreFetchValue(this.jsonValue, this.request, this.success, this.message, this.data);
+            }
+            
+            public String toString() {
+                return "GameJoltDataStore.DataStoreFetchValue.DataStoreFetchValueBuilder(jsonValue=" + this.jsonValue + ", request=" + this.request + ", success=" + this.success + ", message=" + this.message + ", data=" + this.data + ")";
+            }
+        }
     }
     
     /**
@@ -133,9 +302,6 @@ public class GameJoltDataStore {
      * <p>
      * This request will return a list of the key values. The key return value can appear more than once.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class DataStoreGetKeysRequest implements GameJoltRequest {
         /**
          * The ID of your game. Required.
@@ -157,6 +323,17 @@ public class GameJoltDataStore {
          * The user's token. Optional.
          */
         private String userToken;
+        
+        DataStoreGetKeysRequest(@NonNull String gameID, String pattern, String username, String userToken) {
+            this.gameID = gameID;
+            this.pattern = pattern;
+            this.username = username;
+            this.userToken = userToken;
+        }
+        
+        public static DataStoreGetKeysRequestBuilder builder() {
+            return new DataStoreGetKeysRequestBuilder();
+        }
         
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
@@ -194,14 +371,81 @@ public class GameJoltDataStore {
                     .keys(keys)
                     .build();
         }
+        
+        public @NonNull String getGameID() {
+            return this.gameID;
+        }
+        
+        public String getPattern() {
+            return this.pattern;
+        }
+        
+        public String getUsername() {
+            return this.username;
+        }
+        
+        public String getUserToken() {
+            return this.userToken;
+        }
+        
+        public void setGameID(@NonNull String gameID) {
+            this.gameID = gameID;
+        }
+        
+        public void setPattern(String pattern) {
+            this.pattern = pattern;
+        }
+        
+        public void setUsername(String username) {
+            this.username = username;
+        }
+        
+        public void setUserToken(String userToken) {
+            this.userToken = userToken;
+        }
+        
+        public static class DataStoreGetKeysRequestBuilder {
+            private @NonNull String gameID;
+            private String pattern;
+            private String username;
+            private String userToken;
+            
+            DataStoreGetKeysRequestBuilder() {
+            }
+            
+            public DataStoreGetKeysRequestBuilder gameID(@NonNull String gameID) {
+                this.gameID = gameID;
+                return this;
+            }
+            
+            public DataStoreGetKeysRequestBuilder pattern(String pattern) {
+                this.pattern = pattern;
+                return this;
+            }
+            
+            public DataStoreGetKeysRequestBuilder username(String username) {
+                this.username = username;
+                return this;
+            }
+            
+            public DataStoreGetKeysRequestBuilder userToken(String userToken) {
+                this.userToken = userToken;
+                return this;
+            }
+            
+            public DataStoreGetKeysRequest build() {
+                return new DataStoreGetKeysRequest(this.gameID, this.pattern, this.username, this.userToken);
+            }
+            
+            public String toString() {
+                return "GameJoltDataStore.DataStoreGetKeysRequest.DataStoreGetKeysRequestBuilder(gameID=" + this.gameID + ", pattern=" + this.pattern + ", username=" + this.username + ", userToken=" + this.userToken + ")";
+            }
+        }
     }
     
     /**
      * The returned keys from the data store.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class DataStoreGetKeysValue implements GameJoltValue {
         
         /**
@@ -228,6 +472,103 @@ public class GameJoltDataStore {
          * The name of the key. This function will return all the keys for this particular data store.
          */
         public Array<String> keys;
+        
+        DataStoreGetKeysValue(JsonValue jsonValue, GameJoltRequest request, boolean success, String message,
+                              Array<String> keys) {
+            this.jsonValue = jsonValue;
+            this.request = request;
+            this.success = success;
+            this.message = message;
+            this.keys = keys;
+        }
+        
+        public static DataStoreGetKeysValueBuilder builder() {
+            return new DataStoreGetKeysValueBuilder();
+        }
+        
+        public JsonValue getJsonValue() {
+            return this.jsonValue;
+        }
+        
+        public GameJoltRequest getRequest() {
+            return this.request;
+        }
+        
+        public boolean isSuccess() {
+            return this.success;
+        }
+        
+        public String getMessage() {
+            return this.message;
+        }
+        
+        public Array<String> getKeys() {
+            return this.keys;
+        }
+        
+        public void setJsonValue(JsonValue jsonValue) {
+            this.jsonValue = jsonValue;
+        }
+        
+        public void setRequest(GameJoltRequest request) {
+            this.request = request;
+        }
+        
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+        
+        public void setMessage(String message) {
+            this.message = message;
+        }
+        
+        public void setKeys(Array<String> keys) {
+            this.keys = keys;
+        }
+        
+        public static class DataStoreGetKeysValueBuilder {
+            private JsonValue jsonValue;
+            private GameJoltRequest request;
+            private boolean success;
+            private String message;
+            private Array<String> keys;
+            
+            DataStoreGetKeysValueBuilder() {
+            }
+            
+            public DataStoreGetKeysValueBuilder jsonValue(JsonValue jsonValue) {
+                this.jsonValue = jsonValue;
+                return this;
+            }
+            
+            public DataStoreGetKeysValueBuilder request(GameJoltRequest request) {
+                this.request = request;
+                return this;
+            }
+            
+            public DataStoreGetKeysValueBuilder success(boolean success) {
+                this.success = success;
+                return this;
+            }
+            
+            public DataStoreGetKeysValueBuilder message(String message) {
+                this.message = message;
+                return this;
+            }
+            
+            public DataStoreGetKeysValueBuilder keys(Array<String> keys) {
+                this.keys = keys;
+                return this;
+            }
+            
+            public DataStoreGetKeysValue build() {
+                return new DataStoreGetKeysValue(this.jsonValue, this.request, this.success, this.message, this.keys);
+            }
+            
+            public String toString() {
+                return "GameJoltDataStore.DataStoreGetKeysValue.DataStoreGetKeysValueBuilder(jsonValue=" + this.jsonValue + ", request=" + this.request + ", success=" + this.success + ", message=" + this.message + ", keys=" + this.keys + ")";
+            }
+        }
     }
     
     
@@ -249,9 +590,6 @@ public class GameJoltDataStore {
      * Removes data from the data store. If you pass in the user information, the item will be removed from a user's
      * data store. If you leave the user information empty, it will be removed from the game's global data store.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class DataStoreRemoveRequest implements GameJoltRequest {
         
         /**
@@ -275,6 +613,17 @@ public class GameJoltDataStore {
          * The user's token. Optional.
          */
         private String userToken;
+        
+        DataStoreRemoveRequest(@NonNull String gameID, @NonNull String key, String username, String userToken) {
+            this.gameID = gameID;
+            this.key = key;
+            this.username = username;
+            this.userToken = userToken;
+        }
+        
+        public static DataStoreRemoveRequestBuilder builder() {
+            return new DataStoreRemoveRequestBuilder();
+        }
         
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
@@ -306,14 +655,81 @@ public class GameJoltDataStore {
                     .message(jsonValue.getString("message", null))
                     .build();
         }
+        
+        public @NonNull String getGameID() {
+            return this.gameID;
+        }
+        
+        public @NonNull String getKey() {
+            return this.key;
+        }
+        
+        public String getUsername() {
+            return this.username;
+        }
+        
+        public String getUserToken() {
+            return this.userToken;
+        }
+        
+        public void setGameID(@NonNull String gameID) {
+            this.gameID = gameID;
+        }
+        
+        public void setKey(@NonNull String key) {
+            this.key = key;
+        }
+        
+        public void setUsername(String username) {
+            this.username = username;
+        }
+        
+        public void setUserToken(String userToken) {
+            this.userToken = userToken;
+        }
+        
+        public static class DataStoreRemoveRequestBuilder {
+            private @NonNull String gameID;
+            private @NonNull String key;
+            private String username;
+            private String userToken;
+            
+            DataStoreRemoveRequestBuilder() {
+            }
+            
+            public DataStoreRemoveRequestBuilder gameID(@NonNull String gameID) {
+                this.gameID = gameID;
+                return this;
+            }
+            
+            public DataStoreRemoveRequestBuilder key(@NonNull String key) {
+                this.key = key;
+                return this;
+            }
+            
+            public DataStoreRemoveRequestBuilder username(String username) {
+                this.username = username;
+                return this;
+            }
+            
+            public DataStoreRemoveRequestBuilder userToken(String userToken) {
+                this.userToken = userToken;
+                return this;
+            }
+            
+            public DataStoreRemoveRequest build() {
+                return new DataStoreRemoveRequest(this.gameID, this.key, this.username, this.userToken);
+            }
+            
+            public String toString() {
+                return "GameJoltDataStore.DataStoreRemoveRequest.DataStoreRemoveRequestBuilder(gameID=" + this.gameID + ", key=" + this.key + ", username=" + this.username + ", userToken=" + this.userToken + ")";
+            }
+        }
     }
     
     /**
      * The result of removing data from the data store.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class DataStoreRemoveValue implements GameJoltValue {
         
         /**
@@ -335,6 +751,87 @@ public class GameJoltDataStore {
          * If the request was not successful, this contains the error message.
          */
         public String message;
+        
+        DataStoreRemoveValue(JsonValue jsonValue, GameJoltRequest request, boolean success, String message) {
+            this.jsonValue = jsonValue;
+            this.request = request;
+            this.success = success;
+            this.message = message;
+        }
+        
+        public static DataStoreRemoveValueBuilder builder() {
+            return new DataStoreRemoveValueBuilder();
+        }
+        
+        public JsonValue getJsonValue() {
+            return this.jsonValue;
+        }
+        
+        public GameJoltRequest getRequest() {
+            return this.request;
+        }
+        
+        public boolean isSuccess() {
+            return this.success;
+        }
+        
+        public String getMessage() {
+            return this.message;
+        }
+        
+        public void setJsonValue(JsonValue jsonValue) {
+            this.jsonValue = jsonValue;
+        }
+        
+        public void setRequest(GameJoltRequest request) {
+            this.request = request;
+        }
+        
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+        
+        public void setMessage(String message) {
+            this.message = message;
+        }
+        
+        public static class DataStoreRemoveValueBuilder {
+            private JsonValue jsonValue;
+            private GameJoltRequest request;
+            private boolean success;
+            private String message;
+            
+            DataStoreRemoveValueBuilder() {
+            }
+            
+            public DataStoreRemoveValueBuilder jsonValue(JsonValue jsonValue) {
+                this.jsonValue = jsonValue;
+                return this;
+            }
+            
+            public DataStoreRemoveValueBuilder request(GameJoltRequest request) {
+                this.request = request;
+                return this;
+            }
+            
+            public DataStoreRemoveValueBuilder success(boolean success) {
+                this.success = success;
+                return this;
+            }
+            
+            public DataStoreRemoveValueBuilder message(String message) {
+                this.message = message;
+                return this;
+            }
+            
+            public DataStoreRemoveValue build() {
+                return new DataStoreRemoveValue(this.jsonValue, this.request, this.success, this.message);
+            }
+            
+            public String toString() {
+                return "GameJoltDataStore.DataStoreRemoveValue.DataStoreRemoveValueBuilder(jsonValue=" + this.jsonValue + ", request=" + this.request + ", success=" + this.success + ", message=" + this.message + ")";
+            }
+        }
     }
     
     /**
@@ -355,9 +852,6 @@ public class GameJoltDataStore {
      * you pass in the user information, the item will be added to a user's data store. If you leave the user
      * information empty, it will be added to the game's global data store.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class DataStoreSetRequest implements GameJoltRequest {
         
         /**
@@ -387,6 +881,19 @@ public class GameJoltDataStore {
          * The user's token. Optional.
          */
         private String userToken;
+        
+        DataStoreSetRequest(@NonNull String gameID, @NonNull String key, @NonNull String data, String username,
+                            String userToken) {
+            this.gameID = gameID;
+            this.key = key;
+            this.data = data;
+            this.username = username;
+            this.userToken = userToken;
+        }
+        
+        public static DataStoreSetRequestBuilder builder() {
+            return new DataStoreSetRequestBuilder();
+        }
         
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
@@ -419,14 +926,95 @@ public class GameJoltDataStore {
                     .message(jsonValue.getString("message", null))
                     .build();
         }
+        
+        public @NonNull String getGameID() {
+            return this.gameID;
+        }
+        
+        public @NonNull String getKey() {
+            return this.key;
+        }
+        
+        public @NonNull String getData() {
+            return this.data;
+        }
+        
+        public String getUsername() {
+            return this.username;
+        }
+        
+        public String getUserToken() {
+            return this.userToken;
+        }
+        
+        public void setGameID(@NonNull String gameID) {
+            this.gameID = gameID;
+        }
+        
+        public void setKey(@NonNull String key) {
+            this.key = key;
+        }
+        
+        public void setData(@NonNull String data) {
+            this.data = data;
+        }
+        
+        public void setUsername(String username) {
+            this.username = username;
+        }
+        
+        public void setUserToken(String userToken) {
+            this.userToken = userToken;
+        }
+        
+        public static class DataStoreSetRequestBuilder {
+            private @NonNull String gameID;
+            private @NonNull String key;
+            private @NonNull String data;
+            private String username;
+            private String userToken;
+            
+            DataStoreSetRequestBuilder() {
+            }
+            
+            public DataStoreSetRequestBuilder gameID(@NonNull String gameID) {
+                this.gameID = gameID;
+                return this;
+            }
+            
+            public DataStoreSetRequestBuilder key(@NonNull String key) {
+                this.key = key;
+                return this;
+            }
+            
+            public DataStoreSetRequestBuilder data(@NonNull String data) {
+                this.data = data;
+                return this;
+            }
+            
+            public DataStoreSetRequestBuilder username(String username) {
+                this.username = username;
+                return this;
+            }
+            
+            public DataStoreSetRequestBuilder userToken(String userToken) {
+                this.userToken = userToken;
+                return this;
+            }
+            
+            public DataStoreSetRequest build() {
+                return new DataStoreSetRequest(this.gameID, this.key, this.data, this.username, this.userToken);
+            }
+            
+            public String toString() {
+                return "GameJoltDataStore.DataStoreSetRequest.DataStoreSetRequestBuilder(gameID=" + this.gameID + ", key=" + this.key + ", data=" + this.data + ", username=" + this.username + ", userToken=" + this.userToken + ")";
+            }
+        }
     }
     
     /**
      * The result of setting data in the data store.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class DataStoreSetValue implements GameJoltValue {
         /**
          * The JSON data from the server response.
@@ -447,6 +1035,87 @@ public class GameJoltDataStore {
          * If the request was not successful, this contains the error message.
          */
         public String message;
+        
+        DataStoreSetValue(JsonValue jsonValue, GameJoltRequest request, boolean success, String message) {
+            this.jsonValue = jsonValue;
+            this.request = request;
+            this.success = success;
+            this.message = message;
+        }
+        
+        public static DataStoreSetValueBuilder builder() {
+            return new DataStoreSetValueBuilder();
+        }
+        
+        public JsonValue getJsonValue() {
+            return this.jsonValue;
+        }
+        
+        public GameJoltRequest getRequest() {
+            return this.request;
+        }
+        
+        public boolean isSuccess() {
+            return this.success;
+        }
+        
+        public String getMessage() {
+            return this.message;
+        }
+        
+        public void setJsonValue(JsonValue jsonValue) {
+            this.jsonValue = jsonValue;
+        }
+        
+        public void setRequest(GameJoltRequest request) {
+            this.request = request;
+        }
+        
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+        
+        public void setMessage(String message) {
+            this.message = message;
+        }
+        
+        public static class DataStoreSetValueBuilder {
+            private JsonValue jsonValue;
+            private GameJoltRequest request;
+            private boolean success;
+            private String message;
+            
+            DataStoreSetValueBuilder() {
+            }
+            
+            public DataStoreSetValueBuilder jsonValue(JsonValue jsonValue) {
+                this.jsonValue = jsonValue;
+                return this;
+            }
+            
+            public DataStoreSetValueBuilder request(GameJoltRequest request) {
+                this.request = request;
+                return this;
+            }
+            
+            public DataStoreSetValueBuilder success(boolean success) {
+                this.success = success;
+                return this;
+            }
+            
+            public DataStoreSetValueBuilder message(String message) {
+                this.message = message;
+                return this;
+            }
+            
+            public DataStoreSetValue build() {
+                return new DataStoreSetValue(this.jsonValue, this.request, this.success, this.message);
+            }
+            
+            public String toString() {
+                return "GameJoltDataStore.DataStoreSetValue.DataStoreSetValueBuilder(jsonValue=" + this.jsonValue + ", request=" + this.request + ", success=" + this.success + ", message=" + this.message + ")";
+            }
+        }
     }
     
     /**
@@ -468,9 +1137,6 @@ public class GameJoltDataStore {
      * all the keys in a user's data store. If you leave the user information empty, it will return all the keys in the
      * game's global data store.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class DataStoreUpdateRequest implements GameJoltRequest {
         
         /**
@@ -508,6 +1174,20 @@ public class GameJoltDataStore {
          */
         private String value;
         
+        DataStoreUpdateRequest(@NonNull String gameID, @NonNull String key, String username, String userToken,
+                               @NonNull GameJoltDataStore.OperationType operation, String value) {
+            this.gameID = gameID;
+            this.key = key;
+            this.username = username;
+            this.userToken = userToken;
+            this.operation = operation;
+            this.value = value;
+        }
+        
+        public static DataStoreUpdateRequestBuilder builder() {
+            return new DataStoreUpdateRequestBuilder();
+        }
+        
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
          * API.
@@ -540,6 +1220,105 @@ public class GameJoltDataStore {
                     .message(jsonValue.getString("message", null))
                     .data(jsonValue.getString("data", null))
                     .build();
+        }
+        
+        public @NonNull String getGameID() {
+            return this.gameID;
+        }
+        
+        public @NonNull String getKey() {
+            return this.key;
+        }
+        
+        public String getUsername() {
+            return this.username;
+        }
+        
+        public String getUserToken() {
+            return this.userToken;
+        }
+        
+        public @NonNull OperationType getOperation() {
+            return this.operation;
+        }
+        
+        public String getValue() {
+            return this.value;
+        }
+        
+        public void setGameID(@NonNull String gameID) {
+            this.gameID = gameID;
+        }
+        
+        public void setKey(@NonNull String key) {
+            this.key = key;
+        }
+        
+        public void setUsername(String username) {
+            this.username = username;
+        }
+        
+        public void setUserToken(String userToken) {
+            this.userToken = userToken;
+        }
+        
+        public void setOperation(@NonNull GameJoltDataStore.OperationType operation) {
+            this.operation = operation;
+        }
+        
+        public void setValue(String value) {
+            this.value = value;
+        }
+        
+        public static class DataStoreUpdateRequestBuilder {
+            private @NonNull String gameID;
+            private @NonNull String key;
+            private String username;
+            private String userToken;
+            private @NonNull GameJoltDataStore.OperationType operation;
+            private String value;
+            
+            DataStoreUpdateRequestBuilder() {
+            }
+            
+            public DataStoreUpdateRequestBuilder gameID(@NonNull String gameID) {
+                this.gameID = gameID;
+                return this;
+            }
+            
+            public DataStoreUpdateRequestBuilder key(@NonNull String key) {
+                this.key = key;
+                return this;
+            }
+            
+            public DataStoreUpdateRequestBuilder username(String username) {
+                this.username = username;
+                return this;
+            }
+            
+            public DataStoreUpdateRequestBuilder userToken(String userToken) {
+                this.userToken = userToken;
+                return this;
+            }
+            
+            public DataStoreUpdateRequestBuilder operation(@NonNull GameJoltDataStore.OperationType operation) {
+                this.operation = operation;
+                return this;
+            }
+            
+            public DataStoreUpdateRequestBuilder value(String value) {
+                this.value = value;
+                return this;
+            }
+            
+            public DataStoreUpdateRequest build() {
+                return new DataStoreUpdateRequest(this.gameID, this.key, this.username, this.userToken, this.operation,
+                        this.value);
+            }
+            
+            public String toString() {
+                return "GameJoltDataStore.DataStoreUpdateRequest.DataStoreUpdateRequestBuilder(gameID=" + this.gameID + ", key=" + this.key + ", username=" + this.username + ", userToken=" + this.userToken + ", operation=" + this.operation + ", value=" + this.value + ")";
+            }
         }
     }
     
@@ -587,9 +1366,6 @@ public class GameJoltDataStore {
     /**
      * The result of updating data in the data store.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class DataStoreUpdateValue implements GameJoltValue {
         
         /**
@@ -616,6 +1392,103 @@ public class GameJoltDataStore {
          * If the request was successful, this returns the new value of the data item.
          */
         public String data;
+        
+        DataStoreUpdateValue(JsonValue jsonValue, GameJoltRequest request, boolean success, String message,
+                             String data) {
+            this.jsonValue = jsonValue;
+            this.request = request;
+            this.success = success;
+            this.message = message;
+            this.data = data;
+        }
+        
+        public static DataStoreUpdateValueBuilder builder() {
+            return new DataStoreUpdateValueBuilder();
+        }
+        
+        public JsonValue getJsonValue() {
+            return this.jsonValue;
+        }
+        
+        public GameJoltRequest getRequest() {
+            return this.request;
+        }
+        
+        public boolean isSuccess() {
+            return this.success;
+        }
+        
+        public String getMessage() {
+            return this.message;
+        }
+        
+        public String getData() {
+            return this.data;
+        }
+        
+        public void setJsonValue(JsonValue jsonValue) {
+            this.jsonValue = jsonValue;
+        }
+        
+        public void setRequest(GameJoltRequest request) {
+            this.request = request;
+        }
+        
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+        
+        public void setMessage(String message) {
+            this.message = message;
+        }
+        
+        public void setData(String data) {
+            this.data = data;
+        }
+        
+        public static class DataStoreUpdateValueBuilder {
+            private JsonValue jsonValue;
+            private GameJoltRequest request;
+            private boolean success;
+            private String message;
+            private String data;
+            
+            DataStoreUpdateValueBuilder() {
+            }
+            
+            public DataStoreUpdateValueBuilder jsonValue(JsonValue jsonValue) {
+                this.jsonValue = jsonValue;
+                return this;
+            }
+            
+            public DataStoreUpdateValueBuilder request(GameJoltRequest request) {
+                this.request = request;
+                return this;
+            }
+            
+            public DataStoreUpdateValueBuilder success(boolean success) {
+                this.success = success;
+                return this;
+            }
+            
+            public DataStoreUpdateValueBuilder message(String message) {
+                this.message = message;
+                return this;
+            }
+            
+            public DataStoreUpdateValueBuilder data(String data) {
+                this.data = data;
+                return this;
+            }
+            
+            public DataStoreUpdateValue build() {
+                return new DataStoreUpdateValue(this.jsonValue, this.request, this.success, this.message, this.data);
+            }
+            
+            public String toString() {
+                return "GameJoltDataStore.DataStoreUpdateValue.DataStoreUpdateValueBuilder(jsonValue=" + this.jsonValue + ", request=" + this.request + ", success=" + this.success + ", message=" + this.message + ", data=" + this.data + ")";
+            }
+        }
     }
     
     /**

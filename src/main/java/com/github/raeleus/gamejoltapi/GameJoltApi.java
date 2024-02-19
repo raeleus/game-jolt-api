@@ -14,7 +14,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.github.raeleus.gamejoltapi.GameJoltScores.*;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.GameJoltUser;
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 import java.net.URLEncoder;
@@ -74,10 +73,14 @@ public class GameJoltApi {
         return new GameJoltUsernameTokenPair(lines[1], lines[2]);
     }
     
-    @AllArgsConstructor
     public static class GameJoltUsernameTokenPair {
         public String username;
         public String token;
+        
+        public GameJoltUsernameTokenPair(String username, String token) {
+            this.username = username;
+            this.token = token;
+        }
     }
     
     /**

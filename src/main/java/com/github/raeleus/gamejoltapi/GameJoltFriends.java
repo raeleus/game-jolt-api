@@ -2,10 +2,7 @@ package com.github.raeleus.gamejoltapi;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 import static com.github.raeleus.gamejoltapi.GameJoltApi.urlEncode;
 
@@ -17,9 +14,6 @@ public class GameJoltFriends {
     /**
      * Returns the list of a user's friends.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class FriendsFetchRequest implements GameJoltRequest {
         
         /**
@@ -39,6 +33,16 @@ public class GameJoltFriends {
          */
         @NonNull
         private String userToken;
+        
+        FriendsFetchRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken) {
+            this.gameID = gameID;
+            this.username = username;
+            this.userToken = userToken;
+        }
+        
+        public static FriendsFetchRequestBuilder builder() {
+            return new FriendsFetchRequestBuilder();
+        }
         
         /**
          * The url string defining this request. Note that it does not contain the base URL pointing to the Game Jolt
@@ -74,14 +78,67 @@ public class GameJoltFriends {
                     .friends(friends)
                     .build();
         }
+        
+        public @NonNull String getGameID() {
+            return this.gameID;
+        }
+        
+        public @NonNull String getUsername() {
+            return this.username;
+        }
+        
+        public @NonNull String getUserToken() {
+            return this.userToken;
+        }
+        
+        public void setGameID(@NonNull String gameID) {
+            this.gameID = gameID;
+        }
+        
+        public void setUsername(@NonNull String username) {
+            this.username = username;
+        }
+        
+        public void setUserToken(@NonNull String userToken) {
+            this.userToken = userToken;
+        }
+        
+        public static class FriendsFetchRequestBuilder {
+            private @NonNull String gameID;
+            private @NonNull String username;
+            private @NonNull String userToken;
+            
+            FriendsFetchRequestBuilder() {
+            }
+            
+            public FriendsFetchRequestBuilder gameID(@NonNull String gameID) {
+                this.gameID = gameID;
+                return this;
+            }
+            
+            public FriendsFetchRequestBuilder username(@NonNull String username) {
+                this.username = username;
+                return this;
+            }
+            
+            public FriendsFetchRequestBuilder userToken(@NonNull String userToken) {
+                this.userToken = userToken;
+                return this;
+            }
+            
+            public FriendsFetchRequest build() {
+                return new FriendsFetchRequest(this.gameID, this.username, this.userToken);
+            }
+            
+            public String toString() {
+                return "GameJoltFriends.FriendsFetchRequest.FriendsFetchRequestBuilder(gameID=" + this.gameID + ", username=" + this.username + ", userToken=" + this.userToken + ")";
+            }
+        }
     }
     
     /**
      * The result of fetching the friends list.
      */
-    @Builder
-    @Getter
-    @Setter
     public static class FriendsFetchValue implements GameJoltValue {
         
         /**
@@ -108,6 +165,103 @@ public class GameJoltFriends {
          * The friend user ID's.
          */
         public Array<Integer> friends;
+        
+        FriendsFetchValue(JsonValue jsonValue, GameJoltRequest request, boolean success, String message,
+                          Array<Integer> friends) {
+            this.jsonValue = jsonValue;
+            this.request = request;
+            this.success = success;
+            this.message = message;
+            this.friends = friends;
+        }
+        
+        public static FriendsFetchValueBuilder builder() {
+            return new FriendsFetchValueBuilder();
+        }
+        
+        public JsonValue getJsonValue() {
+            return this.jsonValue;
+        }
+        
+        public GameJoltRequest getRequest() {
+            return this.request;
+        }
+        
+        public boolean isSuccess() {
+            return this.success;
+        }
+        
+        public String getMessage() {
+            return this.message;
+        }
+        
+        public Array<Integer> getFriends() {
+            return this.friends;
+        }
+        
+        public void setJsonValue(JsonValue jsonValue) {
+            this.jsonValue = jsonValue;
+        }
+        
+        public void setRequest(GameJoltRequest request) {
+            this.request = request;
+        }
+        
+        public void setSuccess(boolean success) {
+            this.success = success;
+        }
+        
+        public void setMessage(String message) {
+            this.message = message;
+        }
+        
+        public void setFriends(Array<Integer> friends) {
+            this.friends = friends;
+        }
+        
+        public static class FriendsFetchValueBuilder {
+            private JsonValue jsonValue;
+            private GameJoltRequest request;
+            private boolean success;
+            private String message;
+            private Array<Integer> friends;
+            
+            FriendsFetchValueBuilder() {
+            }
+            
+            public FriendsFetchValueBuilder jsonValue(JsonValue jsonValue) {
+                this.jsonValue = jsonValue;
+                return this;
+            }
+            
+            public FriendsFetchValueBuilder request(GameJoltRequest request) {
+                this.request = request;
+                return this;
+            }
+            
+            public FriendsFetchValueBuilder success(boolean success) {
+                this.success = success;
+                return this;
+            }
+            
+            public FriendsFetchValueBuilder message(String message) {
+                this.message = message;
+                return this;
+            }
+            
+            public FriendsFetchValueBuilder friends(Array<Integer> friends) {
+                this.friends = friends;
+                return this;
+            }
+            
+            public FriendsFetchValue build() {
+                return new FriendsFetchValue(this.jsonValue, this.request, this.success, this.message, this.friends);
+            }
+            
+            public String toString() {
+                return "GameJoltFriends.FriendsFetchValue.FriendsFetchValueBuilder(jsonValue=" + this.jsonValue + ", request=" + this.request + ", success=" + this.success + ", message=" + this.message + ", friends=" + this.friends + ")";
+            }
+        }
     }
     
     /**
