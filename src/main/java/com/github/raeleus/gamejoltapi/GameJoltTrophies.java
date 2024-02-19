@@ -77,7 +77,7 @@ public class GameJoltTrophies {
          */
         @Override
         public String toString() {
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             builder.append("/trophies/?game_id=").append(gameID);
             builder.append("&username=").append(urlEncode(username));
             builder.append("&user_token=").append(urlEncode(userToken));
@@ -85,7 +85,7 @@ public class GameJoltTrophies {
             if (trophyIDs != null && !trophyIDs.isEmpty()) {
                 builder.append("&trophy_id=").append(trophyIDs.get(0));
                 for (int i = 1; i < trophyIDs.size(); i++) {
-                    var trophyID = trophyIDs.get(i);
+                    Integer trophyID = trophyIDs.get(i);
                     builder.append(",").append(trophyID);
                 }
             }
@@ -102,10 +102,10 @@ public class GameJoltTrophies {
         @Override
         public TrophiesFetchValue handleResponse(JsonValue jsonValue) {
             
-            var trophies = new Array<GameJoltTrophy>();
-            var trophiesJsonValue = jsonValue.get("trophies");
+            Array<GameJoltTrophy> trophies = new Array<GameJoltTrophy>();
+            JsonValue trophiesJsonValue = jsonValue.get("trophies");
             for (JsonValue trophyJsonValue : trophiesJsonValue.iterator()) {
-                var trophy = GameJoltTrophy.builder()
+                GameJoltTrophy trophy = GameJoltTrophy.builder()
                         .id(trophyJsonValue.getInt("id"))
                         .title(trophyJsonValue.getString("title"))
                         .description(trophyJsonValue.getString("description"))

@@ -100,7 +100,7 @@ public class GameJoltScores {
          */
         @Override
         public String toString() {
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             builder.append("/scores/add/?game_id=").append(gameID);
             if (username != null) builder.append("&username=").append(urlEncode(username));
             if (userToken != null) builder.append("&user_token=").append(urlEncode(userToken));
@@ -419,7 +419,7 @@ public class GameJoltScores {
          */
         @Override
         public String toString() {
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             builder.append("/scores/get-rank/?game_id=").append(gameID);
             builder.append("&sort=").append(sort);
             if (tableID != null) builder.append("&table_id=").append(tableID);
@@ -722,7 +722,7 @@ public class GameJoltScores {
          */
         @Override
         public String toString() {
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             builder.append("/scores/?game_id=").append(gameID);
             if (limit != null) builder.append("&limit=").append(limit);
             if (tableID != null) builder.append("&table_id=").append(tableID);
@@ -744,10 +744,10 @@ public class GameJoltScores {
         @Override
         public ScoresFetchValue handleResponse(JsonValue jsonValue) {
             
-            var scores = new Array<GameJoltScore>();
-            var scoresJsonValue = jsonValue.get("scores");
+            Array<GameJoltScore> scores = new Array<GameJoltScore>();
+            JsonValue scoresJsonValue = jsonValue.get("scores");
             if (scoresJsonValue != null) for (JsonValue scoreJsonValue : scoresJsonValue.iterator()) {
-                var score = GameJoltScore.builder()
+                GameJoltScore score = GameJoltScore.builder()
                         .score(scoreJsonValue.getString("score"))
                         .sort(scoreJsonValue.getLong("sort"))
                         .extraData(scoreJsonValue.getString("extra_data"))
@@ -1268,10 +1268,10 @@ public class GameJoltScores {
         @Override
         public ScoresTablesValue handleResponse(JsonValue jsonValue) {
             
-            var tables = new Array<GameJoltTable>();
-            var tablesJsonValue = jsonValue.get("tables");
+            Array<GameJoltTable> tables = new Array<GameJoltTable>();
+            JsonValue tablesJsonValue = jsonValue.get("tables");
             for (JsonValue tableJsonValue : tablesJsonValue.iterator()) {
-                var table = GameJoltTable.builder()
+                GameJoltTable table = GameJoltTable.builder()
                         .id(tableJsonValue.getInt("id"))
                         .name(tableJsonValue.getString("name"))
                         .description(tableJsonValue.getString("description"))

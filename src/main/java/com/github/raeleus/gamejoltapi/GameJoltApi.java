@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.Net.HttpMethods;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Blending;
 import com.badlogic.gdx.graphics.Pixmap.DownloadPixmapResponseListener;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.github.raeleus.gamejoltapi.GameJoltScores.*;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.GameJoltUser;
 import lombok.NonNull;
@@ -65,10 +67,10 @@ public class GameJoltApi {
      */
     public GameJoltUsernameTokenPair autoRetrieveUsernameAndToken() {
         if (Gdx.app.getType() != ApplicationType.Desktop) return null;
-        var file = Gdx.files.local(".gj-credentials");
+        FileHandle file = Gdx.files.local(".gj-credentials");
         if (!file.exists()) return null;
         
-        var lines = file.readString().split("\\n");
+        String[] lines = file.readString().split("\\n");
         if (lines.length < 3) return null;
         return new GameJoltUsernameTokenPair(lines[1], lines[2]);
     }
@@ -100,8 +102,8 @@ public class GameJoltApi {
                 potPixmap.drawPixmap(pixmap, 0, 0, 0, 0, pixmap.getWidth(), pixmap.getHeight());
                 pixmap.dispose();
                 Gdx.app.postRunnable(() -> {
-                    var texture = new Texture(potPixmap);
-                    var region = new TextureRegion(texture, pixmap.getWidth(), pixmap.getHeight());
+                    Texture texture = new Texture(potPixmap);
+                    TextureRegion region = new TextureRegion(texture, pixmap.getWidth(), pixmap.getHeight());
                     listener.downloaded(region);
                 });
             }
@@ -161,7 +163,7 @@ public class GameJoltApi {
      */
     public void addGuestScore(@NonNull String gameID, @NonNull String key, @NonNull String guest, long score,
                               Integer tableID, GameJoltListener listener) {
-        var request = ScoresAddRequest.builder()
+        ScoresAddRequest request = ScoresAddRequest.builder()
                 .gameID(gameID)
                 .guest(guest)
                 .score(Long.toString(score))
@@ -224,7 +226,7 @@ public class GameJoltApi {
      */
     public void downloadScores(@NonNull String gameID, @NonNull String key, Integer limit, Integer tableID,
                                @NonNull ScoreListener listener) {
-        var request = ScoresFetchRequest.builder()
+        ScoresFetchRequest request = ScoresFetchRequest.builder()
                 .gameID(gameID)
                 .limit(limit)
                 .tableID(tableID)
@@ -233,7 +235,7 @@ public class GameJoltApi {
         sendRequest(request, key, new GameJoltListener() {
             @Override
             public void response(GameJoltRequest request, GameJoltValue value) {
-                var fetchResult = (ScoresFetchValue) value;
+                ScoresFetchValue fetchResult = (ScoresFetchValue) value;
                 listener.downloaded(fetchResult.scores);
             }
             
@@ -266,7 +268,7 @@ public class GameJoltApi {
      * @param listener The listener called when the response is received.
      */
     public void sendRequest(@NonNull GameJoltRequest request, @NonNull String key, @NonNull GameJoltListener listener) {
-        var url = apiURL + version + request;
+        String url = apiURL + version + request;
         Net.HttpRequest httpRequest = new Net.HttpRequest(HttpMethods.GET);
         String signature = encrypt(url + key);
         httpRequest.setUrl(url + "&signature=" + signature);
@@ -274,8 +276,8 @@ public class GameJoltApi {
         Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                var response = httpResponse.getResultAsString();
-                var jsonValue = jsonReader.parse(response).child();
+                String response = httpResponse.getResultAsString();
+                JsonValue jsonValue = jsonReader.parse(response).child();
                 Gdx.app.postRunnable(() -> listener.response(request, request.handleResponse(jsonValue)));
             }
             
@@ -316,8 +318,8 @@ public class GameJoltApi {
         StringBuilder url = new StringBuilder(apiURL).append(version).append("/batch/?game_id=").append(gameID);
         if (parallel != null && parallel) url.append("&parallel=").append(parallel);
         else if (breakOnError != null && breakOnError) url.append("&break_on_error=").append(breakOnError);
-        for (var request : requests) {
-            var subUrl = request.toString();
+        for (GameJoltRequest request : requests) {
+            String subUrl = request.toString();
             String signature = encrypt(subUrl + key);
             subUrl += "&signature=" + signature;
             subUrl = "&requests[]=" + urlEncode(subUrl);
@@ -331,8 +333,8 @@ public class GameJoltApi {
         Gdx.net.sendHttpRequest(httpRequest, new Net.HttpResponseListener() {
             @Override
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
-                var response = httpResponse.getResultAsString();
-                var jsonValue = jsonReader.parse(response).child();
+                String response = httpResponse.getResultAsString();
+                JsonValue jsonValue = jsonReader.parse(response).child();
                 if (jsonValue.getBoolean("success", false)) {
                     jsonValue = jsonValue.get("responses");
                     if (requests.size != jsonValue.size) {
@@ -340,15 +342,15 @@ public class GameJoltApi {
                         return;
                     }
                     int requestIndex = 0;
-                    for (var childValue : jsonValue.iterator()) {
-                        var request = requests.get(requestIndex++);
+                    for (JsonValue childValue : jsonValue.iterator()) {
+                        GameJoltRequest request = requests.get(requestIndex++);
                         for (GameJoltListener listener : listeners) {
                             listener.response(request, request.handleResponse(childValue));
                         }
                     }
                 } else {
-                    var responses = jsonValue.get("responses");
-                    var t = new Throwable("Batch request failed:\n" + jsonValue.getString("message",
+                    JsonValue responses = jsonValue.get("responses");
+                    Throwable t = new Throwable("Batch request failed:\n" + jsonValue.getString("message",
                             "No error returned from server.") + " \"" + responses.get(responses.size - 1)
                             .getString("message", "") + "\"");
                     for (GameJoltListener listener : listeners) {

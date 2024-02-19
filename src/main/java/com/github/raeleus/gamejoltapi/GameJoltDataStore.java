@@ -57,7 +57,7 @@ public class GameJoltDataStore {
          */
         @Override
         public String toString() {
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             builder.append("/data-store/?game_id=").append(gameID);
             builder.append("&key=").append(urlEncode(key));
             if (username != null) builder.append("&username=").append(urlEncode(username));
@@ -341,7 +341,7 @@ public class GameJoltDataStore {
          */
         @Override
         public String toString() {
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             builder.append("/data-store/get-keys/?game_id=").append(gameID);
             if (pattern != null) builder.append("&pattern=").append(urlEncode(pattern));
             if (username != null) builder.append("&username=").append(urlEncode(username));
@@ -358,8 +358,8 @@ public class GameJoltDataStore {
          */
         @Override
         public DataStoreGetKeysValue handleResponse(JsonValue jsonValue) {
-            var keys = new Array<String>();
-            var keysJsonValue = jsonValue.get("keys");
+            Array<String> keys = new Array<String>();
+            JsonValue keysJsonValue = jsonValue.get("keys");
             for (JsonValue keyJsonValue : keysJsonValue) {
                 keys.add(keyJsonValue.getString("key"));
             }
@@ -631,7 +631,7 @@ public class GameJoltDataStore {
          */
         @Override
         public String toString() {
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             builder.append("/data-store/remove/?game_id=").append(gameID);
             builder.append("&key=").append(urlEncode(key));
             if (username != null) builder.append("&username=").append(urlEncode(username));
@@ -901,7 +901,7 @@ public class GameJoltDataStore {
          */
         @Override
         public String toString() {
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             builder.append("/data-store/set/?game_id=").append(gameID);
             builder.append("&key=").append(urlEncode(key));
             builder.append("&data=").append(urlEncode(data));
@@ -1194,7 +1194,7 @@ public class GameJoltDataStore {
          */
         @Override
         public String toString() {
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             builder.append("/data-store/update/?game_id=").append(gameID);
             builder.append("&key=").append(urlEncode(key));
             if (username != null) builder.append("&username=").append(urlEncode(username));

@@ -182,7 +182,7 @@ public class GameJoltTime {
         
         @Override
         public String toString() {
-            var standardHour = hour == 0 || hour == 12 ? 12 : hour % 12;
+            int standardHour = hour == 0 || hour == 12 ? 12 : hour % 12;
             return month + "/" + day + "/" + year + " " + standardHour + ":" + formatMinute(
                     minute) + ":" + formatMinute(second) + (hour < 12 ? " AM" : " PM");
         }

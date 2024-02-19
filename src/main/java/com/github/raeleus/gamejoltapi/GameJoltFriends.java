@@ -65,8 +65,8 @@ public class GameJoltFriends {
          */
         @Override
         public FriendsFetchValue handleResponse(JsonValue jsonValue) {
-            var friends = new Array<Integer>();
-            var friendsJsonValue = jsonValue.get("friends");
+            Array<Integer> friends = new Array<Integer>();
+            JsonValue friendsJsonValue = jsonValue.get("friends");
             if (friendsJsonValue != null) for (JsonValue friendJsonValue : friendsJsonValue.iterator()) {
                 friends.add(friendJsonValue.getInt("friend_id"));
             }

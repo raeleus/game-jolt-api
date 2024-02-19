@@ -34,8 +34,8 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 compileJava {
-    sourceCompatibility = 11
-    targetCompatibility = 11
+    sourceCompatibility = 8
+    targetCompatibility = 8
     if (JavaVersion.current().isJava9Compatible()) {
         options.release.set(11)
     }

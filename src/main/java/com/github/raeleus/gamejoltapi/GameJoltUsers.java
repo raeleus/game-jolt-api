@@ -304,14 +304,14 @@ public class GameJoltUsers {
          */
         @Override
         public String toString() {
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             builder.append("/users/?game_id=").append(gameID);
             if (username != null) builder.append("&username=").append(urlEncode(username));
             else {
                 if (!userIDs.isEmpty()) {
                     builder.append("&user_id=").append(userIDs.get(0));
                     for (int i = 1; i < userIDs.size(); i++) {
-                        var userID = userIDs.get(i);
+                        Integer userID = userIDs.get(i);
                         builder.append(",").append(userID);
                     }
                 }
@@ -330,11 +330,11 @@ public class GameJoltUsers {
         public UsersFetchValue handleResponse(JsonValue jsonValue) {
             
             
-            var users = new Array<GameJoltUser>();
+            Array<GameJoltUser> users = new Array<GameJoltUser>();
             if (jsonValue.has("users")) {
-                var usersJsonValue = jsonValue.get("users");
+                JsonValue usersJsonValue = jsonValue.get("users");
                 for (JsonValue userJsonValue : usersJsonValue.iterator()) {
-                    var user = GameJoltUser.builder()
+                    GameJoltUser user = GameJoltUser.builder()
                             .id(userJsonValue.getInt("id"))
                             .type(UserType.valueOf(userJsonValue.getString("type").toUpperCase(Locale.ROOT)))
                             .username(userJsonValue.getString("username"))
