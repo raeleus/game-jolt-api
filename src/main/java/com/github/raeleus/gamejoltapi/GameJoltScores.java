@@ -2,7 +2,6 @@ package com.github.raeleus.gamejoltapi;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
-import lombok.NonNull;
 
 import static com.github.raeleus.gamejoltapi.GameJoltApi.urlEncode;
 
@@ -37,7 +36,6 @@ public class GameJoltScores {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
@@ -58,14 +56,12 @@ public class GameJoltScores {
         /**
          * This is a string value associated with the score. Required.
          */
-        @NonNull
         private String score;
         
         /**
          * This is a numerical sorting value associated with the score. All sorting will be based on this number.
          * Required.
          */
-        @NonNull
         private Long sort;
         
         /**
@@ -78,8 +74,8 @@ public class GameJoltScores {
          */
         private Integer tableID;
         
-        ScoresAddRequest(@NonNull String gameID, String username, String userToken, String guest, @NonNull String score,
-                         @NonNull Long sort, String extraData, Integer tableID) {
+        ScoresAddRequest( String gameID, String username, String userToken, String guest,  String score,
+                          Long sort, String extraData, Integer tableID) {
             this.gameID = gameID;
             this.username = username;
             this.userToken = userToken;
@@ -129,7 +125,7 @@ public class GameJoltScores {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
@@ -145,11 +141,11 @@ public class GameJoltScores {
             return this.guest;
         }
         
-        public @NonNull String getScore() {
+        public  String getScore() {
             return this.score;
         }
         
-        public @NonNull Long getSort() {
+        public  Long getSort() {
             return this.sort;
         }
         
@@ -161,7 +157,7 @@ public class GameJoltScores {
             return this.tableID;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
@@ -177,11 +173,11 @@ public class GameJoltScores {
             this.guest = guest;
         }
         
-        public void setScore(@NonNull String score) {
+        public void setScore( String score) {
             this.score = score;
         }
         
-        public void setSort(@NonNull Long sort) {
+        public void setSort( Long sort) {
             this.sort = sort;
         }
         
@@ -194,19 +190,19 @@ public class GameJoltScores {
         }
         
         public static class ScoresAddRequestBuilder {
-            private @NonNull String gameID;
+            private  String gameID;
             private String username;
             private String userToken;
             private String guest;
-            private @NonNull String score;
-            private @NonNull Long sort;
+            private  String score;
+            private  Long sort;
             private String extraData;
             private Integer tableID;
             
             ScoresAddRequestBuilder() {
             }
             
-            public ScoresAddRequestBuilder gameID(@NonNull String gameID) {
+            public ScoresAddRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
@@ -226,12 +222,12 @@ public class GameJoltScores {
                 return this;
             }
             
-            public ScoresAddRequestBuilder score(@NonNull String score) {
+            public ScoresAddRequestBuilder score( String score) {
                 this.score = score;
                 return this;
             }
             
-            public ScoresAddRequestBuilder sort(@NonNull Long sort) {
+            public ScoresAddRequestBuilder sort( Long sort) {
                 this.sort = sort;
                 return this;
             }
@@ -389,13 +385,11 @@ public class GameJoltScores {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
          * This is a numerical sorting value that is represented by a rank on the score table. Required.
          */
-        @NonNull
         private Long sort;
         
         /**
@@ -403,7 +397,7 @@ public class GameJoltScores {
          */
         private Integer tableID;
         
-        ScoresGetRankRequest(@NonNull String gameID, @NonNull Long sort, Integer tableID) {
+        ScoresGetRankRequest( String gameID,  Long sort, Integer tableID) {
             this.gameID = gameID;
             this.sort = sort;
             this.tableID = tableID;
@@ -444,11 +438,11 @@ public class GameJoltScores {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public @NonNull Long getSort() {
+        public  Long getSort() {
             return this.sort;
         }
         
@@ -456,11 +450,11 @@ public class GameJoltScores {
             return this.tableID;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
-        public void setSort(@NonNull Long sort) {
+        public void setSort( Long sort) {
             this.sort = sort;
         }
         
@@ -469,19 +463,19 @@ public class GameJoltScores {
         }
         
         public static class ScoresGetRankRequestBuilder {
-            private @NonNull String gameID;
-            private @NonNull Long sort;
+            private  String gameID;
+            private  Long sort;
             private Integer tableID;
             
             ScoresGetRankRequestBuilder() {
             }
             
-            public ScoresGetRankRequestBuilder gameID(@NonNull String gameID) {
+            public ScoresGetRankRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
             
-            public ScoresGetRankRequestBuilder sort(@NonNull Long sort) {
+            public ScoresGetRankRequestBuilder sort( Long sort) {
                 this.sort = sort;
                 return this;
             }
@@ -661,7 +655,6 @@ public class GameJoltScores {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
@@ -700,7 +693,7 @@ public class GameJoltScores {
          */
         private Long worseThan;
         
-        ScoresFetchRequest(@NonNull String gameID, Integer limit, Integer tableID, String username, String userToken,
+        ScoresFetchRequest( String gameID, Integer limit, Integer tableID, String username, String userToken,
                            String guest, Long betterThan, Long worseThan) {
             this.gameID = gameID;
             this.limit = limit;
@@ -769,7 +762,7 @@ public class GameJoltScores {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
@@ -801,7 +794,7 @@ public class GameJoltScores {
             return this.worseThan;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
@@ -834,7 +827,7 @@ public class GameJoltScores {
         }
         
         public static class ScoresFetchRequestBuilder {
-            private @NonNull String gameID;
+            private  String gameID;
             private Integer limit;
             private Integer tableID;
             private String username;
@@ -846,7 +839,7 @@ public class GameJoltScores {
             ScoresFetchRequestBuilder() {
             }
             
-            public ScoresFetchRequestBuilder gameID(@NonNull String gameID) {
+            public ScoresFetchRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
@@ -1238,10 +1231,9 @@ public class GameJoltScores {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
-        ScoresTablesRequest(@NonNull String gameID) {
+        ScoresTablesRequest( String gameID) {
             this.gameID = gameID;
         }
         
@@ -1289,21 +1281,21 @@ public class GameJoltScores {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
         public static class ScoresTablesRequestBuilder {
-            private @NonNull String gameID;
+            private  String gameID;
             
             ScoresTablesRequestBuilder() {
             }
             
-            public ScoresTablesRequestBuilder gameID(@NonNull String gameID) {
+            public ScoresTablesRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }

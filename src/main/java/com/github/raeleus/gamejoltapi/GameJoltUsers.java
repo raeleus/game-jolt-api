@@ -3,7 +3,6 @@ package com.github.raeleus.gamejoltapi;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
 import com.github.raeleus.gamejoltapi.GameJoltApi.GameJoltTextureListener;
-import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,22 +31,19 @@ public class GameJoltUsers {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
          * The user's username. Required.
          */
-        @NonNull
         private String username;
         
         /**
          * The user's token. Required.
          */
-        @NonNull
         private String userToken;
         
-        UsersAuthRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken) {
+        UsersAuthRequest( String gameID,  String username,  String userToken) {
             this.gameID = gameID;
             this.username = username;
             this.userToken = userToken;
@@ -86,49 +82,49 @@ public class GameJoltUsers {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public @NonNull String getUsername() {
+        public  String getUsername() {
             return this.username;
         }
         
-        public @NonNull String getUserToken() {
+        public  String getUserToken() {
             return this.userToken;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
-        public void setUsername(@NonNull String username) {
+        public void setUsername( String username) {
             this.username = username;
         }
         
-        public void setUserToken(@NonNull String userToken) {
+        public void setUserToken( String userToken) {
             this.userToken = userToken;
         }
         
         public static class UsersAuthRequestBuilder {
-            private @NonNull String gameID;
-            private @NonNull String username;
-            private @NonNull String userToken;
+            private  String gameID;
+            private  String username;
+            private  String userToken;
             
             UsersAuthRequestBuilder() {
             }
             
-            public UsersAuthRequestBuilder gameID(@NonNull String gameID) {
+            public UsersAuthRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
             
-            public UsersAuthRequestBuilder username(@NonNull String username) {
+            public UsersAuthRequestBuilder username( String username) {
                 this.username = username;
                 return this;
             }
             
-            public UsersAuthRequestBuilder userToken(@NonNull String userToken) {
+            public UsersAuthRequestBuilder userToken( String userToken) {
                 this.userToken = userToken;
                 return this;
             }
@@ -275,7 +271,6 @@ public class GameJoltUsers {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
@@ -288,7 +283,7 @@ public class GameJoltUsers {
          */
         private List<Integer> userIDs;
         
-        UsersFetchRequest(@NonNull String gameID, String username, List<Integer> userIDs) {
+        UsersFetchRequest( String gameID, String username, List<Integer> userIDs) {
             this.gameID = gameID;
             this.username = username;
             this.userIDs = userIDs;
@@ -361,7 +356,7 @@ public class GameJoltUsers {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
@@ -373,7 +368,7 @@ public class GameJoltUsers {
             return this.userIDs;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
@@ -386,14 +381,14 @@ public class GameJoltUsers {
         }
         
         public static class UsersFetchRequestBuilder {
-            private @NonNull String gameID;
+            private  String gameID;
             private String username;
             private ArrayList<Integer> userIDs;
             
             UsersFetchRequestBuilder() {
             }
             
-            public UsersFetchRequestBuilder gameID(@NonNull String gameID) {
+            public UsersFetchRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }

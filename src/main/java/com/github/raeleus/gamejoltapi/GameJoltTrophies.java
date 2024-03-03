@@ -2,7 +2,6 @@ package com.github.raeleus.gamejoltapi;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
-import lombok.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,19 +31,16 @@ public class GameJoltTrophies {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
          * The user's username. Required.
          */
-        @NonNull
         private String username;
         
         /**
          * The user's token. Required.
          */
-        @NonNull
         private String userToken;
         
         /**
@@ -58,7 +54,7 @@ public class GameJoltTrophies {
          */
         private List<Integer> trophyIDs;
         
-        TrophiesFetchRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken,
+        TrophiesFetchRequest( String gameID,  String username,  String userToken,
                              Boolean achieved, List<Integer> trophyIDs) {
             this.gameID = gameID;
             this.username = username;
@@ -125,15 +121,15 @@ public class GameJoltTrophies {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public @NonNull String getUsername() {
+        public  String getUsername() {
             return this.username;
         }
         
-        public @NonNull String getUserToken() {
+        public  String getUserToken() {
             return this.userToken;
         }
         
@@ -145,15 +141,15 @@ public class GameJoltTrophies {
             return this.trophyIDs;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
-        public void setUsername(@NonNull String username) {
+        public void setUsername( String username) {
             this.username = username;
         }
         
-        public void setUserToken(@NonNull String userToken) {
+        public void setUserToken( String userToken) {
             this.userToken = userToken;
         }
         
@@ -166,26 +162,26 @@ public class GameJoltTrophies {
         }
         
         public static class TrophiesFetchRequestBuilder {
-            private @NonNull String gameID;
-            private @NonNull String username;
-            private @NonNull String userToken;
+            private  String gameID;
+            private  String username;
+            private  String userToken;
             private Boolean achieved;
             private ArrayList<Integer> trophyIDs;
             
             TrophiesFetchRequestBuilder() {
             }
             
-            public TrophiesFetchRequestBuilder gameID(@NonNull String gameID) {
+            public TrophiesFetchRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
             
-            public TrophiesFetchRequestBuilder username(@NonNull String username) {
+            public TrophiesFetchRequestBuilder username( String username) {
                 this.username = username;
                 return this;
             }
             
-            public TrophiesFetchRequestBuilder userToken(@NonNull String userToken) {
+            public TrophiesFetchRequestBuilder userToken( String userToken) {
                 this.userToken = userToken;
                 return this;
             }
@@ -549,29 +545,25 @@ public class GameJoltTrophies {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
          * The user's username. Required.
          */
-        @NonNull
         private String username;
         
         /**
          * The user's token. Required.
          */
-        @NonNull
         private String userToken;
         
         /**
          * The ID of the trophy to add for the user. Required.
          */
-        @NonNull
         private Integer trophyID;
         
-        TrophiesAddAchievedRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken,
-                                   @NonNull Integer trophyID) {
+        TrophiesAddAchievedRequest( String gameID,  String username,  String userToken,
+                                    Integer trophyID) {
             this.gameID = gameID;
             this.username = username;
             this.userToken = userToken;
@@ -612,63 +604,63 @@ public class GameJoltTrophies {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public @NonNull String getUsername() {
+        public  String getUsername() {
             return this.username;
         }
         
-        public @NonNull String getUserToken() {
+        public  String getUserToken() {
             return this.userToken;
         }
         
-        public @NonNull Integer getTrophyID() {
+        public  Integer getTrophyID() {
             return this.trophyID;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
-        public void setUsername(@NonNull String username) {
+        public void setUsername( String username) {
             this.username = username;
         }
         
-        public void setUserToken(@NonNull String userToken) {
+        public void setUserToken( String userToken) {
             this.userToken = userToken;
         }
         
-        public void setTrophyID(@NonNull Integer trophyID) {
+        public void setTrophyID( Integer trophyID) {
             this.trophyID = trophyID;
         }
         
         public static class TrophiesAddAchievedRequestBuilder {
-            private @NonNull String gameID;
-            private @NonNull String username;
-            private @NonNull String userToken;
-            private @NonNull Integer trophyID;
+            private  String gameID;
+            private  String username;
+            private  String userToken;
+            private  Integer trophyID;
             
             TrophiesAddAchievedRequestBuilder() {
             }
             
-            public TrophiesAddAchievedRequestBuilder gameID(@NonNull String gameID) {
+            public TrophiesAddAchievedRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
             
-            public TrophiesAddAchievedRequestBuilder username(@NonNull String username) {
+            public TrophiesAddAchievedRequestBuilder username( String username) {
                 this.username = username;
                 return this;
             }
             
-            public TrophiesAddAchievedRequestBuilder userToken(@NonNull String userToken) {
+            public TrophiesAddAchievedRequestBuilder userToken( String userToken) {
                 this.userToken = userToken;
                 return this;
             }
             
-            public TrophiesAddAchievedRequestBuilder trophyID(@NonNull Integer trophyID) {
+            public TrophiesAddAchievedRequestBuilder trophyID( Integer trophyID) {
                 this.trophyID = trophyID;
                 return this;
             }
@@ -811,29 +803,25 @@ public class GameJoltTrophies {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
          * The user's username. Required.
          */
-        @NonNull
         private String username;
         
         /**
          * The user's token. Required.
          */
-        @NonNull
         private String userToken;
         
         /**
          * The ID of the trophy to remove from the user. Required.
          */
-        @NonNull
         private Integer trophyID;
         
-        TrophiesRemoveAchievedRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken,
-                                      @NonNull Integer trophyID) {
+        TrophiesRemoveAchievedRequest( String gameID,  String username,  String userToken,
+                                       Integer trophyID) {
             this.gameID = gameID;
             this.username = username;
             this.userToken = userToken;
@@ -874,63 +862,63 @@ public class GameJoltTrophies {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public @NonNull String getUsername() {
+        public  String getUsername() {
             return this.username;
         }
         
-        public @NonNull String getUserToken() {
+        public  String getUserToken() {
             return this.userToken;
         }
         
-        public @NonNull Integer getTrophyID() {
+        public  Integer getTrophyID() {
             return this.trophyID;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
-        public void setUsername(@NonNull String username) {
+        public void setUsername( String username) {
             this.username = username;
         }
         
-        public void setUserToken(@NonNull String userToken) {
+        public void setUserToken( String userToken) {
             this.userToken = userToken;
         }
         
-        public void setTrophyID(@NonNull Integer trophyID) {
+        public void setTrophyID( Integer trophyID) {
             this.trophyID = trophyID;
         }
         
         public static class TrophiesRemoveAchievedRequestBuilder {
-            private @NonNull String gameID;
-            private @NonNull String username;
-            private @NonNull String userToken;
-            private @NonNull Integer trophyID;
+            private  String gameID;
+            private  String username;
+            private  String userToken;
+            private  Integer trophyID;
             
             TrophiesRemoveAchievedRequestBuilder() {
             }
             
-            public TrophiesRemoveAchievedRequestBuilder gameID(@NonNull String gameID) {
+            public TrophiesRemoveAchievedRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
             
-            public TrophiesRemoveAchievedRequestBuilder username(@NonNull String username) {
+            public TrophiesRemoveAchievedRequestBuilder username( String username) {
                 this.username = username;
                 return this;
             }
             
-            public TrophiesRemoveAchievedRequestBuilder userToken(@NonNull String userToken) {
+            public TrophiesRemoveAchievedRequestBuilder userToken( String userToken) {
                 this.userToken = userToken;
                 return this;
             }
             
-            public TrophiesRemoveAchievedRequestBuilder trophyID(@NonNull Integer trophyID) {
+            public TrophiesRemoveAchievedRequestBuilder trophyID( Integer trophyID) {
                 this.trophyID = trophyID;
                 return this;
             }

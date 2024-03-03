@@ -1,7 +1,6 @@
 package com.github.raeleus.gamejoltapi;
 
 import com.badlogic.gdx.utils.JsonValue;
-import lombok.NonNull;
 
 import static com.github.raeleus.gamejoltapi.GameJoltApi.urlEncode;
 
@@ -22,22 +21,19 @@ public class GameJoltSessions {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
          * The user's username. Required.
          */
-        @NonNull
         private String username;
         
         /**
          * The user's token. Required.
          */
-        @NonNull
         private String userToken;
         
-        SessionsOpenRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken) {
+        SessionsOpenRequest( String gameID,  String username,  String userToken) {
             this.gameID = gameID;
             this.username = username;
             this.userToken = userToken;
@@ -76,49 +72,49 @@ public class GameJoltSessions {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public @NonNull String getUsername() {
+        public  String getUsername() {
             return this.username;
         }
         
-        public @NonNull String getUserToken() {
+        public  String getUserToken() {
             return this.userToken;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
-        public void setUsername(@NonNull String username) {
+        public void setUsername( String username) {
             this.username = username;
         }
         
-        public void setUserToken(@NonNull String userToken) {
+        public void setUserToken( String userToken) {
             this.userToken = userToken;
         }
         
         public static class SessionsOpenRequestBuilder {
-            private @NonNull String gameID;
-            private @NonNull String username;
-            private @NonNull String userToken;
+            private  String gameID;
+            private  String username;
+            private  String userToken;
             
             SessionsOpenRequestBuilder() {
             }
             
-            public SessionsOpenRequestBuilder gameID(@NonNull String gameID) {
+            public SessionsOpenRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
             
-            public SessionsOpenRequestBuilder username(@NonNull String username) {
+            public SessionsOpenRequestBuilder username( String username) {
                 this.username = username;
                 return this;
             }
             
-            public SessionsOpenRequestBuilder userToken(@NonNull String userToken) {
+            public SessionsOpenRequestBuilder userToken( String userToken) {
                 this.userToken = userToken;
                 return this;
             }
@@ -265,19 +261,16 @@ public class GameJoltSessions {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
          * The user's username. Required.
          */
-        @NonNull
         private String username;
         
         /**
          * The user's token. Required.
          */
-        @NonNull
         private String userToken;
         
         /**
@@ -285,7 +278,7 @@ public class GameJoltSessions {
          */
         private SessionStatus status;
         
-        SessionsPingRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken,
+        SessionsPingRequest( String gameID,  String username,  String userToken,
                             SessionStatus status) {
             this.gameID = gameID;
             this.username = username;
@@ -326,15 +319,15 @@ public class GameJoltSessions {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public @NonNull String getUsername() {
+        public  String getUsername() {
             return this.username;
         }
         
-        public @NonNull String getUserToken() {
+        public  String getUserToken() {
             return this.userToken;
         }
         
@@ -342,15 +335,15 @@ public class GameJoltSessions {
             return this.status;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
-        public void setUsername(@NonNull String username) {
+        public void setUsername( String username) {
             this.username = username;
         }
         
-        public void setUserToken(@NonNull String userToken) {
+        public void setUserToken( String userToken) {
             this.userToken = userToken;
         }
         
@@ -359,25 +352,25 @@ public class GameJoltSessions {
         }
         
         public static class SessionsPingRequestBuilder {
-            private @NonNull String gameID;
-            private @NonNull String username;
-            private @NonNull String userToken;
+            private  String gameID;
+            private  String username;
+            private  String userToken;
             private SessionStatus status;
             
             SessionsPingRequestBuilder() {
             }
             
-            public SessionsPingRequestBuilder gameID(@NonNull String gameID) {
+            public SessionsPingRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
             
-            public SessionsPingRequestBuilder username(@NonNull String username) {
+            public SessionsPingRequestBuilder username( String username) {
                 this.username = username;
                 return this;
             }
             
-            public SessionsPingRequestBuilder userToken(@NonNull String userToken) {
+            public SessionsPingRequestBuilder userToken( String userToken) {
                 this.userToken = userToken;
                 return this;
             }
@@ -543,22 +536,19 @@ public class GameJoltSessions {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
          * The user's username. Required.
          */
-        @NonNull
         private String username;
         
         /**
          * The user's token. Required.
          */
-        @NonNull
         private String userToken;
         
-        SessionsCheckRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken) {
+        SessionsCheckRequest( String gameID,  String username,  String userToken) {
             this.gameID = gameID;
             this.username = username;
             this.userToken = userToken;
@@ -597,49 +587,49 @@ public class GameJoltSessions {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public @NonNull String getUsername() {
+        public  String getUsername() {
             return this.username;
         }
         
-        public @NonNull String getUserToken() {
+        public  String getUserToken() {
             return this.userToken;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
-        public void setUsername(@NonNull String username) {
+        public void setUsername( String username) {
             this.username = username;
         }
         
-        public void setUserToken(@NonNull String userToken) {
+        public void setUserToken( String userToken) {
             this.userToken = userToken;
         }
         
         public static class SessionsCheckRequestBuilder {
-            private @NonNull String gameID;
-            private @NonNull String username;
-            private @NonNull String userToken;
+            private  String gameID;
+            private  String username;
+            private  String userToken;
             
             SessionsCheckRequestBuilder() {
             }
             
-            public SessionsCheckRequestBuilder gameID(@NonNull String gameID) {
+            public SessionsCheckRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
             
-            public SessionsCheckRequestBuilder username(@NonNull String username) {
+            public SessionsCheckRequestBuilder username( String username) {
                 this.username = username;
                 return this;
             }
             
-            public SessionsCheckRequestBuilder userToken(@NonNull String userToken) {
+            public SessionsCheckRequestBuilder userToken( String userToken) {
                 this.userToken = userToken;
                 return this;
             }
@@ -782,22 +772,19 @@ public class GameJoltSessions {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
          * The user's username. Required.
          */
-        @NonNull
         private String username;
         
         /**
          * The user's token. Required.
          */
-        @NonNull
         private String userToken;
         
-        SessionsCloseRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken) {
+        SessionsCloseRequest( String gameID,  String username,  String userToken) {
             this.gameID = gameID;
             this.username = username;
             this.userToken = userToken;
@@ -832,49 +819,49 @@ public class GameJoltSessions {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public @NonNull String getUsername() {
+        public  String getUsername() {
             return this.username;
         }
         
-        public @NonNull String getUserToken() {
+        public  String getUserToken() {
             return this.userToken;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
-        public void setUsername(@NonNull String username) {
+        public void setUsername( String username) {
             this.username = username;
         }
         
-        public void setUserToken(@NonNull String userToken) {
+        public void setUserToken( String userToken) {
             this.userToken = userToken;
         }
         
         public static class SessionsCloseRequestBuilder {
-            private @NonNull String gameID;
-            private @NonNull String username;
-            private @NonNull String userToken;
+            private  String gameID;
+            private  String username;
+            private  String userToken;
             
             SessionsCloseRequestBuilder() {
             }
             
-            public SessionsCloseRequestBuilder gameID(@NonNull String gameID) {
+            public SessionsCloseRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
             
-            public SessionsCloseRequestBuilder username(@NonNull String username) {
+            public SessionsCloseRequestBuilder username( String username) {
                 this.username = username;
                 return this;
             }
             
-            public SessionsCloseRequestBuilder userToken(@NonNull String userToken) {
+            public SessionsCloseRequestBuilder userToken( String userToken) {
                 this.userToken = userToken;
                 return this;
             }

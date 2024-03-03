@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.github.raeleus.gamejoltapi.GameJoltScores.*;
 import com.github.raeleus.gamejoltapi.GameJoltUsers.GameJoltUser;
-import lombok.NonNull;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -131,7 +130,7 @@ public class GameJoltApi {
      * @param score  This is a numerical sorting value associated with the score. All sorting will be based on this
      *               number. It will also be parsed as a String for the display score. Required.
      */
-    public void addGuestScore(@NonNull String gameID, @NonNull String key, @NonNull String guest, long score) {
+    public void addGuestScore( String gameID,  String key,  String guest, long score) {
         addGuestScore(gameID, key, guest, score, null, null);
     }
     
@@ -145,7 +144,7 @@ public class GameJoltApi {
      *                 number. It will also be parsed as a String for the display score. Required.
      * @param listener The listener called when the response is received. Optional.
      */
-    public void addGuestScore(@NonNull String gameID, @NonNull String key, @NonNull String guest, long score,
+    public void addGuestScore( String gameID,  String key,  String guest, long score,
                               GameJoltListener listener) {
         addGuestScore(gameID, key, guest, Long.toString(score), score, null, listener);
     }
@@ -161,7 +160,7 @@ public class GameJoltApi {
      * @param tableID  The ID of the score table to submit to. Optional.
      * @param listener The listener called when the response is received. Optional.
      */
-    public void addGuestScore(@NonNull String gameID, @NonNull String key, @NonNull String guest, long score,
+    public void addGuestScore( String gameID,  String key,  String guest, long score,
                               Integer tableID, GameJoltListener listener) {
         addGuestScore(gameID, key, guest, Long.toString(score), score, tableID, listener);
     }
@@ -178,7 +177,7 @@ public class GameJoltApi {
      * @param tableID  The ID of the score table to submit to. Optional.
      * @param listener The listener called when the response is received. Optional.
      */
-    public void addGuestScore(@NonNull String gameID, @NonNull String key, @NonNull String guest, @NonNull String score,
+    public void addGuestScore( String gameID,  String key,  String guest,  String score,
                               long sort, Integer tableID, GameJoltListener listener) {
         ScoresAddRequest request = ScoresAddRequest.builder()
                 .gameID(gameID)
@@ -213,7 +212,7 @@ public class GameJoltApi {
      * @param key      The game's private key used to encrypt the request signature. Required.
      * @param listener
      */
-    public void downloadScores(@NonNull String gameID, @NonNull String key, @NonNull ScoreListener listener) {
+    public void downloadScores( String gameID,  String key,  ScoreListener listener) {
         downloadScores(gameID, key, null, null, listener);
     }
     
@@ -226,8 +225,8 @@ public class GameJoltApi {
      *                 scores you can retrieve is 100. Optional.
      * @param listener
      */
-    public void downloadScores(@NonNull String gameID, @NonNull String key, Integer limit,
-                               @NonNull ScoreListener listener) {
+    public void downloadScores( String gameID,  String key, Integer limit,
+                                ScoreListener listener) {
         downloadScores(gameID, key, limit, null, listener);
     }
     
@@ -241,8 +240,8 @@ public class GameJoltApi {
      * @param tableID  The ID of the score table. Optional.
      * @param listener
      */
-    public void downloadScores(@NonNull String gameID, @NonNull String key, Integer limit, Integer tableID,
-                               @NonNull ScoreListener listener) {
+    public void downloadScores( String gameID,  String key, Integer limit, Integer tableID,
+                                ScoreListener listener) {
         ScoresFetchRequest request = ScoresFetchRequest.builder()
                 .gameID(gameID)
                 .limit(limit)
@@ -284,7 +283,7 @@ public class GameJoltApi {
      * @param key      The game's private key used to encrypt the request signature.
      * @param listener The listener called when the response is received.
      */
-    public void sendRequest(@NonNull GameJoltRequest request, @NonNull String key, @NonNull GameJoltListener listener) {
+    public void sendRequest( GameJoltRequest request,  String key,  GameJoltListener listener) {
         String url = apiURL + version + request;
         Net.HttpRequest httpRequest = new Net.HttpRequest(HttpMethods.GET);
         String signature = encrypt(url + key);
@@ -330,8 +329,8 @@ public class GameJoltApi {
      * @param listeners    The listeners called when the response is received. Each listener will be called on each
      *                     request submitted. If any request fails or is cancelled, all listeners will be notified.
      */
-    public void sendBatchRequest(@NonNull Array<GameJoltRequest> requests, @NonNull String gameID, @NonNull String key,
-                                 Boolean parallel, Boolean breakOnError, @NonNull GameJoltListener... listeners) {
+    public void sendBatchRequest( Array<GameJoltRequest> requests,  String gameID,  String key,
+                                 Boolean parallel, Boolean breakOnError,  GameJoltListener... listeners) {
         StringBuilder url = new StringBuilder(apiURL).append(version).append("/batch/?game_id=").append(gameID);
         if (parallel != null && parallel) url.append("&parallel=").append(parallel);
         else if (breakOnError != null && breakOnError) url.append("&break_on_error=").append(breakOnError);

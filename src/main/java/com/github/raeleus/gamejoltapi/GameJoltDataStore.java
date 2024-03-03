@@ -2,7 +2,6 @@ package com.github.raeleus.gamejoltapi;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
-import lombok.NonNull;
 
 import static com.github.raeleus.gamejoltapi.GameJoltApi.urlEncode;
 
@@ -20,14 +19,12 @@ public class GameJoltDataStore {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
          * The key of the data item you'd like to fetch. You may apply a pattern to the request using the "*" as a
          * placeholder. Only keys with applicable key names will be returned. Required.
          */
-        @NonNull
         private String key;
         
         /**
@@ -40,7 +37,7 @@ public class GameJoltDataStore {
          */
         private String userToken;
         
-        DataStoreFetchRequest(@NonNull String gameID, @NonNull String key, String username, String userToken) {
+        DataStoreFetchRequest( String gameID,  String key, String username, String userToken) {
             this.gameID = gameID;
             this.key = key;
             this.username = username;
@@ -83,11 +80,11 @@ public class GameJoltDataStore {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public @NonNull String getKey() {
+        public  String getKey() {
             return this.key;
         }
         
@@ -99,11 +96,11 @@ public class GameJoltDataStore {
             return this.userToken;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
-        public void setKey(@NonNull String key) {
+        public void setKey( String key) {
             this.key = key;
         }
         
@@ -116,20 +113,20 @@ public class GameJoltDataStore {
         }
         
         public static class DataStoreFetchRequestBuilder {
-            private @NonNull String gameID;
-            private @NonNull String key;
+            private  String gameID;
+            private  String key;
             private String username;
             private String userToken;
             
             DataStoreFetchRequestBuilder() {
             }
             
-            public DataStoreFetchRequestBuilder gameID(@NonNull String gameID) {
+            public DataStoreFetchRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
             
-            public DataStoreFetchRequestBuilder key(@NonNull String key) {
+            public DataStoreFetchRequestBuilder key( String key) {
                 this.key = key;
                 return this;
             }
@@ -306,7 +303,6 @@ public class GameJoltDataStore {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
@@ -324,7 +320,7 @@ public class GameJoltDataStore {
          */
         private String userToken;
         
-        DataStoreGetKeysRequest(@NonNull String gameID, String pattern, String username, String userToken) {
+        DataStoreGetKeysRequest( String gameID, String pattern, String username, String userToken) {
             this.gameID = gameID;
             this.pattern = pattern;
             this.username = username;
@@ -372,7 +368,7 @@ public class GameJoltDataStore {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
@@ -388,7 +384,7 @@ public class GameJoltDataStore {
             return this.userToken;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
@@ -405,7 +401,7 @@ public class GameJoltDataStore {
         }
         
         public static class DataStoreGetKeysRequestBuilder {
-            private @NonNull String gameID;
+            private  String gameID;
             private String pattern;
             private String username;
             private String userToken;
@@ -413,7 +409,7 @@ public class GameJoltDataStore {
             DataStoreGetKeysRequestBuilder() {
             }
             
-            public DataStoreGetKeysRequestBuilder gameID(@NonNull String gameID) {
+            public DataStoreGetKeysRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
@@ -595,13 +591,11 @@ public class GameJoltDataStore {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
          * The key of the data item you'd like to remove. Required.
          */
-        @NonNull
         private String key;
         
         /**
@@ -614,7 +608,7 @@ public class GameJoltDataStore {
          */
         private String userToken;
         
-        DataStoreRemoveRequest(@NonNull String gameID, @NonNull String key, String username, String userToken) {
+        DataStoreRemoveRequest( String gameID,  String key, String username, String userToken) {
             this.gameID = gameID;
             this.key = key;
             this.username = username;
@@ -656,11 +650,11 @@ public class GameJoltDataStore {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public @NonNull String getKey() {
+        public  String getKey() {
             return this.key;
         }
         
@@ -672,11 +666,11 @@ public class GameJoltDataStore {
             return this.userToken;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
-        public void setKey(@NonNull String key) {
+        public void setKey( String key) {
             this.key = key;
         }
         
@@ -689,20 +683,20 @@ public class GameJoltDataStore {
         }
         
         public static class DataStoreRemoveRequestBuilder {
-            private @NonNull String gameID;
-            private @NonNull String key;
+            private  String gameID;
+            private  String key;
             private String username;
             private String userToken;
             
             DataStoreRemoveRequestBuilder() {
             }
             
-            public DataStoreRemoveRequestBuilder gameID(@NonNull String gameID) {
+            public DataStoreRemoveRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
             
-            public DataStoreRemoveRequestBuilder key(@NonNull String key) {
+            public DataStoreRemoveRequestBuilder key( String key) {
                 this.key = key;
                 return this;
             }
@@ -857,19 +851,16 @@ public class GameJoltDataStore {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
          * The key of the data item you'd like to set. Required.
          */
-        @NonNull
         private String key;
         
         /**
          * The data you'd like to set. Required.
          */
-        @NonNull
         private String data;
         
         /**
@@ -882,7 +873,7 @@ public class GameJoltDataStore {
          */
         private String userToken;
         
-        DataStoreSetRequest(@NonNull String gameID, @NonNull String key, @NonNull String data, String username,
+        DataStoreSetRequest( String gameID,  String key,  String data, String username,
                             String userToken) {
             this.gameID = gameID;
             this.key = key;
@@ -927,15 +918,15 @@ public class GameJoltDataStore {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public @NonNull String getKey() {
+        public  String getKey() {
             return this.key;
         }
         
-        public @NonNull String getData() {
+        public  String getData() {
             return this.data;
         }
         
@@ -947,15 +938,15 @@ public class GameJoltDataStore {
             return this.userToken;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
-        public void setKey(@NonNull String key) {
+        public void setKey( String key) {
             this.key = key;
         }
         
-        public void setData(@NonNull String data) {
+        public void setData( String data) {
             this.data = data;
         }
         
@@ -968,26 +959,26 @@ public class GameJoltDataStore {
         }
         
         public static class DataStoreSetRequestBuilder {
-            private @NonNull String gameID;
-            private @NonNull String key;
-            private @NonNull String data;
+            private  String gameID;
+            private  String key;
+            private  String data;
             private String username;
             private String userToken;
             
             DataStoreSetRequestBuilder() {
             }
             
-            public DataStoreSetRequestBuilder gameID(@NonNull String gameID) {
+            public DataStoreSetRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
             
-            public DataStoreSetRequestBuilder key(@NonNull String key) {
+            public DataStoreSetRequestBuilder key( String key) {
                 this.key = key;
                 return this;
             }
             
-            public DataStoreSetRequestBuilder data(@NonNull String data) {
+            public DataStoreSetRequestBuilder data( String data) {
                 this.data = data;
                 return this;
             }
@@ -1142,13 +1133,11 @@ public class GameJoltDataStore {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
          * The key of the data item you'd like to update. Required.
          */
-        @NonNull
         private String key;
         
         /**
@@ -1164,7 +1153,6 @@ public class GameJoltDataStore {
         /**
          * The operation you'd like to perform. Required.
          */
-        @NonNull
         private OperationType operation;
         
         /**
@@ -1174,8 +1162,8 @@ public class GameJoltDataStore {
          */
         private String value;
         
-        DataStoreUpdateRequest(@NonNull String gameID, @NonNull String key, String username, String userToken,
-                               @NonNull GameJoltDataStore.OperationType operation, String value) {
+        DataStoreUpdateRequest( String gameID,  String key, String username, String userToken,
+                                GameJoltDataStore.OperationType operation, String value) {
             this.gameID = gameID;
             this.key = key;
             this.username = username;
@@ -1222,11 +1210,11 @@ public class GameJoltDataStore {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public @NonNull String getKey() {
+        public  String getKey() {
             return this.key;
         }
         
@@ -1238,7 +1226,7 @@ public class GameJoltDataStore {
             return this.userToken;
         }
         
-        public @NonNull OperationType getOperation() {
+        public  OperationType getOperation() {
             return this.operation;
         }
         
@@ -1246,11 +1234,11 @@ public class GameJoltDataStore {
             return this.value;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
-        public void setKey(@NonNull String key) {
+        public void setKey( String key) {
             this.key = key;
         }
         
@@ -1262,7 +1250,7 @@ public class GameJoltDataStore {
             this.userToken = userToken;
         }
         
-        public void setOperation(@NonNull GameJoltDataStore.OperationType operation) {
+        public void setOperation( GameJoltDataStore.OperationType operation) {
             this.operation = operation;
         }
         
@@ -1271,22 +1259,22 @@ public class GameJoltDataStore {
         }
         
         public static class DataStoreUpdateRequestBuilder {
-            private @NonNull String gameID;
-            private @NonNull String key;
+            private  String gameID;
+            private  String key;
             private String username;
             private String userToken;
-            private @NonNull GameJoltDataStore.OperationType operation;
+            private  GameJoltDataStore.OperationType operation;
             private String value;
             
             DataStoreUpdateRequestBuilder() {
             }
             
-            public DataStoreUpdateRequestBuilder gameID(@NonNull String gameID) {
+            public DataStoreUpdateRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
             
-            public DataStoreUpdateRequestBuilder key(@NonNull String key) {
+            public DataStoreUpdateRequestBuilder key( String key) {
                 this.key = key;
                 return this;
             }
@@ -1301,7 +1289,7 @@ public class GameJoltDataStore {
                 return this;
             }
             
-            public DataStoreUpdateRequestBuilder operation(@NonNull GameJoltDataStore.OperationType operation) {
+            public DataStoreUpdateRequestBuilder operation( GameJoltDataStore.OperationType operation) {
                 this.operation = operation;
                 return this;
             }

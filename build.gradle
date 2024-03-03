@@ -6,14 +6,12 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath "io.freefair.gradle:lombok-plugin:8.3"
         classpath 'com.vanniktech:gradle-maven-publish-plugin:0.25.3'
     }
 }
 
 apply plugin: 'java-library'
 apply plugin: 'com.vanniktech.maven.publish'
-apply plugin: 'io.freefair.lombok'
 
 def projectName = 'game-jolt-api'
 
@@ -69,8 +67,6 @@ repositories {
 
 dependencies {
     api "com.badlogicgames.gdx:gdx:$gdxVersion"
-    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-    compileOnly "org.projectlombok:lombok:$lombokVersion"
     testImplementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
     testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
     testImplementation "junit:junit:4.13.2"

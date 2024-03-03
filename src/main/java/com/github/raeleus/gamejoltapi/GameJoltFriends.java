@@ -2,7 +2,6 @@ package com.github.raeleus.gamejoltapi;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonValue;
-import lombok.NonNull;
 
 import static com.github.raeleus.gamejoltapi.GameJoltApi.urlEncode;
 
@@ -19,22 +18,19 @@ public class GameJoltFriends {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
         /**
          * The user's username. Required.
          */
-        @NonNull
         private String username;
         
         /**
          * The user's token. Required.
          */
-        @NonNull
         private String userToken;
         
-        FriendsFetchRequest(@NonNull String gameID, @NonNull String username, @NonNull String userToken) {
+        FriendsFetchRequest( String gameID,  String username,  String userToken) {
             this.gameID = gameID;
             this.username = username;
             this.userToken = userToken;
@@ -79,49 +75,49 @@ public class GameJoltFriends {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public @NonNull String getUsername() {
+        public  String getUsername() {
             return this.username;
         }
         
-        public @NonNull String getUserToken() {
+        public  String getUserToken() {
             return this.userToken;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
-        public void setUsername(@NonNull String username) {
+        public void setUsername( String username) {
             this.username = username;
         }
         
-        public void setUserToken(@NonNull String userToken) {
+        public void setUserToken( String userToken) {
             this.userToken = userToken;
         }
         
         public static class FriendsFetchRequestBuilder {
-            private @NonNull String gameID;
-            private @NonNull String username;
-            private @NonNull String userToken;
+            private  String gameID;
+            private  String username;
+            private  String userToken;
             
             FriendsFetchRequestBuilder() {
             }
             
-            public FriendsFetchRequestBuilder gameID(@NonNull String gameID) {
+            public FriendsFetchRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
             
-            public FriendsFetchRequestBuilder username(@NonNull String username) {
+            public FriendsFetchRequestBuilder username( String username) {
                 this.username = username;
                 return this;
             }
             
-            public FriendsFetchRequestBuilder userToken(@NonNull String userToken) {
+            public FriendsFetchRequestBuilder userToken( String userToken) {
                 this.userToken = userToken;
                 return this;
             }

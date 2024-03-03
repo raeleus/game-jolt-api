@@ -1,7 +1,6 @@
 package com.github.raeleus.gamejoltapi;
 
 import com.badlogic.gdx.utils.JsonValue;
-import lombok.NonNull;
 
 /**
  * A namespace to obtain time information from the Game Jolt server. It can be used to realize real-time gameplay for
@@ -17,10 +16,9 @@ public class GameJoltTime {
         /**
          * The ID of your game. Required.
          */
-        @NonNull
         private String gameID;
         
-        TimeFetchRequest(@NonNull String gameID) {
+        TimeFetchRequest( String gameID) {
             this.gameID = gameID;
         }
         
@@ -62,21 +60,21 @@ public class GameJoltTime {
                     .build();
         }
         
-        public @NonNull String getGameID() {
+        public  String getGameID() {
             return this.gameID;
         }
         
-        public void setGameID(@NonNull String gameID) {
+        public void setGameID( String gameID) {
             this.gameID = gameID;
         }
         
         public static class TimeFetchRequestBuilder {
-            private @NonNull String gameID;
+            private  String gameID;
             
             TimeFetchRequestBuilder() {
             }
             
-            public TimeFetchRequestBuilder gameID(@NonNull String gameID) {
+            public TimeFetchRequestBuilder gameID( String gameID) {
                 this.gameID = gameID;
                 return this;
             }
