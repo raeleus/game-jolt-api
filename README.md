@@ -44,7 +44,7 @@ Add the dependency to your core project:
 ```groovy
 dependencies {
     ...
-    implementation 'com.github.raeleus:game-jolt-api:0.0.3'
+    implementation 'com.github.raeleus:game-jolt-api:0.0.4'
 }
 ```
 
@@ -57,7 +57,7 @@ project(":html") {
 
     dependencies {
         ...
-        implementation 'com.github.raeleus:game-jolt-api:0.0.3:sources'
+        implementation 'com.github.raeleus:game-jolt-api:0.0.4:sources'
     }
 }
 ```
