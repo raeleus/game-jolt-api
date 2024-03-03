@@ -604,7 +604,10 @@ public class GameJoltUsers {
         public String username;
         
         /**
-         * The URL of the user's avatar.
+         * The URL of the user's avatar. Newer accounts may return a WEBP file. You may assume that a PNG version is
+         * also available. This is not compatible with the Desktop backend, so simply change the extension. URL's may be
+         * hosted by Game Jolt (m.gjcdn.net) or Gravatar
+         * (gravatar.com)
          *
          * @see GameJoltApi#downloadImageUrlAsTextureRegion(String, GameJoltTextureListener)
          */

@@ -88,9 +88,10 @@ public class GameJoltApi {
      * A Game Jolt user often has an avatar associated with their account. This can be accessed by your game to
      * represent their player in your highscores list, for example. This is provided by
      * {@link GameJoltUser#getAvatarURL()} as a String. This method downloads the image from the submitted URL and
-     * returns the avatar as a texture.
+     * returns the avatar as a texture. It will modify the URL returned to PNG if the submitted URL is WEBP.
      */
     public void downloadImageUrlAsTextureRegion(String url, GameJoltTextureListener listener) {
+        url = url.replaceAll("(?i)\\.webp$", ".png");
         Pixmap.downloadFromUrl(url, new DownloadPixmapResponseListener() {
             @Override
             public void downloadComplete(Pixmap pixmap) {
