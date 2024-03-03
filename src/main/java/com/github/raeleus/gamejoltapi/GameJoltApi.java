@@ -268,7 +268,7 @@ public class GameJoltApi {
     }
     
     /**
-     * The listener for the {@link GameJoltApi#downloadImageUrlAsTextureRegion(String, GameJoltTextureListener)}.
+     * The listener for the {@link GameJoltApi#downloadScores(String, String, Integer, Integer, ScoreListener)}.
      */
     public interface ScoreListener {
         void downloaded(Array<GameJoltScore> scores);
