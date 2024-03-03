@@ -1,4 +1,5 @@
 # Changelog
+### Version 0.0.4
 ### Version 0.0.3
 * Added utility method to submit guest score with a Score String and long sort value. Thanks Antz!
 * Downgraded Java version to JDK 8 for compatibility. Thanks Antz!
