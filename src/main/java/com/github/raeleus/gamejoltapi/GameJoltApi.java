@@ -295,7 +295,13 @@ public class GameJoltApi {
             public void handleHttpResponse(Net.HttpResponse httpResponse) {
                 String response = httpResponse.getResultAsString();
                 JsonValue jsonValue = jsonReader.parse(response).child();
-                Gdx.app.postRunnable(() -> listener.response(request, request.handleResponse(jsonValue)));
+                Gdx.app.postRunnable(() -> {
+                    try {
+                        listener.response(request, request.handleResponse(jsonValue));
+                    } catch (Exception e) {
+                        failed(new Exception(response, e));
+                    }
+                });
             }
             
             @Override

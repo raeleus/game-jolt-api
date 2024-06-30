@@ -1,5 +1,6 @@
 # Changelog
 ### Version 0.0.5
+* Prevent crashes when submitting a score is not successful. Thanks Lyze!
 ### Version 0.0.4
 * Completely removed Lombok for compatability
 * Fixed unable to download avatars on Desktop
