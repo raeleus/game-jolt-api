@@ -1,4 +1,5 @@
 # Changelog
+### Version 0.0.5
 ### Version 0.0.4
 * Completely removed Lombok for compatability
 * Fixed unable to download avatars on Desktop
