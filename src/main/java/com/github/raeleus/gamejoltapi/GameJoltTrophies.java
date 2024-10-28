@@ -116,6 +116,7 @@ public class GameJoltTrophies {
             return TrophiesFetchValue.builder()
                     .jsonValue(jsonValue)
                     .request(this)
+                    .trophies(trophies)
                     .success(jsonValue.getBoolean("success"))
                     .message(jsonValue.getString("message", null))
                     .build();
